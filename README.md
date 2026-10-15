@@ -1,24 +1,19 @@
-# The Trumpkin Test
+# Above the Stones
 
-A free, single-file sauna design calculator that checks a room, benches and heater against the Trumpkin notes on building a sauna, then produces a builder's sheet, an engineer's review and exports.
+A free sauna design checker based on Trumpkin's notes. Enter a room and heater and it checks bench heights, feet above the stones, heater sizing, stone mass, ventilation and head-to-toe temperature, then draws the room to scale and produces a printable builder's sheet with build-ups, a materials list, a cost planner, a build schedule and a permit checklist.
 
-The whole site is `index.html`. There is no build step and nothing to install: upload the file and GitHub Pages serves it.
+**Use it:** https://jabawabawaba.github.io/above-the-stones/
 
-## Hosting on GitHub Pages
+The whole site is `index.html`. There is no build step and nothing to install. Designs are saved in your own browser and never leave it.
 
-1. Create a public repository (this one).
-2. Upload `index.html` and this `README.md` to the root of the `main` branch.
-3. In the repository, open Settings → Pages, set Source to "Deploy from a branch", choose `main` and `/ (root)`, and save.
-4. The site appears at `https://<your-username>.github.io/<repository-name>/` within a minute or two.
+## Report a wrong heater spec
 
-## Updating
+Open an issue with the heater model, the figure that is wrong, and a link to the maker's spec sheet or manual. Each heater row in the Heaters tab has a "Report a wrong spec" link that fills this in for you.
 
-Replace `index.html` with the new version and commit. Pages redeploys automatically. Visitors' saved designs are kept in their own browsers and survive updates.
+## Updating the site
 
-## Reporting a wrong heater spec
-
-Open an issue on this repository with the heater model, the figure that is wrong, and a link to the maker's spec sheet or manual.
+Replace `index.html` with the new version and commit. GitHub Pages redeploys within a minute or two.
 
 ## Credits
 
-Built on the Trumpkin notes at localmile.org. Unofficial and fan-made; not written, reviewed or endorsed by Trumpkin.
+Built on Trumpkin's notes on building a sauna at localmile.org. Unofficial and fan-made; not written, reviewed or endorsed by the author of the notes. If the notes help you, their author asks for a donation to World Bicycle Relief or Not For Sale, with "Trumpkin Sauna" in the notes.

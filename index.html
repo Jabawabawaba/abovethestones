@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Trumpkin Test: sauna design checker and bench height calculator</title>
+<title>Above the Stones: sauna design checker and bench height calculator</title>
 <meta name="description" content="Check a sauna design against the Trumpkin notes: bench heights, feet above the stones, heater fit, stone mass, ventilation and heat stratification.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,6 +56,7 @@ h1{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.02;letter-spacing:-.025em;fo
 .hdrtools{display:flex;flex-direction:column;gap:.5rem;align-items:flex-end}.hdrtools .hint{max-width:22rem;text-align:right}
 @media (max-width:56rem){.hdrtools .hint{text-align:left}}
 body.simple .adv-only{display:none !important}
+header.top h1{max-width:none}.h1mode{font-weight:500;color:var(--moss);white-space:nowrap}.h1mode:not(:empty)::before{content:"\00a0\2013\00a0"}@media (max-width:30rem){.h1mode{display:block}.h1mode:not(:empty)::before{content:"\2013\00a0"}}
 .kicker{margin:0 0 .45rem;font-size:1.2rem;font-weight:600;letter-spacing:-.01em}
 .lede{margin:0;color:var(--moss);max-width:110ch}
 header.top>div:first-child{flex:1 1 30rem;min-width:0}
@@ -140,6 +141,8 @@ body.dragging{overflow:hidden;touch-action:none;overscroll-behavior:none}body.dr
 .checks h3{margin:0;font-size:1.02rem;font-weight:600}
 .checks .val{font-weight:500}
 .checks p{margin:.15rem 0 0;color:var(--moss);font-size:.93rem;max-width:68ch}
+.checks details.more{margin:.25rem 0 0}.checks details.more>summary{cursor:pointer;color:var(--moss);font-size:.85rem;text-decoration:underline;text-underline-offset:.15em;list-style:none;display:inline-block;padding:.15rem 0}.checks details.more>summary::-webkit-details-marker{display:none}.checks details.more[open]>summary{text-decoration:none;font-weight:600}.checks details.more>p{margin-top:.2rem}
+@media print{.checks details.more>p{display:block}}
 
 select{width:100%;font:inherit;color:inherit;background:var(--lake);border:1px solid var(--line);border-radius:.35rem;padding:.45rem .5rem}
 select:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
@@ -148,6 +151,7 @@ select:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .scroll{overflow-x:auto;margin-bottom:.6rem;border-top:1px solid var(--line)}
 .cmp td,.cmp th{padding:.45rem .6rem;text-align:left;border-bottom:1px solid var(--line)} .cmp td:first-child{color:var(--moss)}
 @media (max-width:56rem){.cmp{display:table} .cmp tr{display:table-row;padding:0} .cmp td,.cmp th{display:table-cell} .cmp td:first-child{grid-column:auto} .cmp td[data-l]::before{content:none}}
+.fitfilter{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:0 0 .8rem}.fitfilter input[type=search]{flex:1 1 12rem;min-width:0;font:inherit;color:inherit;background:var(--lake);border:1px solid var(--line);border-radius:.35rem;padding:.45rem .55rem}.fitfilter select{width:auto;flex:0 1 11rem}.fitfilter input[type=search]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .fitmore{margin:0 0 2rem}.fitmore .usebtn{padding:.55rem 1.1rem}
 table{border-collapse:collapse;width:100%;min-width:46rem;font-size:.93rem}
 th,td{text-align:left;padding:.55rem .8rem .55rem 0;border-bottom:1px solid var(--line);vertical-align:top}
@@ -228,10 +232,18 @@ details.grp[open]>summary{padding-bottom:.35rem}
 .vkeys li b{color:var(--spruce);font-size:1.05rem;margin-right:.25rem}
 .checks li.ok .pill{background:transparent;border:1px solid var(--line);color:var(--moss)}
 .legend-wrap>summary{cursor:pointer;color:var(--moss);font-size:.85rem;padding:.3rem 0}
-@media (max-width:56rem){.tabs{top:0} .verdict .big{font-size:1.15rem} .tabs button{padding:.6rem .55rem;font-size:.9rem}}
+@media (max-width:56rem){.tabs{top:0;flex-wrap:wrap;min-width:0;gap:0} .verdict .big{font-size:1.15rem} .tabs button{padding:.6rem .5rem;font-size:.88rem;flex:1 1 auto;min-width:0} .tabs .tablink{flex-basis:100%;margin-left:0;text-align:right;padding:.35rem .5rem .45rem}}
 @media (min-width:56rem){.subgrp{margin:.2rem 0 .8rem;border:1px solid var(--line);border-radius:.45rem;padding:.35rem .6rem}.subgrp summary{cursor:pointer;list-style:none;display:flex;gap:.4rem;align-items:baseline;flex-wrap:wrap}.subgrp summary::-webkit-details-marker{display:none}.subgrp summary::before{content:'\25B8';color:var(--moss);font-size:.85rem}.subgrp[open] summary::before{content:'\25BE'}.subgrp summary .lab{font-weight:500}.subgrp>.field{margin-top:.6rem}
 .grp.flat .flathead{display:flex;justify-content:space-between;align-items:baseline;padding:.6rem 0 .3rem}.grp.flat .field:last-child{margin-bottom:.4rem}
 .grp.minor summary .gname{font-size:.95rem;color:var(--moss)}}
+.start{margin:0 0 .8rem}.start h2{font-size:1.1rem;margin:0 0 .2rem}.start p.note{margin:0 0 .7rem}
+.startcards{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.5rem}.startcards button{min-width:0;overflow-wrap:anywhere}
+.startcards button{font:inherit;text-align:left;background:var(--lake);border:1px solid var(--line);border-radius:.5rem;padding:.7rem .75rem;cursor:pointer;color:inherit;min-height:4.2rem}
+.startcards button b{display:block;font-weight:600;margin-bottom:.15rem}.startcards button span{font-size:.84rem;color:var(--moss);line-height:1.3}
+.startcards button[aria-pressed=true]{border-color:var(--spruce);box-shadow:inset 0 0 0 1px var(--spruce)}
+.startform{margin:.7rem 0 .3rem;padding:.7rem .75rem;background:var(--lake);border:1px solid var(--line);border-radius:.5rem}.startform .field{margin-bottom:.6rem}.startform .hint.warn{color:var(--bad)}
+.startbar{display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap;font-size:.88rem;color:var(--moss);margin:0 0 .7rem;padding:.4rem .6rem;background:var(--lake);border:1px solid var(--line);border-radius:.4rem}.startbar b{color:var(--spruce);font-weight:600}.startbar .startheat{flex-basis:100%}.starthead{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}.starthead h2{margin:0 0 .2rem}.starthead .linkbtn{white-space:nowrap;flex:0 0 auto}.startgo{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}.startgo .bigbtn{margin-top:0 !important}.startform .startgo{margin-top:.4rem}
+@media (max-width:56rem){body.choosing .inputs{order:-1}}
 .tobuild{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between;margin:0 0 2rem;padding:1.2rem 1.3rem;background:var(--ice);border:1px solid var(--line);border-radius:.5rem}
 .tobuild>div{flex:1 1 18rem}
 .bigbtn{font:inherit;font-weight:600;font-size:1.05rem;color:var(--lake);background:var(--spruce);border:0;border-radius:.45rem;padding:.85rem 1.3rem;min-height:3rem;cursor:pointer}
@@ -290,6 +302,13 @@ tr.eng-bad td:nth-child(2){color:var(--bad)} tr.eng-warn td:nth-child(2){color:v
 .btitle{display:grid;grid-template-columns:1fr auto;gap:.3rem 2rem;align-items:end;border-bottom:3px solid var(--spruce);padding-bottom:.8rem;margin-bottom:1.2rem}
 .btitle h1{font-size:clamp(1.6rem,3.4vw,2.3rem);max-width:none;margin:0}
 .btitle .meta{color:var(--moss);font-size:.9rem;text-align:right}
+.tblock{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--spruce);border-radius:.35rem;margin:0 0 1.4rem;overflow:hidden}
+.tblock .tcell{padding:.45rem .6rem .5rem;border-right:1px solid var(--line);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.tblock .tcell:nth-child(-n+3){border-top:0} .tblock .tcell:nth-child(3n){border-right:0}
+.tlab{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--moss)}
+.tblock input{font:inherit;color:inherit;background:var(--lake);border:1px solid var(--line);border-radius:.3rem;padding:.3rem .45rem;min-width:0}
+.tblock .printval{display:none;font-weight:600} .tval{font-weight:600;font-size:.92rem}
+@media (max-width:48rem){.tblock{grid-template-columns:1fr 1fr}.tblock .tcell{border-top:1px solid var(--line);border-right:1px solid var(--line)}.tblock .tcell:nth-child(-n+2){border-top:0}.tblock .tcell:nth-child(2n){border-right:0}.tblock .tcell:nth-child(3n){border-right:1px solid var(--line)}.tblock .tcell:nth-child(6){border-right:0}}
 .bfigs{display:grid;grid-template-columns:3fr 2fr;gap:1rem;margin-bottom:1.5rem}
 @media (max-width:48rem){.bfigs{grid-template-columns:1fr}.btitle{grid-template-columns:1fr}.btitle .meta{text-align:left}}
 .bfigs figure{background:var(--ice);border:1px solid var(--line);border-radius:.5rem;padding:.5rem}
@@ -313,7 +332,7 @@ tr.eng-bad td:nth-child(2){color:var(--bad)} tr.eng-warn td:nth-child(2){color:v
 .share{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:-.6rem 0 1.5rem}
 .share textarea{flex-basis:100%;width:100%;font:inherit;font-size:.88rem;color:inherit;background:var(--ice);border:1px solid var(--line);border-radius:.35rem;padding:.6rem}
 @media print{
-  body.building .bhead,body.building .bchoice select,body.building .bnotes textarea,body.building .bnotes .note{display:none !important} body.building .notesprint{display:block} body.building .bchoice .printval{display:block} .bkey div{background:#fff !important;color:#000 !important;border:1.5pt solid #000} .sitenotes{display:block;margin-top:1rem} .sitenotes div{border-bottom:1px solid #999;height:1.1cm} .tick input{appearance:none;border:1.2pt solid #000;border-radius:2px} body.building .bfigs svg{max-height:8.5cm} .builder{padding:0}
+  body.building .bhead,body.building .bchoice select,body.building .bnotes textarea,body.building .bnotes .note,body.building .tblock input{display:none !important} body.building .tblock .printval{display:block} .tblock{border-color:#000;border-radius:0} .tblock .tcell{border-color:#777} body.building .notesprint{display:block} body.building .bchoice .printval{display:block} .bkey div{background:#fff !important;color:#000 !important;border:1.5pt solid #000} .sitenotes{display:block;margin-top:1rem} .sitenotes div{border-bottom:1px solid #999;height:1.1cm} .tick input{appearance:none;border:1.2pt solid #000;border-radius:2px} body.building .bfigs svg{max-height:8.5cm} .builder{padding:0}
   :root{--lake:#fff;--ice:#fff}
   .inputs,.bar,.share,.export,.seg,#fitCap,.usebtn,.scroll,#fitTitle,#fitTitle+p{display:none !important}
   .grid{display:block} .wrap{max-width:none;padding:0} body{font-size:10.5pt}
@@ -368,8 +387,8 @@ footer p{margin:0 0 .5rem}
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>The Trumpkin Test</h1>
-      <p class="kicker">Will your feet be above the stones?</p>
+      <h1>Above the Stones<span class="h1mode" id="h1mode"></span></h1>
+      <p class="kicker">A sauna design checker based on Trumpkin’s notes.</p>
       <p class="lede">Enter your room and heater to check bench heights, heater size, stone mass and ventilation against the <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin notes</a>, and see where the design falls short of them.</p>
     </div>
     <div class="hdrtools">
@@ -426,6 +445,7 @@ footer p{margin:0 0 .5rem}
       <div class="adv-only"><h2 id="fitTitle">How each heater fits this room</h2>
       <p class="note" style="margin:-.3rem 0 .3rem">Every row reruns the bench maths with that heater's stone height, depth, stone load and rated room size, and the list changes as the room does.</p>
       <p class="note" id="fitCap" style="margin:0 0 .7rem"></p>
+      <div class="fitfilter noprint"><input type="search" id="fitQ" placeholder="Search by name or kW" aria-label="Search heaters"><select id="fitBrand" aria-label="Brand"><option value="">All brands</option></select><button type="button" class="linkbtn" id="fitClear" hidden style="margin:0">Clear</button></div>
       <div class="scroll"><table id="fit"></table></div></div>
 
       </section>
@@ -466,8 +486,8 @@ footer p{margin:0 0 .5rem}
       </ul></details>
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
-        <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/trumpkin-test/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/trumpkin-test" target="_blank" rel="noopener">github.com/Jabawabawaba/trumpkin-test</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 20 October 2026, revision 2. The Trumpkin Test is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/above-the-stones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/above-the-stones" target="_blank" rel="noopener">github.com/Jabawabawaba/above-the-stones</a>. Nothing you enter leaves your browser.</p>
+        <p>Version 23 October 2026, revision 7. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -759,98 +779,128 @@ function runChecks(s, r, f){
   var m = r.foot - s.stone;
   c.push({name:'Feet above the stones', val: (m >= 0 ? f.len(m) + ' above' : f.len(-m) + ' below') + ' the top of the stones',
     st: m >= 10 ? 'ok' : m >= 0 ? 'warn' : 'bad',
-    why: m >= 20 ? 'The first law of löyly, with the full 20 cm (8″) margin the Trumpkin notes call ideal.'
-       : m >= 10 ? 'Clears the stones by the 10 cm (4″) the Trumpkin notes call good. 20 cm (8″) is the ideal, so go higher if the ceiling allows.'
-       : m >= 0  ? 'Technically above, but the Trumpkin notes ask for at least 10 cm (4″). Expect cooler feet and less even steam. A shorter heater or a higher ceiling fixes this.'
-       : 'This is the cold-toes sauna the Trumpkin notes warn about. Raise the benches, pick a heater with lower stones, or raise the ceiling to about ' + f.big(r.minCeil) + '.'});
+    why: m >= 20 ? 'Your feet sit in the hot, moving air the stones send up, so the steam reaches all of you.'
+       : m >= 10 ? 'Feet clear the stones, so steam and heat reach them. Higher still is better if the ceiling allows.'
+       : m >= 0  ? 'Barely above the stones. Feet will run cooler than the rest of you and steam will feel uneven.'
+       : 'Feet are below the stones, in air the heater never warms properly. Expect cold toes and a hot head.',
+    more: 'Hot air and steam rise from the stones and spread out under the ceiling, then roll down the far wall. Anything below the top of the stones sits under that loop in cooler, slower air. 10 cm (4″) of clearance is good and 20 cm (8″) is ideal.'
+       + (m < 10 ? ' Fixes, in order of effect: raise the benches, pick a heater with lower stones, or raise the ceiling' + (m < 0 ? ' to about ' + f.big(r.minCeil) : '') + '.' : '')});
 
   var need = Math.max(r.coldTop, 85);
   c.push({name:'Feet above the cold zone', val:'Foot bench at ' + f.len(r.foot) + '. Cold zone tops out at ' + f.len(r.coldTop),
     st: r.foot >= need - 0.01 ? 'ok' : (r.foot >= r.coldTop || r.exempt) ? 'warn' : 'bad',
-    why: (r.exempt && r.foot < need - 0.01) ? 'In still air the lower third of the room stays cold, and this foot bench is inside it. A Saunum changes that: its blower mixes hot ceiling air with the cool floor air and pushes it out at floor level, under the benches, so the cold zone is weakened rather than left alone. Neither the Trumpkin notes nor Saunum publish how much warmer that makes the feet, so this stays a compromise, not a pass. The floor itself and the lowest part of the walls will still be the coolest surfaces in the room.'
-       : r.foot >= need - 0.01 ? 'Your whole body sits in the upper two thirds of the room, and the foot bench clears the 85 cm (34″) floor the Trumpkin notes set.'
-       : r.foot >= r.coldTop ? 'Above the lower third, but under the 85 cm (34″) minimum the Trumpkin notes give for the foot bench.'
-       : 'The lower third of the room stays cold regardless of heater. The foot bench needs to be at ' + f.len(need) + ' or higher.'});
+    why: (r.exempt && r.foot < need - 0.01) ? 'The foot bench is in the cold lower part of the room, which the Saunum blower stirs but does not remove.'
+       : r.foot >= need - 0.01 ? 'Your whole body sits above the cold lower part of the room.'
+       : r.foot >= r.coldTop ? 'Just above the cold zone, but lower than a foot bench should be.'
+       : 'The foot bench sits in the cold lower part of the room. Raise it to ' + f.len(need) + ' or more.',
+    more: 'In still air the lower third of a sauna stays cool no matter how hot the heater runs, and the foot bench should also be at least 85 cm (34″) off the floor.'
+       + ((r.exempt && r.foot < need - 0.01) ? ' A Saunum mixes hot ceiling air down to floor level under the benches, which weakens the cold zone, but no one publishes how much warmer that makes the feet, so this stays a compromise. The floor and the lowest part of the walls will still be the coolest surfaces.' : '')});
 
   var gHi = Math.max(125, r.auto.gapTarget + 5);
   c.push({name:'Headroom over the sitting bench', val: f.len(r.gap) + ' from sitting bench to ceiling',
     st: r.gap < 100 ? 'bad' : (r.gap < 110 || r.gap > gHi) ? 'warn' : 'ok',
-    why: r.gap < 100 ? 'Under 100 cm (40″) you get radiant heat off the ceiling and the convective loop in your face. This is the hard floor.'
-       : r.gap < 110 ? 'Workable when the ceiling is short. The Trumpkin notes describe saunas at 100 to 112 cm (40 to 44″) that were fairly good, but 120 cm (48″) is the target.'
-       : r.gap > gHi ? 'The bench is lower in the room than it needs to be. Raising it gets you into better heat. Aim for about ' + f.len(r.auto.gapTarget) + '.'
-       : 'Inside the 110 to 120 cm (43 to 48″) range' + (r.Hs > 260 ? ', stretched for your taller ceiling using the Trumpkin notes\u2019 rule of 2 up for every 3 of extra height.' : '. Room to swing a vihta.')});
+    why: r.gap < 100 ? 'Too tight. Heat radiates off the ceiling and the hot air rolls straight into your face.'
+       : r.gap < 110 ? 'Workable, a little tight. More headroom gives a softer heat.'
+       : r.gap > gHi ? 'The bench sits lower in the room than it needs to. Raising it puts you in better heat.'
+       : 'Enough room to sit up straight and swing a vihta, with your head in the best heat.',
+    more: 'Under 100 cm (40″) is the hard floor. 100 to 112 cm (40 to 44″) can still be fairly good when the ceiling is short. 110 to 120 cm (43 to 48″) is the target'
+       + (r.Hs > 260 ? ', stretched here for your taller ceiling at 2 cm more headroom for every 3 cm of extra height' : '') + '.'
+       + (r.gap > gHi ? ' Aim for about ' + f.len(r.auto.gapTarget) + '.' : '')});
 
   c.push({name:'Step between foot and sitting bench', val: f.len(r.rise),
     st: r.rise < 25 ? 'bad' : (r.rise < 40 || r.rise > 46) ? 'warn' : 'ok',
-    why: r.rise < 25 ? 'Below the 25 cm (10″) the Trumpkin notes consider the least that works.'
-       : r.rise < 40 ? 'Compressed to get feet higher. The Trumpkin notes say as little as 25 cm (10″) is acceptable when that is what it takes.'
-       : r.rise > 46 ? 'More than the usual 45 cm (18″). Lowering it raises the foot bench, which is always good.'
-       : 'Within 40 to 45 cm (16 to 18″). The Trumpkin notes favour the low end since it lifts the foot bench and is easier on knees.'});
+    why: r.rise < 25 ? 'Too short to sit comfortably with your feet on the lower bench.'
+       : r.rise < 40 ? 'Squeezed to lift the foot bench. Acceptable when that is what it takes.'
+       : r.rise > 46 ? 'Taller than needed. Shortening it raises the foot bench, which always helps.'
+       : 'A comfortable sitting height that keeps the foot bench as high as it can be.',
+    more: 'The usual range is 40 to 45 cm (16 to 18″). The low end is better: it lifts the foot bench and is easier on knees. As little as 25 cm (10″) works when it is needed to get the feet higher.'});
 
   var pp = r.V / s.n;
   c.push({name:'Air volume per bather', val: f.vol(pp) + ' each, ' + f.vol(r.V) + ' total',
     st: pp >= 3.75 ? 'ok' : pp >= 3 ? 'warn' : 'bad',
-    why: pp >= 3.75 ? 'At or near the 4 to 6 m³ per person the Trumpkin notes recommend for fresh air and even heat.'
-       : pp >= 3 ? 'Meets the Finnish RT minimum of 3 m³ per person but not the 4 to 6 m³ the Trumpkin notes recommend. Fewer bathers at once, or more ventilation.'
-       : 'Below the Finnish RT minimum of 3 m³ (105 cu ft) per person. Plan on fewer bathers.'});
+    why: pp >= 3.75 ? 'Enough air for everyone to breathe easy and for the heat to stay even.'
+       : pp >= 3 ? 'Meets the bare minimum, but the air will get stale with a full bench. Fewer bathers or more ventilation helps.'
+       : 'Too little air for this many people. Plan on fewer bathers at once.',
+    more: '4 to 6 m³ (140 to 210 cu ft) per person is recommended for fresh air and even heat. The Finnish building guidance (RT cards) sets 3 m³ (105 cu ft) as the minimum.'});
 
   c.push({name:'Distance from heater to foot bench', val: (r.clear >= 0 ? f.len(r.clear) : 'No') + ' clear space',
     st: (r.clear < 60 || s.D < 183) ? 'bad' : r.clear < 90 ? 'warn' : 'ok',
-    why: s.D < 183 ? 'With under about 6 ft (183 cm) between heater wall and bench wall, heat and steam rise into your face instead of coming down from above.'
-       : r.clear < 60 ? 'Too close. You will feel harsh radiant heat and there is a burn risk walking past. Narrow the benches or deepen the room.'
-       : r.clear < 90 ? 'Short of the 90 cm (3 ft) the Trumpkin notes want between heater and foot bench. Shallower benches or a wall-hung heater can buy it back.'
-       : 'At least 90 cm (3 ft). The Trumpkin notes give 1 to 1.5 m (40 to 60″) as typical for a good convective loop.'});
-  if (r.exempt) c[c.length - 1].why += ' Saunum\u2019s manual adds its own rule: nothing, feet included, within 50 cm (20″) of the front of the fan outlet, and the top of that outlet must sit below the underside of the bench.';
+    why: s.D < 183 ? 'The room is too shallow. Heat and steam rise into your face instead of coming down from above.'
+       : r.clear < 60 ? 'Too close. Harsh radiant heat on the legs and a burn risk walking past.'
+       : r.clear < 90 ? 'A little close. You will feel the heater directly rather than the room.'
+       : 'Enough space for the hot air to rise, cross the ceiling and come down over the benches.',
+    more: 'The hot air needs room to make its loop: up from the heater, across the ceiling, down over the bathers. 90 cm (3 ft) between heater and foot bench is the minimum and 1 to 1.5 m (40 to 60″) is typical. A room under about 183 cm (6 ft) deep cannot make the loop.'
+       + (r.clear < 90 && s.D >= 183 ? ' Narrower benches, a deeper room or a wall-hung heater buy the distance back.' : '')
+       + (r.exempt ? ' Saunum’s manual adds its own rule: nothing, feet included, within 50 cm (20″) of the front of the fan outlet, and the top of that outlet must sit below the underside of the bench.' : '')});
 
   var lo = Math.min(s.W, s.D), hi = Math.max(s.W, s.D), ratio = hi / lo;
   var tall = r.Hmax > 260 && r.Hmax > 1.2 * lo;
   var wrongWay = r.sloped && r.Hh > r.Hb + 0.5, steep = r.sloped && r.slopeRatio > 1 / 8 + 1e-6, steepish = r.sloped && r.slopeRatio > 1 / 10 + 1e-6;
   var slopeTxt = r.sloped ? ' Ceiling slope is 1 in ' + (r.slopeRatio > 0.001 ? Math.round(1 / r.slopeRatio) : '∞') + '.' : '';
+  var undersize = s.W < 243 || s.D < 243 || r.Hs < 254;
   c.push({name:'Room shape', val: ratio < 1.005 ? 'Square floor' : 'Long wall is ' + Math.round((ratio - 1) * 100) + '% longer than the short wall',
     st: wrongWay ? 'bad' : (ratio > 1.4 || tall || r.Hs < 229 || steepish) ? 'warn' : 'ok',
-    why: wrongWay ? 'The ceiling slopes the wrong way. The Trumpkin notes want the high side along the bench wall and the low side over the heater: heat collects at the highest point, a reverse slope breaks up the convective loop, and heat trapped over the heater is a fire risk.'
-       : steep ? 'The ceiling rises 1 in ' + Math.round(1 / r.slopeRatio) + '. The Trumpkin notes say slopes steeper than about 1 in 10, or 1 in 8 at most, stall the convective loop and trap heat at the peak. A near flat ceiling gives the most even temperatures.'
-       : steepish ? 'The ceiling rises 1 in ' + Math.round(1 / r.slopeRatio) + ', past the 1 in 10 the Trumpkin notes prefer though inside their 1 in 8 limit. Flatter is better.'
-       : r.Hs < 229 ? 'The Trumpkin notes say to ignore advice that a 7 to 7.5 ft ceiling is best. About 260 cm (8.5 ft) is what feet above the stones usually takes.'
-       : tall ? 'The ceiling is more than about 120% of the shorter floor dimension, which can stall the convective loop.'
-       : ratio > 1.4 ? 'The Trumpkin notes suggest the longest wall be no more than 20 to 40% longer than the shortest. Closer to a cube gives more even heat.'
-       : 'Close enough to a cube. ' + (s.W < 243 || s.D < 243 || r.Hs < 254 ? 'It is under the Trumpkin notes\u2019 250 × 250 × 260 cm (8 × 8 × 8.5 ft) recommended minimum, and they note every centimetre below that costs something.' : 'Meets the Trumpkin notes\u2019 250 × 250 × 260 cm (8 × 8 × 8.5 ft) recommended minimum.') + (r.sloped ? slopeTxt + ' High side is over the benches, as it should be. Leave a short flat or reverse-sloped strip at the bench wall so no corner is tighter than 90°.' : '')});
+    why: wrongWay ? 'The ceiling slopes the wrong way. Heat collects over the heater instead of over the benches.'
+       : steep ? 'The ceiling slope is steep enough to trap heat at the peak and stall the air.'
+       : steepish ? 'The ceiling slope is a little steep. Flatter gives more even heat.'
+       : r.Hs < 229 ? 'The ceiling is too low to get feet above the stones with most heaters.'
+       : tall ? 'The room is tall for its floor, which can stall the circulating air.'
+       : ratio > 1.4 ? 'A long, narrow room heats unevenly. Closer to square is better.'
+       : 'Close to a cube, which heats evenly.' + (undersize ? ' It is on the small side.' : ''),
+    more: wrongWay ? 'Heat collects at the highest point. The high side belongs over the benches and the low side over the heater. A reverse slope breaks up the air loop, and heat trapped over the heater is a fire risk.'
+       : (steep || steepish) ? 'Slopes steeper than about 1 in 10, or 1 in 8 at the most, stall the air loop and trap heat at the peak. This one rises 1 in ' + Math.round(1 / r.slopeRatio) + '. A near flat ceiling gives the most even temperatures.'
+       : r.Hs < 229 ? 'Advice that a 7 to 7.5 ft ceiling is best comes from saunas with low benches and cold feet. About 260 cm (8.5 ft) is what feet above the stones usually takes.'
+       : tall ? 'A ceiling more than about 120% of the shorter floor dimension can stall the air loop.'
+       : 'The longest wall should be no more than 20 to 40% longer than the shortest. 250 × 250 × 260 cm (8 × 8 × 8.5 ft) is the recommended minimum' + (undersize ? ', and every centimetre under it costs a little.' : ', and this room meets it.')
+         + (r.sloped ? slopeTxt + ' The high side is over the benches, as it should be. Leave a short flat or reverse-sloped strip at the bench wall so no corner is tighter than 90°.' : '')});
 
   var sd = r.strat, dLo = Math.max(0, sd.diff + r.stratAdjLo), dHi = Math.max(0, sd.diff + r.stratAdjHi), pHi = dHi / sd.head * 100, pLo = dLo / sd.head * 100;
   var tf = function(F){ return f.imp ? Math.round(F) + '°F' : Math.round(F / 1.8) + '°C'; };
-  c.push({name:'Head to toe temperature', val: (r.stratAdjHi === 0 && r.stratAdjLo === 0 ? 'About ' + tf(sd.diff) + ' apart, ' + Math.round(sd.pct) + '%' : r.stratAdjHi < 0 ? 'About ' + tf(dHi) + ' apart or less, ' + Math.round(pHi) + '% or under' : 'About ' + tf(dLo) + ' to ' + tf(dHi) + ' apart, ' + Math.round(pLo) + ' to ' + Math.round(pHi) + '%') + ', from the Trumpkin notes stratification chart',
+  c.push({name:'Head to toe temperature', val: (r.stratAdjHi === 0 && r.stratAdjLo === 0 ? 'About ' + tf(sd.diff) + ' apart, ' + Math.round(sd.pct) + '%' : r.stratAdjHi < 0 ? 'About ' + tf(dHi) + ' apart or less, ' + Math.round(pHi) + '% or under' : 'About ' + tf(dLo) + ' to ' + tf(dHi) + ' apart, ' + Math.round(pLo) + ' to ' + Math.round(pHi) + '%'),
     st: pHi <= 20.5 ? 'ok' : (pHi <= 27 || r.exempt) ? 'warn' : 'bad',
-    why: 'The simple chart puts this ceiling and foot bench at ' + tf(sd.diff) + ' (' + Math.round(sd.pct) + '%) between head and toes. '
-       + (r.stratAdjHi < 0 ? 'Mechanical downdraft with exhaust below the foot bench takes about 4 to 15°C off that. ' : r.stratAdjHi > 0 ? 'Natural convection with an electric heater adds about 8 to 12°C to that. ' : 'A stove fed from inside the hot room pulls its own exhaust, so the chart figure stands. ')
-       + 'The Trumpkin notes want no more than 15 to 20% and call anything over 27% unacceptable.'
-       + (r.exempt ? ' This chart assumes still air. A Saunum\u2019s blower mixes the room and should cut the figure well below what is shown, though the Trumpkin notes give no number for it.' : pHi > 20.5 ? ' A higher foot bench is the fix, which means a higher ceiling or a heater with lower stones.' : '')});
+    why: pHi <= 20.5 ? 'Your head and feet will feel close to the same heat.' : pHi <= 27 ? 'Noticeably hotter at the head than the feet.' : 'Hot head, cold feet. Too big a gap to be comfortable.',
+    more: 'A simple stratification chart puts this ceiling and foot bench at ' + tf(sd.diff) + ' (' + Math.round(sd.pct) + '%) between head and toes. '
+       + (r.stratAdjHi < 0 ? 'Mechanical downdraft with the exhaust below the foot bench takes about 4 to 15°C off that. ' : r.stratAdjHi > 0 ? 'Natural convection with an electric heater adds about 8 to 12°C. ' : 'A stove fed from inside the hot room pulls its own exhaust, so the chart figure stands. ')
+       + 'Aim for no more than 15 to 20%. Over 27% is unacceptable.'
+       + (r.exempt ? ' The chart assumes still air. A Saunum’s blower mixes the room and should bring this well down, though there is no published figure.' : pHi > 20.5 ? ' A higher foot bench is the fix, which means a higher ceiling or a heater with lower stones.' : '')});
+
   c.push({name:'Ventilation approach', val: r.vent === 'mech' ? 'Mechanical downdraft' : (s.heater === 'wood' ? 'Natural, exhausted by the fire' : 'Natural updraft'),
     st: (r.vent === 'nat' && s.heater === 'electric') ? 'warn' : 'ok',
-    why: r.vent === 'mech' ? (s.heater === 'wood' ? 'Right for a wood stove fed from outside the hot room, which cannot pull its own exhaust. Passive supply high over the stove, fan exhaust below the foot bench.' : 'What the Trumpkin notes strongly recommend for electric: passive supply high over the heater, fan exhaust below the foot bench on the far side.')
-       : s.heater === 'wood' ? 'Combustion pulls the exhaust, so no fan is needed. The Trumpkin notes suggest adjustable supplies above the stove and low under the benches, with a clearing exhaust near the ceiling opened only after bathing.'
-       : 'The Trumpkin notes say natural ventilation does not work well with electric heaters: more stratification, higher CO\u2082 and steam that lingers. Thousands of older Finnish saunas run this way and are reasonably good, just not as good.'});
+    why: r.vent === 'mech' ? 'Fresh air comes in hot over the heater and stale air leaves low, pulling heat down to your feet.'
+       : s.heater === 'wood' ? 'The fire draws its own exhaust, so no fan is needed.'
+       : 'Works, but expect a bigger head to toe difference, stuffier air and steam that lingers.',
+    more: r.vent === 'mech' ? (s.heater === 'wood' ? 'Right for a stove fed from outside the hot room, which cannot pull its own exhaust. Passive supply high over the stove, fan exhaust below the foot bench.' : 'The recommended setup for electric heaters: passive supply high over the heater, fan exhaust below the foot bench on the far side.')
+       : s.heater === 'wood' ? 'Use adjustable supplies above the stove and low under the benches, with a clearing exhaust near the ceiling opened only after bathing.'
+       : 'Natural ventilation does not suit electric heaters well: more stratification, higher CO₂ and steam that hangs around. Thousands of older Finnish saunas run this way and are reasonably good, just not as good as a downdraft.'});
+
   var isL = r.layout === 'L', legGap = s.D - r.legLen;
-  var sWhy = (r.seats >= s.n ? 'Enough bench for ' + s.n + '. ' : 'Not enough bench for ' + s.n + ' at the European 60 cm each. ')
-    + 'At the 26 to 30″ the Trumpkin notes suggest for Americans it seats ' + r.seatsRoomy + '. '
-    + (r.layDown ? 'Long enough to lie down on. ' : 'Under the 76″ (193 cm) needed to lie down. ');
+  var seatOK = (r.seats >= s.n && !(isL && (!r.lOK || (legGap >= 1 && legGap < 89) || (legGap < 1 && r.doorRoom < 135))));
+  var sWhy = r.seats < s.n ? 'Not enough bench for ' + s.n + ' at 60 cm (24″) each.'
+    : (isL && !r.lOK) ? 'The room is small for an L. A straight bench usually works better here.'
+    : (isL && legGap >= 1 && legGap < 89) ? 'The return leg ends in an awkward spot. Run it to the wall or stop it about 90 cm (3 ft) short.'
+    : (isL && legGap < 1 && r.doorRoom < 135) ? 'The return leg leaves too little wall for the door and the heater.'
+    : 'Enough bench for ' + s.n + (r.layDown ? ', and long enough to lie down.' : '.');
+  var sMore = 'Counted at 60 cm (24″) per person, the European standard. At a roomier 66 to 76 cm (26 to 30″) it seats ' + r.seatsRoomy + '. '
+    + (r.layDown ? 'Long enough to lie down on. ' : 'Under the 193 cm (76″) needed to lie down. ');
   if (isL){
-    sWhy += 'Counted along the front edge of the foot bench so nobody in the inside corner sits on someone else\u2019s legs: ' + f.len(Math.max(0, r.mainEdge)) + ' on the bench wall plus ' + f.len(Math.max(0, r.legEdge)) + ' on a ' + f.len(r.legLen) + ' return leg. ';
-    if (!r.lOK) sWhy += 'The Trumpkin notes say an L belongs only in rooms of 275 × 275 cm (9 × 9 ft) or more, and this room is smaller. A straight run is usually best. ';
-    else if (s.layout === 'auto') sWhy += 'The room clears the Trumpkin notes\u2019 275 × 275 cm (9 × 9 ft) threshold for an L and a straight run would seat ' + (r.seatsI < s.n ? 'only ' + r.seatsI : s.n + ' only at the tight 60 cm spacing') + ', so the calculator switched to an L. ';
-    if (legGap < 1) sWhy += 'The return leg runs the full depth to the heater wall, which leaves ' + f.len(Math.max(0, r.doorRoom)) + ' of that wall for the outward-opening door and the heater in the far corner.' + (r.doorRoom < 135 ? ' That is too little for both. Shorten the leg or widen the room.' : '');
-    else if (legGap < 89) sWhy += 'The return leg stops ' + f.len(legGap) + ' short of the heater wall, which is neither a full run nor a usable gap. Run it to the wall or leave about 90 cm (3 ft).';
-    else sWhy += 'The return leg stops ' + f.len(legGap) + ' short of the heater wall' + (s.legLen > 0 ? '.' : ' because a full-depth leg would not leave room on that wall for both the door and the heater.') + ' Put the heater in the far corner from the leg with the door beside it.';
+    sMore += 'Counted along the front edge of the foot bench, so nobody in the inside corner sits on someone else’s legs: ' + f.len(Math.max(0, r.mainEdge)) + ' on the bench wall plus ' + f.len(Math.max(0, r.legEdge)) + ' on a ' + f.len(r.legLen) + ' return leg. ';
+    if (!r.lOK) sMore += 'An L belongs only in rooms of 275 × 275 cm (9 × 9 ft) or more. ';
+    else if (s.layout === 'auto') sMore += 'The room clears the 275 × 275 cm (9 × 9 ft) threshold for an L and a straight run would seat ' + (r.seatsI < s.n ? 'only ' + r.seatsI : s.n + ' only at the tight 60 cm spacing') + ', so the calculator switched to an L. ';
+    if (legGap < 1) sMore += 'The return leg runs the full depth to the heater wall, which leaves ' + f.len(Math.max(0, r.doorRoom)) + ' of that wall for the outward-opening door and the heater in the far corner.' + (r.doorRoom < 135 ? ' That is too little for both. Shorten the leg or widen the room.' : '');
+    else if (legGap < 89) sMore += 'The return leg stops ' + f.len(legGap) + ' short of the heater wall, which is neither a full run nor a usable gap.';
+    else sMore += 'The return leg stops ' + f.len(legGap) + ' short of the heater wall' + (s.legLen > 0 ? '.' : ' because a full-depth leg would not leave room on that wall for both the door and the heater.') + ' Put the heater in the far corner from the leg with the door beside it.';
   } else if (r.lWorth) {
-    sWhy += 'The room clears the Trumpkin notes\u2019 275 × 275 cm (9 × 9 ft) threshold for an L, which would seat ' + r.seatsL + ' by the front-edge rule in the Trumpkin notes. ' + (r.seatsL > r.seatsI ? 'Choose L-shape to use it. ' : 'That is no gain, because the corner costs the bench wall about as much foot bench as the return leg adds. An L starts to pay once the leg is longer than twice the combined bench depth. ') + 'The Trumpkin notes rate a straight run as usually best.';
+    sMore += 'The room is big enough for an L, which would seat ' + r.seatsL + '. ' + (r.seatsL > r.seatsI ? 'Choose L-shape to use it. ' : 'That is no gain, because the corner costs the bench wall about as much foot bench as the return leg adds. An L starts to pay once the leg is longer than twice the combined bench depth. ') + 'A straight run is usually best.';
   } else if (r.seatsI < s.n) {
-    sWhy += 'An L is not the fix here. The Trumpkin notes reserve it for rooms of at least 275 × 275 cm (9 × 9 ft).';
+    sMore += 'An L is not the fix here. It needs a room of at least 275 × 275 cm (9 × 9 ft).';
   }
   c.push({name:'Seating', val:'Room for ' + r.seats + ' at 60 cm (24″) each on ' + (isL ? 'an L-shaped bench' : 'a straight bench'),
-    st: (r.seats >= s.n && !(isL && (!r.lOK || (legGap >= 1 && legGap < 89) || (legGap < 1 && r.doorRoom < 135)))) ? 'ok' : 'warn', why: sWhy});
+    st: seatOK ? 'ok' : 'warn', why: sWhy, more: sMore});
   if (r.exempt && m < 10){
     c[0].st = 'warn';
     c[0].val = (m >= 0 ? f.len(m) + ' above' : f.len(-m) + ' below') + ' the top of the stones, which a Saunum is built for';
-    c[0].why = 'A Saunum is designed to be used with feet below the stones: its blower pulls hot air down from the ceiling and mixes it, which is why the Trumpkin notes name it as one of two good options when a low ceiling cannot be avoided. It is still a compromise. The notes say it falls short of a proper sauna, put it at roughly a 6 or 7 out of 10 against 8 to 10 for a room with a full-height ceiling, mention blower noise, and say to build the taller room with a standard heater if you can. It helps with temperature stratification only, so the room still needs proper mechanical ventilation.';
+    c[0].why = 'A Saunum is made for feet below the stones, but it is still a compromise next to a taller room.';
+    c[0].more = 'Its blower pulls hot air down from the ceiling and mixes it, which makes it one of two good options when a low ceiling cannot be avoided. It falls short of a proper sauna: roughly a 6 or 7 out of 10 against 8 to 10 for a full-height room, with some blower noise. If you can build the taller room with a standard heater, do. It only helps with stratification, so the room still needs proper mechanical ventilation.';
   }
   if (r.exempt && m >= 10){
     // Feet already clear the stones, so the room does not need a Saunum. See which standard heaters would also work here.
@@ -863,10 +913,11 @@ function runChecks(s, r, f){
     var isUnit = !!(model && model.exempt);
     c[0].st = (pickAlts.length || !isUnit) ? 'warn' : 'ok';
     c[0].val = f.len(m) + ' above the top of the stones, so this room does not need ' + what;
-    c[0].why = 'A Saunum is a fix for rooms that cannot get the feet above the stones. This room can. The Trumpkin notes put a Saunum at roughly a 6 or 7 out of 10 against 8 to 10 for a full-height room with a standard heater, mention blower noise, and say to build the proper room with a standard heater whenever it is possible. '
-      + (!isUnit ? 'Your heater already clears the stones in this room, so the AirSolo can be left out.'
+    c[0].why = !isUnit ? 'Your heater already clears the stones in this room, so the AirSolo can be left out.' : 'This room can get feet above the stones with a standard heater, which gives a better sauna.';
+    c[0].more = 'A Saunum is a fix for rooms that cannot get the feet above the stones. It rates roughly a 6 or 7 out of 10 against 8 to 10 for a full-height room with a standard heater, and the blower makes some noise. '
+      + (!isUnit ? ''
           : pickAlts.length
-          ? 'Consider another heater: ' + pickAlts.map(function(x){ return x.h.name + ' (foot bench ' + f.len(x.margin) + ' above its stones' + (x.a.notes.length ? ', with some headroom given up' : '') + ')'; }).join(', ') + (alts.length > pickAlts.length ? ', and ' + (alts.length - pickAlts.length) + ' more in the table below' : '') + '.'
+          ? 'Consider another heater: ' + pickAlts.map(function(x){ return x.h.name + ' (foot bench ' + f.len(x.margin) + ' above its stones' + (x.a.notes.length ? ', with some headroom given up' : '') + ')'; }).join(', ') + (alts.length > pickAlts.length ? ', and ' + (alts.length - pickAlts.length) + ' more in the Heaters tab' : '') + '.'
           : 'Nothing else in this list is both rated for the room and low enough to clear, so it stays a reasonable pick, but it never earns an Ideal here.');
   }
   if (model){
@@ -874,26 +925,32 @@ function runChecks(s, r, f){
     var fits = rf === 'fit', edge = fits && r.effVhi > model.vmax + 0.05;
     c.push({name:'Heater matched to the room', val: model.name + ' is rated for ' + f.vol(model.vmin) + ' to ' + f.vol(model.vmax) + '. Your room counts as ' + f.vol(r.effV) + (r.effVhi - r.effV > .05 ? ' to ' + f.vol(r.effVhi) : ''),
       st: fits ? 'ok' : 'warn',
-      why: edge ? 'Inside the maker\u2019s range at 1 kW per m² of glass, over it at 1.5. You are at the top of what this heater should be asked to do.' : fits ? 'Inside the maker\u2019s range once glass and masonry are counted.'
-         : over ? 'The room is bigger than the maker rates this heater for. Expect slow heat-up and trouble holding temperature. Go up a size or cut the glass.'
-         : 'The room is smaller than the maker rates this heater for. The Trumpkin notes warn that an oversized heater cycles harder, cannot hold lower temperatures well and can be a fire hazard.'});
+      why: edge ? 'Right at the top of what this heater is rated for.' : fits ? 'The heater is the right size for this room.'
+         : over ? 'The room is too big for this heater. Expect slow heat-up and trouble holding temperature.'
+         : 'The heater is oversized for this room.',
+      more: 'Glass and masonry lose heat much faster than insulated walls, so they are counted as extra room volume before comparing with the maker’s range.'
+         + (edge ? ' At 1 kW per m² of glass the room is inside the range; at 1.5 it is over.' : '')
+         + (over ? ' Go up a size or cut the glass.' : '')
+         + (!fits && !over ? ' An oversized heater cycles on and off harder, cannot hold lower temperatures well and can be a fire hazard.' : '')});
     var useKg = model.akg || model.kg, perM3 = useKg / r.V;
     c.push({name:'Stone mass in this heater', val: f.mass(useKg) + (model.akg ? ' of active stone' : ' of stone') + (model.akg && model.akg < model.kg ? ' out of ' + f.mass(model.kg) : '') + ', which is ' + (Math.round(perM3 * 10) / 10) + ' kg per m³ here',
       st: perM3 >= 4 ? 'ok' : 'warn',
-      why: perM3 >= 6 ? 'At or above the 6 kg per m³ the Trumpkin notes call better. Expect soft, lasting steam.'
-         : perM3 >= 4 ? 'Meets the Trumpkin notes\u2019 4 kg per m³ minimum. 6 is better.'
-         : 'Under the Trumpkin notes\u2019 4 kg per m³ minimum. They allow that 3 may be the best available in North America and that a well designed heater can outperform its numbers, but expect sharper, shorter steam.'});
-    if (model.group === 'caution') c.push({name:'Heater choice', val: model.name, st:'warn', why: model.note});
+      why: perM3 >= 6 ? 'Plenty of stone for soft, lasting steam.'
+         : perM3 >= 4 ? 'Enough stone for good steam. More would be softer.'
+         : 'Light on stone for this room. Expect sharper, shorter bursts of steam.',
+      more: 'More hot stone per cubic metre of room means each ladle of water turns to gentle steam instead of a harsh blast. 4 kg per m³ is the minimum and 6 is better.'
+         + (perM3 < 4 ? ' 3 may be the best available in North America, and a well designed heater can do better than its numbers suggest.' : '')});
+    if (model.group === 'caution') c.push({name:'Heater choice', val: model.name, st:'warn', why: 'This heater has a known drawback for a Finnish-style sauna.', more: model.note});
   } else {
-    c.push({name:'Heater matched to the room', val:'No heater model loaded', st:'na', why:'Pick a model in the Heater section and this compares your room, with glass and masonry counted, against the range the heater is rated for.'});
-    c.push({name:'Stone mass in this heater', val:'No heater model loaded', st:'na', why:'Pick a model and this tests its active stone against the 4 to 6 kg per m³ the Trumpkin notes call for.'});
+    c.push({name:'Heater matched to the room', val:'No heater model loaded', st:'na', why:'Pick a heater model to compare its rated range with this room.', more:'Glass and masonry are counted as extra volume before comparing.'});
+    c.push({name:'Stone mass in this heater', val:'No heater model loaded', st:'na', why:'Pick a heater model to check how much stone it holds for this room.', more:'4 to 6 kg of active stone per m³ of room is the target.'});
   }
   if (s.heater === 'wood'){
     var isLw = r.layout === 'L', worst = isLw ? Math.min(r.clrFront, r.clrSide) : r.clrFront, okClr = worst >= s.clr - 0.5;
     c.push({name:'Stove clearance to the benches', val: f.len(Math.max(0, worst)) + ' from the stove to the nearest bench, against ' + f.len(s.clr) + ' required',
       st: okClr ? 'ok' : 'bad',
-      why: (okClr ? 'The benches sit outside the clearance to combustibles you entered. ' : 'A bench falls inside the clearance to combustibles you entered. Move or shorten the benches, deepen the room, or use a stove with tested lower clearances. ')
-        + 'Use the figure from the stove manual. 36″ (91 cm) is the usual default for an unlisted stove under NFPA 211. The walls beside and behind the stove are combustible too and need the listed clearance or an approved heat shield, which this tool does not check.'});
+      why: okClr ? 'The benches sit outside the stove’s clearance to combustibles.' : 'A bench is inside the stove’s clearance to combustibles. Move or shorten it, deepen the room, or use a stove with lower tested clearances.',
+      more: 'Use the figure from the stove manual. 36″ (91 cm) is the usual default for an unlisted stove under NFPA 211. The walls beside and behind the stove are combustible too and need the listed clearance or an approved heat shield, which this tool does not check.'});
   }
   var idealBy = {
     'Feet above the stones': m >= 19.95 && !r.exempt,
@@ -911,7 +968,7 @@ function runChecks(s, r, f){
   return c;
 }
 
-var REPO = 'https://github.com/Jabawabawaba/trumpkin-test', ISSUES = REPO + '/issues/new';
+var REPO = 'https://github.com/Jabawabawaba/above-the-stones', ISSUES = REPO + '/issues/new';
 var NA_BRANDS = {Harvia:1, Helo:1, Saunum:1, HUUM:1, IKI:1, Narvi:1, Aitokiuas:0, Kastor:0};   // brand-level, by whether the maker sells through North American dealers; unverified per model
 function rankHeaters(s, f){
   return HEATERS.filter(function(hh){ return hh.type === s.heater; }).map(function(hh){
@@ -956,17 +1013,17 @@ function makeFmt(units){
 if (typeof document !== 'undefined') (function(){
   var KEY = 'sauna-calc-v1';
   var DEFAULTS = {units:'imperial', view:'simple', W:243.84, D:243.84, H:259.08, n:4, heater:'electric', ul:true,
-    model:'', bottom:0, stone:76.2, proj:45.72, masonry:0, hasWin:false, winCount:0, winArea:0.23, w1:'side-far', w2:'', w3:'', w4:'', mode:'auto', footH:96.52, sitH:139.7, sitDepth:60.96, footDepth:45.72, layout:'auto', legLen:0, stepOn:false, stepN:0, stepW:91.44, stepD:30.48, stepPos:'center', stepOff:0, stepLeg:false, side:'R', vent:'auto', airsolo:false, ceil:'flat', Hheat:243.84, availW:0, availD:0, availH:0, cost:{}, extra:[], fix:{}, ductIn:6, tradeFit:false, crVent:'', guard:true, benchSupport:'legs', rail:'auto', railKind:'none', railWhere:'auto', railStyle:'board', railH:0, grabPost:true, handRail:false, handH:0, naOnly:false, schedMode:'diy', pmStart:'', compareWith:'', slabHeat:'none', crLight:'', showLight:true, engWork:true, engSnow:30, engSoil:1500, engFeed:60, engWind:115, engRafter:'2×6', plWater:'', plWaste:'', plHot:'', plDist:914.4, xRoute:'', plRoute:'', studSize:'2x4', bInsul:'wool', crInsul:'', crPT:'', crHeat:'', bWall:'', bBench:'', bFinish:'', bDoor:'wood-window', bLight:'', gDrain:'', bNotes:'', xFound:'', xSiding:'', xRoof:'', xRoofing:'', xPorch:'', annexW:243.84, annexD:182.88, annexSide:'front', annexUse:'', porchD:121.92, crDoor:'front', crCubPlace:'floor', crCubWall:'door', crWinN:1, crWinArea:0.5, crWinWall:'front', crBench:true, crHooks:0, crCubbies:0, crPorchD:0, xPower:'', iRoom:'', iFloor:'', iExhaust:'', iSupply:'', iAbove:'', rate:0.30, sessionH:1.5, clr:91.44,
+    model:'', bottom:0, stone:76.2, proj:45.72, masonry:0, hasWin:false, winCount:0, winArea:0.23, w1:'side-far', w2:'', w3:'', w4:'', mode:'auto', footH:96.52, sitH:139.7, sitDepth:60.96, footDepth:45.72, layout:'auto', legLen:0, stepOn:false, stepN:0, stepW:91.44, stepD:30.48, stepPos:'center', stepOff:0, stepLeg:false, side:'R', vent:'auto', airsolo:false, ceil:'flat', Hheat:243.84, availW:0, availD:0, availH:0, cost:{}, extra:[], fix:{}, ductIn:6, tradeFit:false, crVent:'', start:'', startHeater:'', autoHeat:true, guard:true, benchSupport:'legs', rail:'auto', railKind:'none', railWhere:'auto', railStyle:'board', railH:0, grabPost:true, handRail:false, handH:0, naOnly:false, schedMode:'diy', pmStart:'', compareWith:'', slabHeat:'none', crLight:'', showLight:true, engWork:true, engSnow:30, engSoil:1500, engFeed:60, engWind:115, engRafter:'2×6', plWater:'', plWaste:'', plHot:'', plDist:914.4, xRoute:'', plRoute:'', studSize:'2x4', bInsul:'wool', crInsul:'', crPT:'', crHeat:'', bWall:'', bBench:'', bFinish:'', bDoor:'wood-window', bLight:'', pAddr:'', pOwner:'', pBy:'', gDrain:'', bNotes:'', xFound:'', xSiding:'', xRoof:'', xRoofing:'', xPorch:'', annexW:243.84, annexD:182.88, annexSide:'front', annexUse:'', porchD:121.92, crDoor:'front', crCubPlace:'floor', crCubWall:'door', crWinN:1, crWinArea:0.5, crWinWall:'front', crBench:true, crHooks:0, crCubbies:0, crPorchD:0, xPower:'', iRoom:'', iFloor:'', iExhaust:'', iSupply:'', iAbove:'', rate:0.30, sessionH:1.5, clr:91.44,
     situ:'inside', outer:1.27, studs:8.89, pir:3.0, gap:1.5, clad:1.905, floorType:'wood', floorFrame:13.97, flooring:2.54, ceilJoist:13.97};
   var s = JSON.parse(JSON.stringify(DEFAULTS));
   try {                                                               // first visit only: the browser's own region setting, nothing is sent anywhere
     var lg0 = String(navigator.language || '').split('@')[0].split('.')[0].replace('_', '-'), rg = (lg0.split('-')[1] || '').toUpperCase().slice(0, 2), base0 = lg0.split('-')[0].toLowerCase();
     if (rg ? ['US', 'LR', 'MM'].indexOf(rg) < 0 : (base0 && base0 !== 'en')) s.units = 'metric';
   } catch(e){}
-  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && typeof saved === 'object') for (var k in DEFAULTS) if (k in saved && typeof saved[k] === typeof DEFAULTS[k]) s[k] = saved[k]; } catch(e){}
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && typeof saved === 'object'){ for (var k in DEFAULTS) if (k in saved && typeof saved[k] === typeof DEFAULTS[k]) s[k] = saved[k]; if (!('start' in saved)) s.start = 'room'; } } catch(e){}
   try {
     var hm = /[#&]d=([^&]+)/.exec(location.hash || '');
-    if (hm){ var shared = JSON.parse(decodeURIComponent(escape(atob(hm[1].replace(/-/g, '+').replace(/_/g, '/'))))); for (var hk in DEFAULTS) if (hk in shared && typeof shared[hk] === typeof DEFAULTS[hk]) s[hk] = shared[hk]; }
+    if (hm){ var shared = JSON.parse(decodeURIComponent(escape(atob(hm[1].replace(/-/g, '+').replace(/_/g, '/'))))); for (var hk in DEFAULTS) if (hk in shared && typeof shared[hk] === typeof DEFAULTS[hk]) s[hk] = shared[hk]; if (!('start' in shared)) s.start = 'room'; }
   } catch(e){}
   function loadDesigns(){ try { return JSON.parse(localStorage.getItem('ttest-designs') || '{}') || {}; } catch(e){ return {}; } }
   function saveDesigns(o){ try { localStorage.setItem('ttest-designs', JSON.stringify(o)); } catch(e){} }
@@ -977,7 +1034,7 @@ if (typeof document !== 'undefined') (function(){
   }
   function summaryText(){
     var f = makeFmt(s.units), r = compute(s), ch = runChecks(s, r, f), m = heaterById(s.model), L = [];
-    L.push('Sauna design, checked with The Trumpkin Test');
+    L.push('Sauna design, checked with Above the Stones');
     L.push('Interior: ' + f.big(s.W) + ' bench wall x ' + f.big(s.D) + ' deep x ' + (r.sloped ? f.big(r.Hh) + ' to ' + f.big(r.Hb) + ' sloped' : f.big(s.H)) + ' ceiling, ' + f.vol(r.V) + ', ' + s.n + ' bathers');
     L.push('Outside: ' + f.big(r.outW) + ' x ' + f.big(r.outD) + ' x ' + f.big(r.outH) + ' with ' + f.thin(r.wallT) + ' walls');
     L.push('Heater: ' + (m ? m.name : (s.heater === 'electric' ? 'electric' : 'wood') + ', no model chosen') + ', stones at ' + f.len(s.stone) + ', ' + (r.vent === 'mech' ? 'mechanical downdraft' : 'natural ventilation'));
@@ -994,11 +1051,15 @@ if (typeof document !== 'undefined') (function(){
     try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function(){ msg.textContent = okMsg; }, fallback); else fallback(); } catch(e){ fallback(); }
   }
   var hist = {past:[], future:[], last:null, lastAt:0, quiet:false};
+  var startPrev = null, startSnap = null, startAfter = null;                   // where the chooser's Back goes, and the design before a start choice was applied
+  function designKey(){ var o = JSON.parse(JSON.stringify(s)); delete o.tab; return JSON.stringify(o); }
+  function applyStart(fn){ var before = JSON.stringify(s); startSnap = before; startAfter = null; fn(); startAfter = designKey(); }
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){}
+    if (startSnap && startAfter !== null && designKey() !== startAfter){ startSnap = null; startAfter = null; var sbk = document.getElementById('startBack'); if (sbk) sbk.remove(); }   // once the design is edited, Back would throw the edits away
     if (hist.quiet) return; var snap = JSON.stringify(s); if (snap === hist.last) return;
     var now = Date.now(); if (hist.last !== null && (now - hist.lastAt > 600 || !hist.past.length)) { hist.past.push(hist.last); if (hist.past.length > 60) hist.past.shift(); hist.future = []; }
     hist.last = snap; hist.lastAt = now; setUndoButtons(); }
-  function restore(snap){ hist.quiet = true; try { var o = JSON.parse(snap); for (var k in s) delete s[k]; for (var k2 in o) s[k2] = o[k2]; localStorage.setItem(KEY, snap); } catch(e){} hist.last = snap; hist.quiet = false; buildForm(); update(); if (document.body.classList.contains('building')) renderBuilder(); setUndoButtons(); }
+  function restore(snap){ hist.quiet = true; try { var o = JSON.parse(snap); for (var k in s) delete s[k]; var dflt = JSON.parse(JSON.stringify(DEFAULTS)); for (var k0 in dflt) s[k0] = dflt[k0]; if (!('start' in o)) s.start = 'room'; for (var k2 in o) s[k2] = o[k2]; localStorage.setItem(KEY, snap); } catch(e){} hist.last = snap; hist.quiet = false; buildForm(); update(); if (document.body.classList.contains('building')) renderBuilder(); setUndoButtons(); }
   function undo(){ if (!hist.past.length) return; hist.future.push(hist.last); restore(hist.past.pop()); }
   function redo(){ if (!hist.future.length) return; hist.past.push(hist.last); restore(hist.future.pop()); }
   function setUndoButtons(){ var u = document.getElementById('undoBtn'), rd = document.getElementById('redoBtn'); if (u) u.disabled = !hist.past.length; if (rd) rd.disabled = !hist.future.length; }
@@ -1120,6 +1181,78 @@ if (typeof document !== 'undefined') (function(){
       var u = el('button', {type:'button', class:'linkbtn', text:'Undo'}); u.style.margin = '0'; u.addEventListener('click', function(){ if (!fitUndo) return; for (var k in fitUndo) s[k] = fitUndo[k]; fitUndo = null; buildForm(); update(); }); msg.appendChild(u);
       document.getElementById('section').scrollIntoView({behavior:'smooth', block:'center'}); }
   }
+  function fitToSeats(n){
+    var q = s.units === 'imperial' ? 2.54 : 5, rd = function(v){ return Math.round(v / q) * q; };
+    n = Math.max(1, Math.min(12, Math.round(n) || 1));
+    var H = Math.max(s.ceil === 'slope' ? s.Hheat : s.H, 259.08);                                   // the Trumpkin 8½ ft ceiling, or taller if the design already is
+    var V = Math.max(16, n * 4.2), area = V / (H / 100), side = Math.sqrt(area) * 100;               // 250 × 250 × 260 for up to four, then 4 m³ of air each
+    var W = Math.max(250, side, n * 60 + 2), D = Math.max(250, side);                                 // 60 cm of bench per person along the bench wall
+    if (W > 1.4 * D) D = W / 1.4;                                                                    // the notes: the long wall no more than 20 to 40% longer than the short
+    s.W = Math.min(450, rd(W)); s.D = Math.min(450, rd(D)); s.H = rd(H); s.Hheat = s.H; s.ceil = 'flat'; s.mode = 'auto'; s.layout = 'auto'; s.n = n;
+  }
+  function chooseHeater(){                                                              // best rated, no-compromise heater for the room as it stands; sets state without rebuilding
+    var f = makeFmt(s.units), r0 = compute(s), order = {ok:0, warn:1, bad:2};
+    var all = rankHeaters(s, f).filter(function(x){ return x.h.group === 'rec' && x.fit === 'fit' && (!s.naOnly || NA_BRANDS[x.h.brand]); });
+    var pool = all.filter(function(x){ return !x.h.exempt; }); if (!pool.length) pool = all;
+    if (!pool.length){ s.startHeater = ''; return null; }
+    // clean results first; then the smallest heater that has the room in the upper middle of its rating, with good stone; North American brands first for imperial users
+    var score = function(x){ var span = Math.max(0.1, x.h.vmax - x.h.vmin), pos = (r0.effV - x.h.vmin) / span;
+      return order[x.st] * 100 + x.issues.length * 10 + Math.abs(pos - 0.6) * 20 + (x.h.kw || 0) * 0.25 + (x.perM3 >= 6 ? -2 : x.perM3 < 4 ? 4 : 0) + (s.units === 'imperial' && !NA_BRANDS[x.h.brand] ? 3 : 0); };
+    pool.sort(function(a, b){ return (score(a) - score(b)) || (b.perM3 - a.perM3); });
+    var hh = pool[0].h;
+    s.model = hh.id; s.heater = hh.type; s.proj = hh.proj; s.bottom = hh.bottom || 0; if (hh.stone != null) s.stone = hh.stone; s.mode = 'auto';
+    s.startHeater = hh.id; return hh;
+  }
+  function seatsHeater(){                                                              // pick, then give the heater the depth and height it needs, then pick again for the new size
+    var q = s.units === 'imperial' ? 2.54 : 5, up = function(v){ return Math.ceil(v / q - 1e-6) * q; }, hh = null;
+    for (var i = 0; i < 3; i++){
+      hh = chooseHeater(); if (!hh) break;
+      var changed = false, needD = up(s.sitDepth + s.footDepth + s.proj + (s.heater === 'wood' ? Math.max(100, s.clr) : 100));
+      if (s.D < needD - 0.5 && needD <= 450){ s.D = needD; changed = true; }
+      var r1 = compute(s);
+      if (hh.stone != null && !hh.exempt && r1.foot - s.stone < 10){ var needH = up(hh.stone + 20 + 42 + 120); if (needH > s.H + 0.5 && needH <= 330){ s.H = needH; s.Hheat = needH; changed = true; } }
+      if (!changed) break;
+    }
+    return hh;
+  }
+  function heatChoice(fm){                                                              // heat source and "pick one for me" inside a start form
+    var seg = el('div', {class:'seg', role:'group', 'aria-label':'Heat source'});
+    [['electric', 'Electric'], ['wood', 'Wood']].forEach(function(o){ var b = el('button', {type:'button', 'aria-pressed':String(s.heater === o[0]), text:o[1]}); b.addEventListener('click', function(){ s.heater = o[0]; seg.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); }); }); seg.appendChild(b); });
+    fm.appendChild(el('div', {class:'field'}, [el('span', {class:'lab', text:'Heat source'}), seg]));
+    var cb = el('input', {type:'checkbox', id:'st_auto'}); cb.checked = s.autoHeat !== false; cb.addEventListener('change', function(){ s.autoHeat = cb.checked; });
+    fm.appendChild(el('div', {class:'check'}, [cb, el('label', {for:'st_auto', text:'Pick a heater that suits the room'})]));
+  }
+  function startLabel(){ var f = makeFmt(s.units), m = heaterById(s.model);
+    return s.start === 'seats' ? s.n + (s.n === 1 ? ' bather' : ' bathers') : s.start === 'space' ? 'the space available, ' + [s.availW, s.availD, s.availH].filter(function(v){ return v > 0; }).map(function(v){ return f.big(v); }).join(' × ') : s.start === 'heater' ? (m ? m.name : 'a heater') : 'the room size'; }
+  function renderStart(){
+    var f = makeFmt(s.units), imp = s.units === 'imperial', box = el('div', {class:'start'});
+    var backTop = el('button', {type:'button', class:'linkbtn', text:'\u2190 Back'}); backTop.style.margin = '0';
+    backTop.addEventListener('click', function(){ s.start = startPrev && startPrev.start ? startPrev.start : 'room'; startPrev = null; buildForm(); update(); });
+    backTop.setAttribute('title', 'Back to the design, unchanged');
+    box.appendChild(el('div', {class:'starthead'}, [el('h2', {text:'Where are you starting from?'}), backTop]));
+    box.appendChild(el('p', {class:'note', text:'Pick one to set up the design. Everything stays editable afterwards.'}));
+    var cards = el('div', {class:'startcards'}), pane = el('div'), picked = null;
+    var opts = [['seats', 'How many people', 'Sizes the room for them and picks a heater to suit.'], ['space', 'The space I have', 'Outside dimensions and clear height. Fits the room inside and picks a heater.'], ['room', 'The room I want', 'Enter the interior size yourself, for a kit or a framed room.'], ['heater', 'A heater I\u2019ve picked', 'Sizes the room and benches to that heater\u2019s rating and stone height.']];
+    var btns = {};
+    opts.forEach(function(o){ var b = el('button', {type:'button', 'aria-pressed':'false'}, [el('b', {text:o[1]}), el('span', {text:o[2]})]); b.addEventListener('click', function(){ pick(o[0]); }); btns[o[0]] = b; cards.appendChild(b); });
+    var dimRow = function(label, key, init){ var wrap = el('div', {class:'field'}); wrap.appendChild(el('label', {text:label})); var row = el('div', {class:'row'}); var ins = [];
+      if (imp){ var tot = half(init / IN), ft = Math.floor(tot / 12), inch = tot - ft * 12; var a = numInput('st_' + key, ft, 1), b2 = numInput('st_' + key + '_in', inch, 0.5); row.appendChild(a); row.appendChild(el('span', {class:'unit', text:'ft'})); row.appendChild(b2); row.appendChild(el('span', {class:'unit', text:'in'})); ins = [a, b2]; }
+      else { var c = numInput('st_' + key, Math.round(init), 1); row.appendChild(c); row.appendChild(el('span', {class:'unit', text:'cm'})); ins = [c]; }
+      wrap.appendChild(row); wrap.read = function(){ return imp ? (num(ins[0].value) * 12 + num(ins[1].value)) * IN : num(ins[0].value); }; return wrap; };
+    var go = function(text){ var g = el('button', {type:'button', class:'bigbtn', text:text}); g.style.marginTop = '.4rem'; return g; };
+    function pick(k){ picked = k; for (var kk in btns) btns[kk].setAttribute('aria-pressed', String(kk === k)); pane.innerHTML = '';
+      var fm = el('div', {class:'startform'});
+      if (k === 'seats'){ var nIn = numInput('st_n', s.n, 1, 1); nIn.setAttribute('max', '12'); fm.appendChild(el('div', {class:'field'}, [el('label', {for:'st_n', text:'Bathers at once'}), el('div', {class:'row'}, [nIn])])); heatChoice(fm); var g1 = go('Size the room'); g1.addEventListener('click', function(){ applyStart(function(){ s.start = 'seats'; fitToSeats(num(nIn.value)); if (s.model && heaterById(s.model) && heaterById(s.model).type !== s.heater) s.model = ''; s.startHeater = ''; if (s.autoHeat !== false) seatsHeater(); buildForm(); update(); }); }); fm.appendChild(g1); }
+      if (k === 'space'){ var r0 = compute(s), dw = dimRow('Width available', 'W', s.availW || 0), dd = dimRow('Depth available', 'D', s.availD || 0), dh = dimRow('Clear height available', 'H', s.availH || 0); fm.appendChild(el('p', {class:'hint', text:'Outside the finished walls, floor to whatever is overhead. Leave a dimension at 0 to keep the current value. Walls are ' + f.thin(r0.wallT) + ' thick in this design.'})); fm.appendChild(dw); fm.appendChild(dd); fm.appendChild(dh); heatChoice(fm); var g2 = go('Fit the room inside'); g2.addEventListener('click', function(){ s.availW = dw.read(); s.availD = dd.read(); s.availH = dh.read(); if (!(s.availW > 0 || s.availD > 0 || s.availH > 0)){ var w = fm.querySelector('.warn'); if (!w) fm.appendChild(el('p', {class:'hint warn', text:'Enter at least one dimension.'})); return; } applyStart(function(){ s.start = 'space'; if (s.model && heaterById(s.model) && heaterById(s.model).type !== s.heater) s.model = ''; s.startHeater = ''; fitToSpace(); }); }); fm.appendChild(g2); }
+      if (k === 'room'){ fm.appendChild(el('p', {class:'hint', text:'The inputs open with the room size at the top. The current design is ' + f.big(s.W) + ' × ' + f.big(s.D) + ' × ' + f.big(s.H) + '.'})); var g3 = go('Enter the room'); g3.addEventListener('click', function(){ applyStart(function(){ s.start = 'room'; openGroups['Room interior'] = true; buildForm(); update(); }); var w0 = document.getElementById('f_W'); if (w0) w0.focus(); }); fm.appendChild(g3); }
+      if (k === 'heater'){ var sel = el('select', {id:'st_model'}); sel.appendChild(el('option', {value:'', text:'Choose a heater'})); [['electric', 'Electric'], ['wood', 'Wood-burning']].forEach(function(t){ var og = el('optgroup', {label:t[1]}); HEATERS.filter(function(x){ return x.type === t[0] && (!s.naOnly || NA_BRANDS[x.brand]); }).sort(function(a, b){ return a.name.localeCompare(b.name); }).forEach(function(x){ og.appendChild(el('option', {value:x.id, text:x.name})); }); sel.appendChild(og); }); if (s.model) sel.value = s.model; fm.appendChild(el('div', {class:'field'}, [el('label', {for:'st_model', text:'Heater model'}), el('div', {class:'row'}, [sel])])); var g4 = go('Size the room to it'); g4.addEventListener('click', function(){ if (!sel.value){ var w2 = fm.querySelector('.warn'); if (!w2) fm.appendChild(el('p', {class:'hint warn', text:'Choose a heater first.'})); return; } applyStart(function(){ s.start = 'heater'; pickHeater(sel.value); fitToHeater(); }); }); fm.appendChild(g4); }
+      var gb = fm.querySelector('.bigbtn'), bk = el('button', {type:'button', class:'linkbtn', text:'Back'}); bk.style.margin = '0';
+      bk.addEventListener('click', function(){ picked = null; for (var kb in btns) btns[kb].setAttribute('aria-pressed', 'false'); pane.innerHTML = ''; btns[k].focus(); });
+      if (gb){ var gr = el('div', {class:'startgo'}); gb.parentNode.insertBefore(gr, gb); gr.appendChild(gb); gr.appendChild(bk); } else fm.appendChild(bk);
+      pane.appendChild(fm); }
+    box.appendChild(cards); box.appendChild(pane);
+    return box;
+  }
   function fitToSpace(){
     var r0 = compute(s), msg = [];
     if (s.availW > 0){ s.W = Math.max(60, s.availW - 2 * r0.wallT); msg.push('width'); }
@@ -1127,6 +1260,7 @@ if (typeof document !== 'undefined') (function(){
     if (s.availH > 0){ var r1 = compute(s), hNew = Math.max(120, s.availH - r1.floorT - r1.ceilT); if (s.ceil === 'slope') s.Hheat = Math.max(120, s.Hheat + (hNew - s.H)); s.H = hNew; msg.push('height'); }
     var keep = msg.length ? 'Interior ' + msg.join(', ') + ' set from your space, less walls, floor and ceiling.' : 'Enter at least one dimension first.';
     if (msg.length){ var holds2 = roomHolds(); if (holds2 !== s.n){ keep += ' Bathers set to ' + holds2 + ' (was ' + s.n + '), the most this room seats with 4 m³ of air each.'; s.n = holds2; } }
+    if (msg.length && s.start === 'space' && s.autoHeat !== false){ var ph = chooseHeater(); if (!ph) keep += ' No heater in the list is rated for a room this size.'; }
     buildForm(); update();
     var fm = document.getElementById('fitMsg'); if (fm) fm.textContent = keep;
   }
@@ -1157,7 +1291,17 @@ if (typeof document !== 'undefined') (function(){
     form.innerHTML = '';
     document.body.classList.toggle('simple', simple);
     document.querySelectorAll('[data-view]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-view') === s.view)); });
+    var hm = document.getElementById('h1mode'); if (hm) hm.textContent = s.view === 'simple' ? 'Check' : 'Design'; document.title = 'Above the Stones: ' + (s.view === 'simple' ? 'quick sauna check' : 'sauna design') + ' based on Trumpkin\u2019s notes';
     var vh = document.getElementById('viewHint'); if (vh) vh.textContent = '';
+    var choosing = !simple && !s.start; document.body.classList.toggle('choosing', choosing);
+    if (choosing){ form.appendChild(renderStart()); return; }
+    if (!simple){ var bar = el('div', {class:'startbar'}), chg = el('button', {type:'button', class:'linkbtn', text:'Change'}); chg.style.margin = '0'; chg.addEventListener('click', function(){ startPrev = {start: s.start}; s.start = ''; buildForm(); update(); }); bar.appendChild(el('span', null, [document.createTextNode('Started from '), el('b', {text:startLabel()})])); bar.appendChild(chg);
+      if (startSnap){ var sb = el('button', {type:'button', class:'linkbtn', id:'startBack', text:'Back', title:'Undo this choice and go back to the start options'}); sb.style.margin = '0'; sb.addEventListener('click', function(){ var snap = startSnap; startSnap = null; startAfter = null; restore(snap); }); bar.appendChild(sb); }
+      var ah = s.startHeater && s.model === s.startHeater ? heaterById(s.model) : null;
+      if (ah){ var cmpB = el('button', {type:'button', class:'linkbtn', text:'Compare heaters'}); cmpB.style.margin = '0'; cmpB.addEventListener('click', function(){ showTab('heaters'); var tb = document.getElementById('tabs'); if (tb) tb.scrollIntoView({behavior:'smooth', block:'start'}); });
+        bar.appendChild(el('span', {class:'startheat'}, [document.createTextNode('Heater picked: '), el('b', {text:ah.name})])); bar.appendChild(cmpB); }
+      else if ((s.start === 'seats' || s.start === 'space') && s.autoHeat !== false && !s.model){ bar.appendChild(el('span', {class:'startheat', text:'No heater in the list is rated for this room.'})); }
+      form.appendChild(bar); }
     GROUPS.forEach(function(g){
       if (simple && g.legend === 'Construction') return;
       var fs = el(g.flat ? 'div' : 'details', {class:'grp' + (g.flat ? ' flat' : '')}), sm = el(g.flat ? 'div' : 'summary', {class: g.flat ? 'flathead' : undefined}, [el('span', {class:'gname', text:g.legend}), el('span', {class:'gsum', id:'sum_' + g.legend.replace(/\W/g, '')})]);
@@ -1216,7 +1360,7 @@ if (typeof document !== 'undefined') (function(){
           cmpB.textContent = s.compareWith ? 'Stop comparing' : 'Compare';
           var expB = el('button', {type:'button', class:'linkbtn', text:'Export all to a file'}), impB = el('button', {type:'button', class:'linkbtn', text:'Import from a file'}), impIn = el('input', {type:'file', accept:'.json,application/json', style:'display:none', 'aria-label':'Import saved designs'});
           [expB, impB].forEach(function(bt){ bt.style.margin = '0 .6rem 0 0'; });
-          expB.addEventListener('click', function(){ var all = loadDesigns(); all['\u2022 current design'] = JSON.parse(JSON.stringify(s)); saveFile('trumpkin-test-designs.json', 'application/json', JSON.stringify({app:'The Trumpkin Test', saved: new Date().toISOString(), designs: all}, null, 1), id + '_msg'); });
+          expB.addEventListener('click', function(){ var all = loadDesigns(); all['\u2022 current design'] = JSON.parse(JSON.stringify(s)); saveFile('above-the-stones-designs.json', 'application/json', JSON.stringify({app:'Above the Stones', saved: new Date().toISOString(), designs: all}, null, 1), id + '_msg'); });
           impB.addEventListener('click', function(){ impIn.click(); });
           impIn.addEventListener('change', function(){ var fl = impIn.files && impIn.files[0]; if (!fl) return; var rd = new FileReader(); rd.onload = function(){ try { var o = JSON.parse(rd.result), src = o && o.designs ? o.designs : o, added = 0; store = loadDesigns(); Object.keys(src).forEach(function(nm){ if (src[nm] && typeof src[nm] === 'object' && 'W' in src[nm]){ store[nm.replace(/^\u2022 /, '')] = src[nm]; added++; } }); saveDesigns(store); buildForm(); var m3 = document.getElementById(id + '_msg'); if (m3) m3.textContent = added ? 'Imported ' + added + (added > 1 ? ' designs.' : ' design.') : 'No designs found in that file.'; } catch(e){ var m4 = document.getElementById(id + '_msg'); if (m4) m4.textContent = 'That file could not be read as saved designs.'; } }; rd.readAsText(fl); });
           wrap.appendChild(el('div', {class:'row'}, [dsel])); wrap.appendChild(el('div', {class:'row', style:'margin-top:.4rem'}, [saveB, loadB, cmpB, delB])); wrap.appendChild(nameRow); wrap.appendChild(delRow); wrap.appendChild(el('div', {class:'row', style:'margin-top:.4rem'}, [expB, impB, impIn])); wrap.appendChild(dsMsg);
@@ -1320,7 +1464,7 @@ if (typeof document !== 'undefined') (function(){
     b.addEventListener('click', function(){ s.units = b.getAttribute('data-units'); buildForm(); update(); });
   });
   document.querySelectorAll('[data-view]').forEach(function(b){
-    b.addEventListener('click', function(){ s.view = b.getAttribute('data-view'); buildForm(); update(); });
+    b.addEventListener('click', function(){ if (s.view !== b.getAttribute('data-view')) startPrev = null; s.view = b.getAttribute('data-view'); buildForm(); update(); });
   });
 
   function small(){ return window.innerWidth < 640; }
@@ -1686,7 +1830,7 @@ if (typeof document !== 'undefined') (function(){
   }
 
   /* ----- results ----- */
-  var LABEL = {ok:'Good', warn:'Compromise', bad:'Fix this', na:'No heater'}, showAll = false, fitLimit = 3, fitKey = '', lastLayout = null;
+  var LABEL = {ok:'Good', warn:'Compromise', bad:'Fix this', na:'No heater'}, showAll = false, fitLimit = 3, fitKey = '', lastLayout = null, fitQ = '', fitBrand = '', openMore = {}, tabPos = {};
   var lastSolo = null, lastStepKey = null;
   var LIMITS = {W:[120, 600, 'bench wall length'], D:[120, 600, 'room depth'], H:[180, 400, 'ceiling height'], Hheat:[150, 400, 'heater-wall ceiling height'], n:[1, 12, 'bathers'], stone:[10, 200, 'top of stones'], proj:[10, 150, 'heater depth'], sitDepth:[35, 120, 'sitting bench depth'], footDepth:[25, 90, 'foot bench depth'], footH:[10, 200, 'foot bench height'], sitH:[30, 260, 'sitting bench height'], legLen:[0, 600, 'return leg']};
   function sanity(){ var notes = [], f = makeFmt(s.units);
@@ -1737,7 +1881,7 @@ if (typeof document !== 'undefined') (function(){
     var rank = function(c){ return c.st === 'bad' ? 0 : c.st === 'warn' ? 1 : c.st === 'na' ? 4 : c.ideal ? 3 : 2; };   // fixes first, then compromises, good, ideal, and the checks waiting on a heater last
     checks.map(function(c, i){ return {c:c, i:i}; }).sort(function(a, b){ return rank(a.c) - rank(b.c) || a.i - b.i; }).map(function(x){ return x.c; }).forEach(function(c){
       var li = el('li', c.st === 'na' ? {class:'na'} : c.st === 'ok' ? {class:'ok'} : null, [el('div', {class:'pills'}, [el('span', {class:'pill ' + c.st, text:LABEL[c.st]})].concat(c.ideal ? [el('span', {class:'ideal', text:'★ Ideal!'})] : [])),
-        el('div', null, [el('h3', {text:c.name}), el('div', {class:'val', text:c.val}), el('p', {text:c.why})])]);
+        el('div', null, [el('h3', {text:c.name}), el('div', {class:'val', text:c.val}), el('p', {text:c.why})].concat(c.more ? [(function(){ var d = el('details', {class:'more'}, [el('summary', {text:'More'}), el('p', {text:c.more})]); if (openMore[c.name]) d.open = true; d.addEventListener('toggle', function(){ openMore[c.name] = d.open; }); return d; })()] : []))]);
       ul.appendChild(li);
     });
 
@@ -1782,11 +1926,19 @@ if (typeof document !== 'undefined') (function(){
     var allRows = fitting.concat(caution.filter(function(x){ return x.fit === 'fit'; }), outside, caution.filter(function(x){ return x.fit !== 'fit'; }));
     if (s.model){ var li = -1; allRows.forEach(function(x, i){ if (x.h.id === s.model) li = i; }); if (li > 2){ allRows.splice(li, 1); allRows.unshift(ranked.filter(function(x){ return x.h.id === s.model; })[0]); } }
     var fk = s.heater + '|' + Math.round(r.effV * 10); if (fk !== fitKey){ fitKey = fk; fitLimit = 3; }   // a different room or heater type starts the list over
-    var rowsToShow = allRows.slice(0, fitLimit);
+    var bsel = document.getElementById('fitBrand');
+    if (bsel){ var brands = {}; ranked.forEach(function(x){ brands[x.h.brand] = 1; }); var bl = Object.keys(brands).sort(); var want = 'all|' + bl.join('|');
+      if (bsel.getAttribute('data-k') !== want){ bsel.innerHTML = ''; bsel.appendChild(el('option', {value:'', text:'All brands'})); bl.forEach(function(b){ bsel.appendChild(el('option', {value:b, text:b})); }); bsel.setAttribute('data-k', want); }
+      if (bl.indexOf(fitBrand) < 0) fitBrand = ''; bsel.value = fitBrand; }
+    var q = fitQ.trim().toLowerCase(), filtering = !!(q || fitBrand), total = allRows.length;
+    if (filtering) allRows = allRows.filter(function(x){ if (fitBrand && x.h.brand !== fitBrand) return false; if (!q) return true;
+      var hay = (x.h.name + ' ' + x.h.brand + ' ' + (x.h.kw ? x.h.kw + ' kw ' + x.h.kw + 'kw' : '')).toLowerCase(); return q.split(/\s+/).every(function(w){ return hay.indexOf(w) >= 0; }); });
+    var fc = document.getElementById('fitClear'); if (fc) fc.hidden = !filtering;
+    var rowsToShow = filtering ? allRows : allRows.slice(0, fitLimit);
     var cap = document.getElementById('fitCap'); cap.innerHTML = '';
-    cap.appendChild(document.createTextNode('With glass counted, this room is ' + f.vol(r.effV) + (r.effVhi - r.effV > .05 ? ' to ' + f.vol(r.effVhi) : '') + '. Best fits first, then the rest. Showing ' + rowsToShow.length + ' of ' + allRows.length + '.'));
-    tb.appendChild(el('tr', null, ['Heater','Rated for','Stones at','Foot bench','Headroom','Active stone','', ''].map(function(t){ return el('th', {text:t, scope:'col'}); })));
-    if (!rowsToShow.length) tb.appendChild(el('tr', null, [el('td', {colspan:'8', text:'Nothing in the list is rated for a room this size.'})]));
+    cap.appendChild(document.createTextNode('With glass counted, this room is ' + f.vol(r.effV) + (r.effVhi - r.effV > .05 ? ' to ' + f.vol(r.effVhi) : '') + '. Best fits first, then the rest. ' + (filtering ? allRows.length + ' of ' + total + ' match.' : 'Showing ' + rowsToShow.length + ' of ' + allRows.length + '.')));
+    tb.appendChild(el('tr', null, ['Heater','Power','Rated for','Stones at','Foot bench','Headroom','Active stone','', ''].map(function(t){ return el('th', {text:t, scope:'col'}); })));
+    if (!rowsToShow.length) tb.appendChild(el('tr', null, [el('td', {colspan:'9', text: filtering ? 'No heater matches that search.' : 'Nothing in the list is rated for a room this size.'})]));
     rowsToShow.forEach(function(x){
       var tags = (x.h.group === 'caution' ? ['Trumpkin notes advise against'] : []).concat(x.issues.filter(function(i){ return i !== 'heater choice'; }));
       var rpt = el('a', {class:'why rpt', href: ISSUES + '?title=' + encodeURIComponent('Wrong spec: ' + x.h.name) + '&body=' + encodeURIComponent('Heater: ' + x.h.name + '\nWhat is wrong:\nCorrect figure and source (link to the maker\u2019s spec sheet or manual):\n'), target:'_blank', rel:'noopener', text:'Report a wrong spec'});
@@ -1794,6 +1946,7 @@ if (typeof document !== 'undefined') (function(){
       var btn = el('button', {type:'button', class:'usebtn', text: s.model === x.h.id ? 'Loaded' : 'Load'});
       if (s.model === x.h.id) btn.setAttribute('disabled', ''); else btn.addEventListener('click', function(){ pickHeater(x.h.id); document.getElementById('section').scrollIntoView({behavior:'smooth', block:'center'}); });
       tb.appendChild(el('tr', s.model === x.h.id ? {class:'sel'} : null, [nm,
+        x.h.kw ? el('td', {class:'n', 'data-l':'Power', text: (Math.round(x.h.kw * 10) / 10) + ' kW'}) : el('td', {class:'n'}),
         el('td', {class:'n', 'data-l':'Rated for', text: f.vol(x.h.vmin).replace(/ cu ft| m³/, '') + ' to ' + f.vol(x.h.vmax)}),
         el('td', {class:'n', 'data-l':'Stones at', text: x.h.stone != null ? f.len(x.h.stone) : 'set by you'}),
         el('td', {class:'n', 'data-l':'Foot bench', text: f.len(x.r.foot)}),
@@ -1804,7 +1957,8 @@ if (typeof document !== 'undefined') (function(){
     });
     var moreWrap = document.getElementById('fitMore') || (function(){ var d = el('div', {id:'fitMore', class:'fitmore'}); tb.parentNode.parentNode.insertBefore(d, tb.parentNode.nextSibling); return d; })();
     moreWrap.innerHTML = '';
-    if (rowsToShow.length < allRows.length){ var left = allRows.length - rowsToShow.length, mb = el('button', {type:'button', class:'usebtn', text:'More heaters (' + left + ' left)'});
+    if (filtering){ }
+    else if (rowsToShow.length < allRows.length){ var left = allRows.length - rowsToShow.length, mb = el('button', {type:'button', class:'usebtn', text:'More heaters (' + left + ' left)'});
       mb.addEventListener('click', function(){ fitLimit += 5; update(); var again = document.getElementById('fitMore'); if (again) again.scrollIntoView({behavior:'smooth', block:'nearest'}); }); moreWrap.appendChild(mb); }
     else if (allRows.length > 3){ var lb = el('button', {type:'button', class:'linkbtn', text:'Show fewer'}); lb.style.margin = '0'; lb.addEventListener('click', function(){ fitLimit = 3; update(); document.getElementById('fitTitle').scrollIntoView({behavior:'smooth', block:'start'}); }); moreWrap.appendChild(lb); }
 
@@ -2402,7 +2556,20 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     // title block
     var toc = el('nav', {class:'sheetnav', 'aria-label':'Sheet contents'}); B.appendChild(toc);
     B.appendChild(el('div', {class:'btitle'}, [el('div', null, [el('h1', {text:'Builder\u2019s sheet'}), el('p', {class:'lede', text: f.big(s.W) + ' × ' + f.big(s.D) + ' × ' + (r.sloped ? f.big(r.Hh) + ' to ' + f.big(r.Hb) + ' sloped' : f.big(s.H)) + ' hot room for ' + s.n + ', ' + (m ? m.name : (s.heater === 'electric' ? 'electric heater' : 'wood stove') + ' to be chosen')})]),
-      el('div', {class:'meta', text:'The Trumpkin Test, ' + new Date().toLocaleDateString(undefined, {year:'numeric', month:'long', day:'numeric'}) + '. All heights from finished floor.'})]));
+      el('div', {class:'meta', text:'Above the Stones. All heights from finished floor.'})]));
+    // title block, filled in for the permit copy
+    var tbIn = function(key, label, ph){ var ip = el('input', {type:'text', id:'tb_' + key, 'aria-label':label, placeholder:ph || ''}); ip.value = s[key] || '';
+      var pv = el('span', {class:'printval', text:s[key] || '\u2014'});
+      ip.addEventListener('input', function(){ s[key] = ip.value; pv.textContent = ip.value || '\u2014'; save(); });
+      return el('div', {class:'tcell'}, [el('span', {class:'tlab', text:label}), ip, pv]); };
+    var tbSt = function(label, val){ return el('div', {class:'tcell'}, [el('span', {class:'tlab', text:label}), el('span', {class:'tval', text:val})]); };
+    B.appendChild(el('div', {class:'tblock'}, [
+      tbIn('pAddr', 'Project address', 'Street and town, for the title block'),
+      tbIn('pOwner', 'Owner', 'Name'),
+      tbIn('pBy', 'Prepared by', 'Who drew this'),
+      tbSt('Date', new Date().toLocaleDateString(undefined, {year:'numeric', month:'long', day:'numeric'})),
+      tbSt('Scale', 'To scale from entered dimensions; use the printed figures, not a ruler'),
+      tbSt('Sheet', '1 of 1 \u00b7 interior alteration' + (s.situ === 'free' ? ', accessory structure' : ''))]));
     // drawings, copied from the calculator as rendered
     var figs = el('div', {class:'bfigs'});
     [['section', 'Side view'], ['plan', 'Plan']].forEach(function(d){ var src = document.getElementById(d[0]), sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('viewBox', src.getAttribute('viewBox')); sv.setAttribute('role', 'img'); sv.setAttribute('aria-label', d[1]); sv.innerHTML = src.innerHTML.replace(/id="ah"/g, 'id="ahb"').replace(/url\(#ah\)/g, 'url(#ahb)').replace(/id="stoneLbl"/g, ''); figs.appendChild(el('figure', null, [sv])); });
@@ -2880,7 +3047,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
         ['Notion', 'notion.csv', function(){ return csv([['Name', 'Section', 'Status', 'Start', 'Due', 'Priority', 'Notes']].concat(tasks.map(function(t){ return [t.name, t.section, 'Not started', t.start || '', t.end || '', t.priority, t.desc]; }))); }, 'Import \u2192 CSV makes a database with these properties.'],
         ['Todoist', 'todoist.csv', function(){ var rows = [['TYPE', 'CONTENT', 'DESCRIPTION', 'PRIORITY', 'INDENT', 'AUTHOR', 'RESPONSIBLE', 'DATE', 'DATE_LANG', 'TIMEZONE']], last = null; tasks.forEach(function(t){ if (t.section !== last){ rows.push(['section', t.section, '', '', '', '', '', '', 'en', '']); last = t.section; } rows.push(['task', t.name, t.desc, t.priority === 'High' ? 1 : t.priority === 'Medium' ? 2 : 4, 1, '', '', t.end || '', 'en', '']); }); return csv(rows); }, 'Project menu \u2192 Import from template (CSV).'],
         ['Microsoft Project or Planner', 'msproject.csv', function(){ return csv([['ID', 'Name', 'Duration', 'Start', 'Finish', 'Predecessors', 'Outline Level', 'Notes']].concat(tasks.map(function(t){ return [t.id, t.name, t.days ? t.days + ' days' : '0 days', t.start || '', t.end || '', (t.deps || []).join(','), t.days ? 1 : 2, t.desc]; }))); }, 'Open in Project as CSV and map the columns, or paste into Planner\u2019s Excel import.'],
-        ['Calendar (.ics)', 'sauna-build.ics', function(){ var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//The Trumpkin Test//EN']; tasks.filter(function(t){ return t.start; }).forEach(function(t){ ics.push('BEGIN:VEVENT', 'UID:tt-' + t.id + '@trumpkin-test', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;VALUE=DATE:' + t.start.replace(/-/g, ''), 'DTEND;VALUE=DATE:' + addDays(t.end, 1).replace(/-/g, ''), 'SUMMARY:' + t.name.replace(/,/g, '\\\\,'), 'DESCRIPTION:' + (t.desc || '').replace(/\n/g, '\\\\n').replace(/,/g, '\\\\,'), 'END:VEVENT'); }); ics.push('END:VCALENDAR'); return ics.join('\r\n') + '\r\n'; }, 'Google, Apple and Outlook calendars all import it; each phase is an all-day span.'],
+        ['Calendar (.ics)', 'sauna-build.ics', function(){ var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Above the Stones//EN']; tasks.filter(function(t){ return t.start; }).forEach(function(t){ ics.push('BEGIN:VEVENT', 'UID:tt-' + t.id + '@above-the-stones', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;VALUE=DATE:' + t.start.replace(/-/g, ''), 'DTEND;VALUE=DATE:' + addDays(t.end, 1).replace(/-/g, ''), 'SUMMARY:' + t.name.replace(/,/g, '\\\\,'), 'DESCRIPTION:' + (t.desc || '').replace(/\n/g, '\\\\n').replace(/,/g, '\\\\,'), 'END:VEVENT'); }); ics.push('END:VCALENDAR'); return ics.join('\r\n') + '\r\n'; }, 'Google, Apple and Outlook calendars all import it; each phase is an all-day span.'],
         ['Markdown checklist', 'sauna-build.md', function(){ var out = ['# ' + title, '', 'Start ' + startISO + ', finish about ' + finish + ' (' + (diy ? 'weekends' : 'contractor days') + ').', '']; var last = null; tasks.forEach(function(t){ if (t.section !== last){ out.push('', '## ' + t.section, ''); last = t.section; } out.push('- [ ] ' + t.name + (t.start ? ' (' + t.start + ' to ' + t.end + ')' : '') + (t.desc ? '\n  ' + t.desc.replace(/\n/g, '\n  ') : '')); }); return out.join('\n') + '\n'; }, 'For GitHub issues, Obsidian, Notion pages or any notes app.']
       ];
       var wrapPM = el('div', {class:'bsec'}, [el('h2', {text:L('Export the plan to a project tool')}), el('p', {class:'note', text:'The decisions still open, the ordering, the build phases with dates from the schedule above, the step-by-step detail and the pre-closing checklist, in the column layout each tool\u2019s importer expects. ' + tasks.length + ' tasks, starting ' + startISO + ' and finishing about ' + finish + '.'})]);
@@ -2894,6 +3061,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
 
     // ---------- permit package ----------
     var pp = [
+      ['Title block with address and owner', 'yes, at the top of this sheet', 'fill in the three fields before printing'],
       ['Site plan with setbacks', free3 ? 'no, draw from a survey' : 'not usually needed indoors', free3 ? 'property lines, the building, distance to the house and lot lines' : ''],
       ['Floor plan', 'yes, the plan view and the plan with changing room', 'print the drawings'],
       ['Elevations', 'yes, the exterior view', free3 ? 'some towns want all four faces; the exterior view shows two' : 'not usually needed indoors'],
@@ -2905,17 +3073,18 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       ['Ventilation plan', 'yes, the ventilation section and the drawings', 'supply and exhaust positions, fan CFM'],
       plumbing().any ? ['Plumbing riser or plan', 'yes, the plumbing layout and section', 'fixture count, drain sizes, vent'] : null,
       ['Energy code form', 'partly, the R-values in the framing section', 'REScheck or the local equivalent if the town asks; unheated accessory buildings are often exempt'],
+      ['Smoke, heat and CO alarms', 'noted here, ask the fire department', 'nothing goes inside the hot room; see the note below'],
       ['Contractor licences and insurance', 'no', 'electrician and plumber numbers on the application']
     ].filter(Boolean);
     var ptbl = el('table'); pp.forEach(function(rw){ ptbl.appendChild(el('tr', null, [el('td', {text:rw[0]}), el('td', {text:rw[1]}), el('td', {text:rw[2]})])); });
-    B.appendChild(el('div', {class:'bsec'}, [el('h2', {text:L('Permit package')}), el('p', {class:'note', text:'What a building department typically asks for, and which of it this sheet already produces. Requirements vary by town: call first, and ask whether a detached sauna counts as an accessory structure and whether a wood stove needs a separate mechanical permit.'}), ptbl]));
+    B.appendChild(el('div', {class:'bsec'}, [el('h2', {text:L('Permit package')}), el('p', {class:'note', text:'What a building department typically asks for, and which of it this sheet already produces. Requirements vary by town: call first, and ask whether a detached sauna counts as an accessory structure and whether a wood stove needs a separate mechanical permit.'}), ptbl, el('p', {class:'note', text:'Alarms: no smoke or CO head goes inside the hot room; it is too hot and wet and will nuisance-trip. ' + (s.heater === 'wood' ? 'A wood stove is fuel-burning equipment, so plan on a CO alarm and a heat detector in the changing room or the space next to the sauna, and ask the fire department what they want at final inspection.' : 'With an electric heater nothing burns fuel, but a heat detector in the space next to the hot room is a common request, and many places want CO alarms in any occupied building; ask when you file.')})]));
 
     // ---------- engineer's review ----------
     var E = engReview(r, f, {skin:skin, ceilA:ceilA, per:per, avgH:avgH, benchA:benchA, extW:extW, extD:extD, roofA:roofA, annexA:annexA, porchA:porchA, isCRx:isCRx, isPx:isPx, free3:free3, RV:RV}, L('Engineer\u2019s review'));
     B.appendChild(E);
     (function(){ var items = [['Decisions', B.querySelector('.bsec')], ['Drawings', B.querySelector('.bfigs')]]; Array.prototype.forEach.call(B.querySelectorAll('.bsec h2'), function(h2){ var t = h2.textContent.trim(); if (/^[A-Z]\./.test(t)) items.push([t.replace(/^([A-Z])\.\s+/, '$1 '), h2.closest('.bsec')]); });
       items.forEach(function(it){ if (!it[1]) return; var a = el('a', {href:'#', text:it[0]}); a.addEventListener('click', function(e){ e.preventDefault(); if (it[1].tagName === 'DETAILS') it[1].open = true; it[1].scrollIntoView({behavior:'smooth', block:'start'}); }); toc.appendChild(a); }); })();
-    B.appendChild(el('p', {class:'note', text:'Generated by The Trumpkin Test, an unofficial tool built on the Trumpkin notes. Dimensions and quantities are nominal. Heater clearances, electrical work and structure follow the manufacturer\u2019s manual, your electrician and local code, which override anything on this sheet.'}));
+    B.appendChild(el('p', {class:'note', text:'Generated by Above the Stones, an unofficial tool built on the Trumpkin notes. Dimensions and quantities are nominal. Heater clearances, electrical work and structure follow the manufacturer\u2019s manual, your electrician and local code, which override anything on this sheet.'}));
   }
   function engWorkbook(r, f, q){
     var elec = s.heater === 'electric', free3 = q.free3, SQ = 10.7639, mdl = heaterById(s.model), stonesKg = mdl && mdl.kg ? mdl.kg : r.stoneHi;
@@ -2925,7 +3094,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     var joist = sizeOf(s.floorFrame), cj = sizeOf(s.ceilJoist), rafter = (S_in3[String(s.engRafter).replace('×', 'x')] ? String(s.engRafter).replace('×', 'x') : '2x6');
     // Inputs: column B holds the values the formulas point at
     var inputs = [
-      ['The Trumpkin Test: engineering inputs', ''], ['Generated', new Date().toISOString().slice(0, 10)], ['', ''],
+      ['Above the Stones: engineering inputs', ''], ['Generated', new Date().toISOString().slice(0, 10)], ['', ''],
       ['Room width, bench wall (ft)', +W_ft.toFixed(2)], ['Room depth (ft)', +D_ft.toFixed(2)], ['Ceiling height, max (ft)', +H_ft.toFixed(2)], ['Outside width (ft)', +oW.toFixed(2)], ['Outside depth (ft)', +oD.toFixed(2)],
       ['Bathers', s.n], ['Heater kW', elec ? r.kw : 0], ['Heater body weight (lb)', elec ? 60 : 250], ['Stone load (kg)', Math.round(stonesKg)],
       ['Ground snow load (psf)', s.engSnow], ['Snow factor Ce*Ct*Is', 1], ['Soil bearing (psf)', s.engSoil], ['Feeder run (ft)', Math.round(s.engFeed)], ['Design wind (mph)', s.engWind],
@@ -3002,7 +3171,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     ];
     var wb = XLSX.utils.book_new(), add = function(name, aoa, widths){ var ws = XLSX.utils.aoa_to_sheet(aoa); ws['!cols'] = (widths || [38, 16, 30, 46]).map(function(w){ return {wch:w}; }); XLSX.utils.book_append_sheet(wb, ws, name); };
     add('Inputs', inputs, [40, 16]); add('Loads', loads); add('Structure', structure); add('Foundation', foundation); add('Electrical', electrical); add('Ventilation', vent); add('Thermal', thermal);
-    add('Notes', [['The Trumpkin Test engineering export'], ['Every value on the calculation sheets is a formula pointing at the Inputs sheet. Change an input and the checks update.'], ['Span limits are representative IRC values for SPF No. 2 at 16 in OC; replace them with the governing table for the species, grade and edition in force.'], ['Loads are typical residential values. Nothing here is a stamped design.'], ['Generated ' + new Date().toISOString()]], [110]);
+    add('Notes', [['Above the Stones engineering export'], ['Every value on the calculation sheets is a formula pointing at the Inputs sheet. Change an input and the checks update.'], ['Span limits are representative IRC values for SPF No. 2 at 16 in OC; replace them with the governing table for the species, grade and edition in force.'], ['Loads are typical residential values. Nothing here is a stamped design.'], ['Generated ' + new Date().toISOString()]], [110]);
     return wb;
   }
   function engCsv(r, f, q){
@@ -3115,9 +3284,9 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     // ---- export: a live Excel workbook of these calculations, inputs in one place and every result a formula the engineer can change ----
     var xb = el('button', {type:'button', class:'usebtn', text:'Export the calc package (Excel)'}), xmsg = el('span', {class:'hint', id:'engExMsg'});
     xb.addEventListener('click', function(){ xmsg.textContent = 'Preparing the workbook\u2026';
-      var go = function(){ try { var wb = engWorkbook(r, f, q); var out = XLSX.write(wb, {bookType:'xlsx', type:'array'}); saveFile('trumpkin-test-engineering.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', new Blob([out], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), 'engExMsg'); } catch(e){ xmsg.textContent = 'Could not build the workbook: ' + e.message; } };
+      var go = function(){ try { var wb = engWorkbook(r, f, q); var out = XLSX.write(wb, {bookType:'xlsx', type:'array'}); saveFile('above-the-stones-engineering.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', new Blob([out], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), 'engExMsg'); } catch(e){ xmsg.textContent = 'Could not build the workbook: ' + e.message; } };
       if (window.XLSX) return go(); var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload = go; sc.onerror = function(){ xmsg.textContent = 'The spreadsheet library could not load here. On the self-hosted copy this works offline once cached.'; }; document.head.appendChild(sc); });
-    var xc = el('button', {type:'button', class:'usebtn', text:'Export inputs and results (CSV)'}); xc.addEventListener('click', function(){ saveFile('trumpkin-test-engineering.csv', 'text/csv', engCsv(r, f, q), 'engExMsg'); });
+    var xc = el('button', {type:'button', class:'usebtn', text:'Export inputs and results (CSV)'}); xc.addEventListener('click', function(){ saveFile('above-the-stones-engineering.csv', 'text/csv', engCsv(r, f, q), 'engExMsg'); });
     wrap.appendChild(el('div', {class:'costbtns'}, [xb, xc, xmsg]));
     wrap.appendChild(el('p', {class:'note', text:'The workbook keeps every number as a formula tied to an Inputs sheet, so the engineer can change a load, a span or a soil value and watch the checks update, or paste the sheets into their own template. The CSV is the same inputs and results as plain values. For drawings, the DXF and OBJ exports on the calculator page open in AutoCAD, Revit (via DXF import), SketchUp and Fusion.'}));
     wrap.appendChild(el('p', {class:'note', text:'Reviewed by: ________________________   Licence: ______________   Date: ______________'}));
@@ -3182,7 +3351,20 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
   document.getElementById('printBuild').addEventListener('click', openPrintPanel);
   document.getElementById('btnSum').addEventListener('click', function(){ copyOut(summaryText(), 'Summary copied. Paste it into a post or message.'); });
   function showTab(name){ document.querySelectorAll('.tabpanel').forEach(function(pn){ pn.hidden = pn.id !== 'tab-' + name; }); document.querySelectorAll('.tabs [role=tab]').forEach(function(bt){ bt.setAttribute('aria-selected', String(bt.getAttribute('data-tab') === name)); }); s.tab = name; try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){} if (name === 'draw') update(); }
-  document.querySelectorAll('.tabs [role=tab]').forEach(function(bt){ bt.addEventListener('click', function(){ showTab(bt.getAttribute('data-tab')); if (small()){ var tb = document.getElementById('tabs'), y = tb.getBoundingClientRect().top + window.scrollY; if (window.scrollY > y) window.scrollTo({top: y, behavior:'smooth'}); } }); });
+  (function(){ var qi = document.getElementById('fitQ'), bs = document.getElementById('fitBrand'), fc = document.getElementById('fitClear'); if (!qi) return;
+    qi.addEventListener('input', function(){ fitQ = qi.value; update(); });
+    bs.addEventListener('change', function(){ fitBrand = bs.value; update(); });
+    fc.addEventListener('click', function(){ fitQ = ''; fitBrand = ''; qi.value = ''; bs.value = ''; update(); }); })();
+  document.querySelectorAll('.tabs [role=tab]').forEach(function(bt){ bt.addEventListener('click', function(){
+      var was = s.tab, tb = document.getElementById('tabs');
+      var base = function(){ var pn = document.querySelector('.tabpanel:not([hidden])'); return pn ? pn.getBoundingClientRect().top + window.scrollY - tb.offsetHeight - 6 : 0; };
+      var leaveAt = window.scrollY - base(); tabPos[was] = leaveAt > 0 ? leaveAt : 0;     // remember how far into the tab you were
+      showTab(bt.getAttribute('data-tab'));
+      if (s.tab === was) return;
+      var y = base(), back = tabPos[s.tab];
+      if (back > 0) window.scrollTo({top: Math.max(0, y + back)});                       // been here before: return to the same spot
+      else if (window.scrollY > y) window.scrollTo({top: Math.max(0, y)});              // first visit: start at the top of the tab
+    }); });
   document.getElementById('navBuild').addEventListener('click', function(e){ e.preventDefault(); showBuilder(true); });
   document.getElementById('newsBtn').addEventListener('click', function(){ var wn = document.getElementById('whatsnew'); wn.open = true; wn.scrollIntoView({behavior:'smooth', block:'start'}); });
   document.getElementById('undoBtn').addEventListener('click', undo); document.getElementById('redoBtn').addEventListener('click', redo);
@@ -3210,7 +3392,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v); }); b[i].removeAttribute('class'); }
     var vb = src.getAttribute('viewBox').split(' ');
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); clone.setAttribute('width', vb[2] + 'cm'); clone.setAttribute('height', vb[3] + 'cm'); clone.removeAttribute('role'); clone.removeAttribute('aria-labelledby'); clone.removeAttribute('id');
-    saveFile(name, 'image/svg+xml', '<?xml version="1.0" encoding="UTF-8"?>\n<!-- The Trumpkin Test. One drawing unit is 1 cm, so this opens at true size. -->\n' + new XMLSerializer().serializeToString(clone));
+    saveFile(name, 'image/svg+xml', '<?xml version="1.0" encoding="UTF-8"?>\n<!-- Above the Stones. One drawing unit is 1 cm, so this opens at true size. -->\n' + new XMLSerializer().serializeToString(clone));
   }
   function geometry(){
     var r = compute(s), bd = s.sitDepth + s.footDepth, isL = r.layout === 'L', flip = s.side === 'L', W = s.W, D = s.D;
@@ -3239,10 +3421,10 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     line('COLDZONE', ox, r.coldTop, ox + g.D, r.coldTop); text('NOTES', ox + 60, r.coldTop - 12, 'Cold zone below');
     text('NOTES', ox, r.Hmax + 12, 'SIDE ELEVATION  heater wall at left, bench wall at right');
     out.push('0','ENDSEC','0','EOF');
-    saveFile('trumpkin-test.dxf', 'application/dxf', out.join('\r\n') + '\r\n');
+    saveFile('above-the-stones.dxf', 'application/dxf', out.join('\r\n') + '\r\n');
   }
   function exportObj(){
-    var g = geometry(), r = g.r, out = ['# The Trumpkin Test. Units are metres, Y is up. No ceiling, so you can see in.'], vi = 0;
+    var g = geometry(), r = g.r, out = ['# Above the Stones. Units are metres, Y is up. No ceiling, so you can see in.'], vi = 0;
     var box = function(name, x, y, z){ out.push('g ' + name);
       [[x[0],z[0],y[0]],[x[1],z[0],y[0]],[x[1],z[1],y[0]],[x[0],z[1],y[0]],[x[0],z[0],y[1]],[x[1],z[0],y[1]],[x[1],z[1],y[1]],[x[0],z[1],y[1]]].forEach(function(v){ out.push('v ' + (v[0] / 100).toFixed(4) + ' ' + (v[1] / 100).toFixed(4) + ' ' + (v[2] / 100).toFixed(4)); });
       [[1,2,3,4],[8,7,6,5],[1,5,6,2],[2,6,7,3],[3,7,8,4],[4,8,5,1]].forEach(function(fc){ out.push('f ' + fc.map(function(i){ return i + vi; }).join(' ')); }); vi += 8; };
@@ -3251,15 +3433,15 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     box('bench_wall', [-t, g.W + t], [g.D, g.D + t], [0, H]); box('heater_wall', [-t, g.W + t], [-t, 0], [0, H]);
     box('side_wall_a', [-t, 0], [0, g.D], [0, H]); box('side_wall_b', [g.W, g.W + t], [0, g.D], [0, H]);
     g.solids.forEach(function(b){ box(b.n, b.x, b.y, b.z); });
-    saveFile('trumpkin-test.obj', 'text/plain', out.join('\n') + '\n');
+    saveFile('above-the-stones.obj', 'text/plain', out.join('\n') + '\n');
   }
   function exportJson(){
     var f = makeFmt(s.units), r = compute(s), ch = runChecks(s, r, f), keep = {};
     ['V','foot','sit','rise','gap','coldTop','clear','wallT','floorT','ceilT','outW','outD','outH','layout','seats','legLen','vent','cfmLo','cfmHi','kw','amps','breaker'].forEach(function(k){ keep[k] = typeof r[k] === 'number' ? Math.round(r[k] * 100) / 100 : r[k]; });
-    saveFile('trumpkin-test.json', 'application/json', JSON.stringify({tool:'The Trumpkin Test', units:'cm, m3, CFM, kW', inputs:s, results:keep, heater: heaterById(s.model) || null, checks: ch.map(function(c){ return {name:c.name, status:c.st, ideal:!!c.ideal, value:c.val}; })}, null, 2));
+    saveFile('above-the-stones.json', 'application/json', JSON.stringify({tool:'Above the Stones', units:'cm, m3, CFM, kW', inputs:s, results:keep, heater: heaterById(s.model) || null, checks: ch.map(function(c){ return {name:c.name, status:c.st, ideal:!!c.ideal, value:c.val}; })}, null, 2));
   }
-  document.getElementById('exSide').addEventListener('click', function(){ exportSvg('section', 'trumpkin-test-side-view.svg'); });
-  document.getElementById('exPlan').addEventListener('click', function(){ exportSvg('plan', 'trumpkin-test-plan.svg'); });
+  document.getElementById('exSide').addEventListener('click', function(){ exportSvg('section', 'above-the-stones-side-view.svg'); });
+  document.getElementById('exPlan').addEventListener('click', function(){ exportSvg('plan', 'above-the-stones-plan.svg'); });
   document.getElementById('exDxf').addEventListener('click', exportDxf);
   document.getElementById('exObj').addEventListener('click', exportObj);
   document.getElementById('exJson').addEventListener('click', exportJson);
