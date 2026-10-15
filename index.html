@@ -37,7 +37,7 @@
   --bad:#A32A1B; --bad-bg:#F6DAD4;
   --focus:#2F7396;
   --wallfill:#B7C4C8; --wallline:#4A5C60;
-  --vsup:#2E8B57; --vul:#7A4FB5;
+  --vsup:#2E8B57; --vul:#7A4FB5; --steam:#8FA7AE;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -45,7 +45,7 @@
     --heat:#F0764C; --cold:#6BB4D8; --cold-fill:rgba(107,180,216,.17);
     --timber:#C99A63; --stone:#8C999B;
     --ok:#7FD3A8; --ok-bg:#16352A; --warn:#F0C465; --warn-bg:#3A2E12; --bad:#F59A8B; --bad-bg:#40201B;
-    --focus:#6BB4D8; --wallfill:#3A4A4E; --wallline:#9DB2AE; --vsup:#6FD3A0; --vul:#B79AF0;
+    --focus:#6BB4D8; --wallfill:#3A4A4E; --wallline:#9DB2AE; --vsup:#6FD3A0; --vul:#B79AF0; --steam:#C9D6D8;
   }
 }
 :root[data-theme="dark"]{
@@ -54,7 +54,7 @@
   --heat:#F0764C; --cold:#6BB4D8; --cold-fill:rgba(107,180,216,.17);
   --timber:#C99A63; --stone:#8C999B;
   --ok:#7FD3A8; --ok-bg:#16352A; --warn:#F0C465; --warn-bg:#3A2E12; --bad:#F59A8B; --bad-bg:#40201B;
-  --focus:#6BB4D8; --vsup:#6FD3A0; --vul:#B79AF0;
+  --focus:#6BB4D8; --vsup:#6FD3A0; --vul:#B79AF0; --steam:#C9D6D8;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -192,7 +192,8 @@ a.why.rpt{text-decoration:underline;text-underline-offset:.15em;margin-top:.15re
 .lg-stone{border-top:3px dashed var(--heat);height:0 !important;margin-top:.6rem !important}
 .lg-cold{background:var(--cold-fill);border-top:2px dotted var(--cold)}
 .lg-vent{background:var(--spruce);width:.55rem;height:1.05rem !important;margin-left:.65rem}
-.s-vsup{fill:var(--vsup)}.s-vul{fill:var(--vul)}
+.s-vsup{fill:var(--vsup)}.s-vul{fill:var(--vul)}.s-steam{stroke:var(--steam);fill:none}
+.legend i.lg-num{width:1.2rem;height:1.2rem !important;border-radius:50% !important;margin:.05rem 0 0 .4rem;color:#fff;font-style:normal;font-size:.74rem;font-weight:700;line-height:1.2rem;text-align:center}.lg-num.n1,.lg-num.n2{background:#E2531E}.lg-num.n3{background:#E98A2C}.lg-num.n4{background:#2E7FB3}
 .lg-vsup,.lg-vul{width:.55rem;height:1.05rem !important;margin-left:.65rem}.lg-vsup{background:var(--vsup)}.lg-vul{background:var(--vul)}
 .lg-ring{width:.8rem;height:.8rem !important;border:2px solid var(--cold);border-radius:50% !important;margin-left:.5rem}
 .lg-clear{width:.55rem;height:1.05rem !important;border:1.5px solid var(--spruce);margin-left:.65rem}
@@ -510,7 +511,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 16. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 17. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -1493,14 +1494,44 @@ if (typeof document !== 'undefined') (function(){
   });
 
   var shareBig = false;                                                          // draw the full desktop version while making the share image
+  var drawMode = 'site';                                                         // 'site': the live side view with moving air. 'badges': the static print version with check badges
+  var measCtx = null;
+  function measureText(txt, px, wt){                                            // width of a label before it is drawn, in the page font or the fallback, whichever is wider
+    try { if (!measCtx) measCtx = document.createElement('canvas').getContext('2d'); var w = 0;
+      ['"Familjen Grotesk"', 'Arial'].forEach(function(ff){ measCtx.font = (wt || 400) + ' ' + px + 'px ' + ff + ', sans-serif'; w = Math.max(w, measCtx.measureText(txt).width); }); return w; }
+    catch(e){ return String(txt).length * px * .6; }
+  }
   function small(){ return !shareBig && window.innerWidth < 640; }
   /* ----- drawing ----- */
   function draw(r, f){
     var svg = document.getElementById('section');
-    var W = Math.max(s.D, 60), H = Math.max(r.Hmax, 120), sm = small(), keyItems = [], woodParts = [];
-    var fs = Math.max(W + 140, H + 92) / (small() ? 23 : 30), sw = fs / 8;
+    var W = Math.max(s.D, 60), H = Math.max(r.Hmax, 120), sm = drawMode !== 'badges' && small(), keyItems = [], woodParts = [];   // the print version always takes the full size layout
+    var fs = Math.max(W + 140, H + 92) / (sm ? 23 : 30), sw = fs / 8;
     var fb = s.floorType === 'wood' ? Math.max(12, r.floorT) : 0;
     var mL = r.sloped ? 22 + fs * 1.6 : 22, mR = 16 + fs * 7.8, mT = fs * ((s.vent === 'nat' || (s.vent === 'auto' && s.heater === 'wood')) ? 3.9 : 2.6), mB = fs * 4.8 + fb;
+    var live = drawMode !== 'badges', badges = !live;
+    var motion = live && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var chk = {}; runChecks(s, r, f).forEach(function(c){ chk[c.name] = c.st; });
+    var ceilSt = (r.sloped && r.Hh > r.Hb + 0.5) ? 'bad' : (r.Hs < 229 || (r.sloped && r.slopeRatio > 0.1 + 1e-6)) ? 'warn' : 'ok';
+    // print version: a column of check badges to the right of the room, each with a leader to what it measures
+    var BG = [], levW = 0, bw = 0, bh = fs * 2.6, bGap = fs * .5;
+    if (badges){
+      var mg0 = r.foot - s.stone, soft0 = r.exempt && mg0 < 9.95, rng = function(a, b, ia, ib){ return f.imp ? ia + ' to ' + ib + '\u2033' : a + ' to ' + b + ' cm'; };
+      BG.push({k:'head', st: chk['Headroom over the sitting bench'], val: f.len(r.gap), sub: 'headroom, aim ' + rng(110, 120, 43, 48)});
+      BG.push({k:'step', st: chk['Step between foot and sitting bench'], val: f.len(r.rise), sub: 'step up, aim ' + rng(40, 45, 16, 18)});
+      BG.push({k:'stones', st: soft0 ? 'warn' : mg0 < -0.05 ? 'bad' : mg0 < 9.95 ? 'warn' : 'ok', ideal: mg0 >= 19.95 && !r.exempt,
+        val: Math.abs(mg0) < 0.6 ? 'Level' : f.len(Math.abs(mg0)) + (mg0 < 0 ? ' below' : mg0 >= 19.95 && !r.exempt ? ' ideal' : ''),
+        sub: Math.abs(mg0) < 0.6 ? 'feet level with the stones' : mg0 < 0 ? 'feet under the top of the stones' : mg0 >= 19.95 ? 'feet above the stones' : mg0 >= 9.95 ? 'feet above stones, ' + f.len(20) + ' ideal' : 'feet above stones, aim ' + f.len(10) + '+'});
+      BG.push({k:'cold', st: chk['Feet above the cold zone'], val: f.len(r.foot) + ' vs ' + f.len(r.coldTop), sub: 'foot bench vs cold zone'});
+      BG.push({k:'clear', st: chk['Distance from heater to foot bench'], val: r.clear > 0 ? f.len(r.clear) : 'None', sub: 'heater to foot bench' + (chk['Distance from heater to foot bench'] === 'ok' ? '' : ', aim ' + (f.imp ? '36\u2033' : '90 cm') + '+')});
+      if (ceilSt !== 'ok') BG.push({k:'ceil', st: ceilSt, val: r.sloped ? f.big(r.Hh) + ' to ' + f.big(r.Hb) : f.big(r.Hb), sub: (r.sloped && r.Hh > r.Hb + 0.5) ? 'ceiling slopes the wrong way' : r.Hs < 229 ? 'ceiling, low for most heaters' : 'ceiling slope, 1 in ' + Math.round(1 / r.slopeRatio)});
+      BG.forEach(function(b){ bw = Math.max(bw, measureText(b.val, fs * 1.08, 700), measureText(b.sub, fs * .78, 400)); });
+      bw = bh * .95 + bw + fs * .9;
+      levW = Math.max(measureText('Foot ' + f.len(r.foot), fs * .85, 500), measureText('Seat ' + f.len(r.sit), fs * .85, 500), measureText('Ceiling ' + f.big(r.Hb), fs * .85, 700)) + fs * .9;
+      mR = levW + fs * 1.6 + bw + 8;
+      var needH = BG.length * bh + (BG.length - 1) * bGap, haveH = H + mB - 6 + fs * .3;   // badges start at the top of the room, under the vent labels
+      if (haveH < needH) mB += needH - haveH;
+    }
     var vw = W + mL + mR, vh = H + mT + mB;
     var x0 = mL, x1 = mL + W, yC = mT, yF = mT + H;
     var y = function(h){ return yF - Math.max(0, Math.min(H, h)); };
@@ -1513,11 +1544,16 @@ if (typeof document !== 'undefined') (function(){
     var KT = function(x, yy, txt, cls, anchor, avail, kc, kt, size, halo){
       o.push('<text data-avail="' + avail + '" data-kc="' + kc + '" data-kt="' + kt.replace(/"/g, '&quot;') + '" x="' + x + '" y="' + yy + '" class="' + cls + '" font-size="' + (size || fs) + '" text-anchor="' + (anchor || 'start') + '"' + (halo ? ' paint-order="stroke" stroke="var(--ice)" stroke-width="' + (size || fs) * .28 + '" stroke-linejoin="round"' : '') + '>' + txt + '</text>');
     };
-    o.push('<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs>');
+    o.push('<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker>'
+      + (motion ? '<filter id="steamBlur" x="-2" y="-1" width="5" height="3"><feGaussianBlur stdDeviation="' + fs * .14 + '"/></filter>' : '') + '</defs>');
+    var liven = function(str, per, dur){                                          // marching dashes along an air path, on the live site only
+      if (!motion) return str; var tag = /^<(\w+)/.exec(str)[1], d1 = per * .6;
+      return str.replace(/\/>$/, ' stroke-dasharray="' + d1 + ' ' + (per - d1) + '"><animate attributeName="stroke-dashoffset" from="0" to="' + (-per) + '" dur="' + dur + 's" repeatCount="indefinite"/></' + tag + '>'); };
 
     // cold zone
     o.push('<rect class="s-cold"' + (r.exempt ? ' fill-opacity=".45"' : '') + ' x="' + x0 + '" y="' + y(r.coldTop) + '" width="' + W + '" height="' + (yF - y(r.coldTop)) + '"/>');
     o.push('<line class="s-coldline" stroke-width="' + sw * .7 + '" stroke-dasharray="' + fs * .3 + ' ' + fs * .3 + '" x1="' + x0 + '" x2="' + x1 + '" y1="' + y(r.coldTop) + '" y2="' + y(r.coldTop) + '"/>');
+    var flowAt = o.length;                                                        // the glowing air loop and its moving dots go here, behind the heater, benches and bather
 
     // heater
     var hp = Math.min(Math.max(s.proj, 20), W * .6), hx0 = x0 + Math.min(8, hp * .2), hw = hp - (hx0 - x0);
@@ -1531,7 +1567,7 @@ if (typeof document !== 'undefined') (function(){
       var dW = Math.max(9, Math.min(14, hw * .3)), dTop = noDuct ? y(st) - 4 : y(Math.min(r.Hh - 8, 240)), dX = x0 + 3, oYc = yF - Math.min(27, Math.max(14, st * .3));
       if (!noDuct) o.push('<rect class="s-duct" x="' + dX + '" y="' + dTop + '" width="' + dW + '" height="' + (y(st) + rock - dTop) + '" rx="2"/>');
       if (!noDuct) for (var gi = 0; gi < 4; gi++) o.push('<line class="s-grille" stroke-width="' + sw * .7 + '" x1="' + (dX + 2) + '" x2="' + (dX + dW - 2) + '" y1="' + (dTop + 5 + gi * 4.5) + '" y2="' + (dTop + 5 + gi * 4.5) + '"/>');
-      if (!noDuct) o.push('<path class="s-heat" stroke-width="' + sw + '" marker-end="url(#ah)" d="M' + (dX + dW / 2) + ' ' + (dTop + 30) + ' L' + (dX + dW / 2) + ' ' + (y(st) - 14) + '"/>');
+      if (!noDuct) o.push(liven('<path class="s-heat" stroke-width="' + sw + '" marker-end="url(#ah)" d="M' + (dX + dW / 2) + ' ' + (dTop + 30) + ' L' + (dX + dW / 2) + ' ' + (y(st) - 14) + '"/>', fs * 1.4, 1.1));
       for (var go = 0; go < 3; go++) o.push('<line class="s-grille" stroke-width="' + sw * .7 + '" x1="' + (hx0 + hw - 9) + '" x2="' + (hx0 + hw - 2) + '" y1="' + (oYc - 5 + go * 5) + '" y2="' + (oYc - 5 + go * 5) + '"/>');
       if (noDuct) keyItems.push(['lg-duct', 'Saunum Air Perfect: no tall duct. It draws air from between two layers of stones, mixes it, and blows it out low toward the benches']);
       else keyItems.push(['lg-duct', 'Saunum air duct. The loop runs in reverse: hot air and steam collect at the ceiling, are drawn into the top of the duct, mixed with cooler floor air, blown out low under the benches, and rise through them past the bather']);
@@ -1590,20 +1626,51 @@ if (typeof document !== 'undefined') (function(){
       var wvH = Math.min(16, (y(st) - inY - 40) / 3);
       if (wvH > 5) [0.3, 0.55, 0.8].forEach(function(t){ var wx = hx0 + hw * t;
         o.push('<path class="s-heat" stroke-linecap="round" stroke-width="' + sw * .9 + '" d="M' + wx + ' ' + (y(st) - 12) + ' q-5 ' + (-wvH / 2) + ' 0 ' + (-wvH) + ' q5 ' + (-wvH / 2) + ' 0 ' + (-wvH) + ' q-5 ' + (-wvH / 2) + ' 0 ' + (-wvH) + '"/>'); });
-      o.push('<path class="s-heat" stroke-width="' + sw * 1.1 + '" marker-end="url(#ah)" d="M' + (x1 - 18) + ' ' + (topB + 46) + ' Q' + (x1 - 18) + ' ' + (topB - 2) + ',' + (x1 - 44) + ' ' + (ceilY(x1 - 44) + inY - ceilY(inX)) + ' L' + inX + ' ' + inY + '"/>');
+      o.push(liven('<path class="s-heat" stroke-width="' + sw * 1.1 + '" marker-end="url(#ah)" d="M' + (x1 - 18) + ' ' + (topB + 46) + ' Q' + (x1 - 18) + ' ' + (topB - 2) + ',' + (x1 - 44) + ' ' + (ceilY(x1 - 44) + inY - ceilY(inX)) + ' L' + inX + ' ' + inY + '"/>', fs * 1.6, 1.1));
     } else {
-    o.push('<path class="s-heat" stroke-width="' + sw * 1.1 + '" marker-end="url(#ah)" d="M' + lx + ' ' + (y(st) - 10) + ' C' + lx + ' ' + (top + 10) + ',' + (lx + 8) + ' ' + top + ',' + (lx + 40) + ' ' + top + ' L' + (x1 - 40) + ' ' + topB + ' Q' + (x1 - 18) + ' ' + topB + ',' + (x1 - 18) + ' ' + (topB + 20) + '"/>');
+    o.push(liven('<path class="s-heat" stroke-width="' + sw * 1.1 + '" marker-end="url(#ah)" d="M' + lx + ' ' + (y(st) - 10) + ' C' + lx + ' ' + (top + 10) + ',' + (lx + 8) + ' ' + top + ',' + (lx + 40) + ' ' + top + ' L' + (x1 - 40) + ' ' + topB + ' Q' + (x1 - 18) + ' ' + topB + ',' + (x1 - 18) + ' ' + (topB + 20) + '"/>', fs * 1.6, 1.1));
     }
     var lowY = yF - 18;
     if (r.exempt){
       var ax0 = hx0 + hw + 3, room = fx - ax0, upX = fx + Math.max(10, fd * .5), upTo = y(r.foot) + 5 + 12;
-      if (room > 50 && upTo < oYc - 20) o.push('<path class="s-heat" stroke-width="' + sw * 1.2 + '" marker-end="url(#ah)" d="M' + ax0 + ' ' + oYc + ' L' + (upX - 16) + ' ' + oYc + ' Q' + upX + ' ' + oYc + ',' + upX + ' ' + (oYc - 16) + ' L' + upX + ' ' + upTo + '"/>');
-      else o.push('<path class="s-heat" stroke-width="' + sw * 1.2 + '" marker-end="url(#ah)" d="M' + ax0 + ' ' + oYc + ' L' + (ax0 + Math.max(20, Math.min(room > 50 ? upX - ax0 : room + fd * .6, 90))) + ' ' + oYc + '"/>');
+      if (room > 50 && upTo < oYc - 20) o.push(liven('<path class="s-heat" stroke-width="' + sw * 1.2 + '" marker-end="url(#ah)" d="M' + ax0 + ' ' + oYc + ' L' + (upX - 16) + ' ' + oYc + ' Q' + upX + ' ' + oYc + ',' + upX + ' ' + (oYc - 16) + ' L' + upX + ' ' + upTo + '"/>', fs * 1.6, 1.1));
+      else o.push(liven('<path class="s-heat" stroke-width="' + sw * 1.2 + '" marker-end="url(#ah)" d="M' + ax0 + ' ' + oYc + ' L' + (ax0 + Math.max(20, Math.min(room > 50 ? upX - ax0 : room + fd * .6, 90))) + ' ' + oYc + '"/>', fs * 1.6, 1.1));
     }
     var stepL = r.step.on ? fx - r.step.depth * r.step.n : fx, clrR = Math.min(fx, stepL), clrL = s.guard ? hx0 + hw + 12 + sw * 1.3 : x0 + hp;   // clear floor between the heater (or its rail) and the benches or step
     if (clrR - (x0 + hp) > 50){
       if (r.exempt){ /* drawn below, from the outlet grille */ }
-      else o.push('<path class="s-coldline" stroke-width="' + sw * 1.1 + '" marker-end="url(#ah)" d="M' + (clrR - 8) + ' ' + lowY + ' L' + (x0 + hp + 14) + ' ' + lowY + '"/>');
+      else o.push(liven('<path class="s-coldline" stroke-width="' + sw * 1.1 + '" marker-end="url(#ah)" d="M' + (clrR - 8) + ' ' + lowY + ' L' + (x0 + hp + 14) + ' ' + lowY + '"/>', fs * 1.6, 1.6));
+    }
+    // the living loop: a glow along the whole path of the air, dots that ride it and change colour as they cool, steam off the stones, and numbered steps
+    if (live && !r.exempt){
+      var dXd = x1 - 18, ry0 = y(st) - 4, yUp = Math.max(ry0 + 4, lowY - 20), ySplit = Math.min(Math.max(y(r.sit), topB + 30), lowY - 30);
+      var hotD = 'M' + lx + ' ' + ry0 + ' C' + lx + ' ' + (top + 10) + ',' + (lx + 8) + ' ' + top + ',' + (lx + 40) + ' ' + top + ' L' + (x1 - 40) + ' ' + topB + ' Q' + dXd + ' ' + topB + ',' + dXd + ' ' + (topB + 20) + ' L' + dXd + ' ' + ySplit;
+      var coolD = ' L' + dXd + ' ' + (lowY - 20) + ' Q' + dXd + ' ' + lowY + ',' + (dXd - 20) + ' ' + lowY + ' L' + (lx + 20) + ' ' + lowY + ' Q' + lx + ' ' + lowY + ',' + lx + ' ' + yUp;
+      var fx0 = [];
+      fx0.push('<path data-fx="1" fill="none" stroke="#F06A2A" stroke-opacity=".2" stroke-linecap="round" stroke-linejoin="round" stroke-width="' + fs * .8 + '" d="' + hotD + '"/>');
+      fx0.push('<path data-fx="1" fill="none" stroke="#3B8FC4" stroke-opacity=".18" stroke-linecap="round" stroke-linejoin="round" stroke-width="' + fs * .8 + '" d="M' + dXd + ' ' + ySplit + coolD + '"/>');
+      if (motion){
+        var L1 = (ry0 - top) + 40, L2 = Math.hypot((x1 - 40) - (lx + 40), topB - top), L4 = Math.max(0, (lowY - 20) - (topB + 20)), L6 = Math.max(0, (dXd - 20) - (lx + 20)), L7 = 31 + Math.max(0, yUp - ry0);
+        var TT = L1 + L2 + 31 + L4 + 31 + L6 + L7, kt = [0, L1 / TT, (L1 + L2 + 31) / TT, (L1 + L2 + 31 + L4 * .85) / TT, (TT - L7) / TT, 1];
+        for (var ki = 1; ki < kt.length; ki++) kt[ki] = Math.min(1, Math.max(kt[ki], kt[ki - 1] + .005)); kt[kt.length - 1] = 1;
+        var pDur = Math.max(6, TT / 75), nP = Math.max(5, Math.min(14, Math.round(TT / 90))), loopD = hotD + coolD + ' Z', kts = kt.map(function(v){ return (Math.round(v * 1000) / 1000); }).join(';');
+        var pts = '<g data-fx="1">';
+        for (var pi = 0; pi < nP; pi++){ var bg0 = '-' + (pDur * pi / nP).toFixed(2) + 's';
+          pts += '<circle r="' + Math.max(2.6, fs * .3) + '" fill="#FF7A2E" opacity=".95"><animateMotion dur="' + pDur.toFixed(2) + 's" begin="' + bg0 + '" repeatCount="indefinite" path="' + loopD + '"/><animate attributeName="fill" dur="' + pDur.toFixed(2) + 's" begin="' + bg0 + '" repeatCount="indefinite" values="#FF7A2E;#FFB347;#F2994A;#4BA3D9;#4BA3D9;#FF7A2E" keyTimes="' + kts + '"/></circle>'; }
+        fx0.push(pts + '</g>');
+      }
+      Array.prototype.splice.apply(o, [flowAt, 0].concat(fx0));
+      // numbered steps along the loop, explained in the key
+      var mk1 = function(n, x, yy, col){ o.push('<g data-fx="1"><circle cx="' + x + '" cy="' + yy + '" r="' + fs * .62 + '" fill="' + col + '" stroke="var(--ice)" stroke-width="' + sw * .8 + '"/><text x="' + x + '" y="' + (yy + fs * .27) + '" text-anchor="middle" font-size="' + fs * .78 + '" font-weight="700" fill="#fff">' + n + '</text></g>'); };
+      mk1(1, lx, (ry0 + top) / 2, '#E2531E');
+      mk1(2, ((lx + 40) + (x1 - 40)) / 2, (top + topB) / 2, '#E2531E');
+      mk1(3, dXd, (topB + 20 + y(r.sit)) / 2, '#E98A2C');
+      mk1(4, fx + fd * .5, lowY, '#2E7FB3');
+    }
+    if (motion && !(r.exempt && !noDuct)){                                         // steam rising off the stones
+      [s.heater === 'wood' ? .12 : .25, s.heater === 'wood' ? .7 : .5, s.heater === 'wood' ? .88 : .75].forEach(function(t, wi){ var wx = hx0 + hw * t, w0 = y(st) - 3, a = fs * .32, b = fs * .5;
+        o.push('<path data-fx="1" class="s-steam" filter="url(#steamBlur)" stroke-width="' + fs * .3 + '" stroke-linecap="round" opacity="0" d="M' + wx + ' ' + w0 + ' q' + (-a) + ' ' + (-b) + ' 0 ' + (-2 * b) + ' q' + a + ' ' + (-b) + ' 0 ' + (-2 * b) + '">'
+          + '<animate attributeName="opacity" values="0;.85;0" dur="3s" begin="' + (-wi) + 's" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 ' + (-fs * 2.6) + '" dur="3s" begin="' + (-wi) + 's" repeatCount="indefinite"/></path>'); });
     }
 
     // vents
@@ -1623,11 +1690,21 @@ if (typeof document !== 'undefined') (function(){
       else { vent(x1, lowV, 's-vsup'); T2(lowV, 'Combustion', 'air'); vk.push(['lg-vsup', 'Combustion air, low in the bench wall under the benches']); }
       vent(x1, yCb + vs * 1.6, 's-clear'); T(x1, yC - fs * 1.9, 'Clearing exhaust, opened after bathing', 't-m', 'end'); vk.push(['lg-clear', 'Clearing exhaust near the ceiling, opened only after bathing']);
     }
+    if (live){                                                                     // air in and out of the room, in the same colours as the vents
+      var va = function(d, col, long){ var p0 = '<path data-fx="1" fill="none" stroke="' + col + '" stroke-width="' + sw * 1.3 + '" stroke-linecap="round" marker-end="url(#ah)" d="' + d + '"/>'; o.push(long ? liven(p0, fs * 1.2, .9) : p0); };
+      var ins = fs * 1.3, inShort = function(xw, yy, col){ va('M' + (xw - 14) + ' ' + yy + ' L' + (xw + 7) + ' ' + yy, col, false); };
+      var downInto = function(yv, col){ var ax = x1 - vs * .25; va('M' + ax + ' ' + (yv - vs - fs * 3.2) + ' L' + ax + ' ' + (yv - vs - fs * .35), col, true); };
+      if (!natElec){ var ySup = y(r.supplyH); va('M' + (x0 - 14) + ' ' + ySup + ' L' + (x0 + ins * .6) + ' ' + ySup + ' Q' + (x0 + ins * 1.3) + ' ' + ySup + ',' + (x0 + ins * 1.3) + ' ' + (ySup + ins), 'var(--vsup)', true); }
+      if (r.vent === 'mech'){ downInto(lowV, 'var(--spruce)'); if (r.ul) inShort(x0, y(10), 'var(--vul)'); }
+      else if (natElec){ inShort(x0, y(10), 'var(--vsup)'); downInto(y(61), 'var(--spruce)'); }
+      else va('M' + (x1 + 13) + ' ' + lowV + ' L' + (x1 - 6) + ' ' + lowV, 'var(--vsup)', false);
+    }
     var hasTherm = r.sit + 100 <= r.Hs - 15;
     if (hasTherm) o.push('<circle class="s-sensor" cx="' + (x1 - sw * 2.4) + '" cy="' + y(r.sit + 100) + '" r="' + fs * .32 + '"/>');
     if (sm) keyItems.unshift(
         ['lg-stone', 'Top of stones, ' + f.len(s.stone) + ' off the floor'],
         ['lg-cold', 'Cold zone, the lower third, up to ' + f.len(r.coldTop) + (r.exempt ? '. Drawn lighter because the Saunum blower pushes mixed air through it' : '')]);
+    if (live && !r.exempt) keyItems.push(['lg-num n1', 'Hot air rises off the stones', '1'], ['lg-num n2', 'rolls along under the ceiling', '2'], ['lg-num n3', 'falls over the bathers, cooling as it goes', '3'], ['lg-num n4', 'and returns along the floor to the heater' + (motion ? '. The moving dots trace it' : ''), '4']);
     vk.forEach(function(v){ keyItems.push(v); });
     if (hasTherm) keyItems.push(['lg-ring', 'Thermometer on the bench wall, ' + (f.imp ? '39″' : '1 m') + ' above the sitting bench']);
     var mgC = r.foot - s.stone;
@@ -1661,10 +1738,9 @@ if (typeof document !== 'undefined') (function(){
     stoneLbl = {x: gRight, base: gBase, fs: gfs, cls: gcls, star: mgn >= 19.95 && !r.exempt, avail: gRight - gLeft,
       one: Math.abs(mgn) < 0.6 ? 'Level with stones' : word + ' stones', two: [Math.abs(mgn) < 0.6 ? 'Level with' : word, 'stones'],
       kc: soft ? 'lg-warn' : mgn < -0.05 ? 'lg-bad' : mgn < 9.95 ? 'lg-warn' : 'lg-ok', kt: 'Foot bench is ' + word + ' the top of the stones' + (soft ? ', as a Saunum is designed for' : '') + (mgn >= 19.95 && !r.exempt ? '. ★ Ideal!' : '')};
-    o.push('<g id="stoneLbl"></g>');
+    if (badges) stoneLbl = null; else o.push('<g id="stoneLbl"></g>');
 
     // dimensions
-    var chk = {}; runChecks(s, r, f).forEach(function(c){ chk[c.name] = c.st; });
     var flagged = {bad:false, warn:false}, tone = function(st){ if (st === 'bad' || st === 'warn') flagged[st] = true; return st === 'bad' ? ['t-bad', 'var(--bad)', 700] : st === 'warn' ? ['t-warn', 'var(--warn)', 700] : ['t', '', 500]; };
     var dim = function(x, ya, yb, label, st){
       if (Math.abs(ya - yb) < 4) return; var tn = tone(st);
@@ -1672,20 +1748,50 @@ if (typeof document !== 'undefined') (function(){
       o.push('<text x="' + (x + fs * 1.05) + '" y="' + ((ya + yb) / 2) + '" class="' + tn[0] + '" font-weight="' + tn[2] + '" font-size="' + fs + '" text-anchor="middle" transform="rotate(-90 ' + (x + fs * 1.05) + ' ' + ((ya + yb) / 2) + ')">' + label + '</text>');
     };
     var cA = x1 + 16, cB = x1 + 16 + fs * 2.6, cC = x1 + 16 + fs * 5.2;
+    if (badges){
+      // levels on the bench wall, then the badges with leaders to what each one measures
+      // (a ceiling that fails gets a badge instead of a level)
+      [[y(r.foot), 'Foot ' + f.len(r.foot), ''], [y(r.sit), 'Seat ' + f.len(r.sit), '']].concat(ceilSt === 'ok' ? [[yCb, 'Ceiling ' + f.big(r.Hb), 'ok']] : []).forEach(function(L){ var tn = L[2] && L[2] !== 'ok' ? tone(L[2]) : ['t-m', '', 500];
+        o.push('<line class="s-dim" stroke-width="' + sw * .5 + '" opacity=".5" x1="' + x1 + '" x2="' + (x1 + levW) + '" y1="' + L[0] + '" y2="' + L[0] + '"/>');
+        o.push('<text x="' + (x1 + fs * .45) + '" y="' + (L[0] + (L[1].indexOf('Ceiling') === 0 ? fs * 1.05 : -fs * .3)) + '" class="' + tn[0] + '" font-weight="' + tn[2] + '" font-size="' + fs * .85 + '">' + L[1] + '</text>'); });
+      var hX = x1 - fs * 1.4, anc = {
+        head: [hX, (y(r.sit) + ceilY(hX)) / 2], step: [sx + 2, (y(r.foot) + y(r.sit)) / 2],
+        stones: hasArrow ? [gx, (y(r.foot) + y(st)) / 2] : [fx + fs * .4, y(r.foot)], cold: [sx + sd * .45, y(r.coldTop)],
+        clear: r.clear > 12 ? [(x0 + hp + fx) / 2, yF + fb + fs * 1.3] : [x0 + hp + 3, yF - 8], ceil: [x1 - fs * 3.2, ceilY(x1 - fs * 3.2)]};
+      var bgx = x1 + levW + fs * 1.6, SC = {ok:'var(--ok)', warn:'var(--warn)', bad:'var(--bad)'}, SB = {ok:'var(--ok-bg)', warn:'var(--warn-bg)', bad:'var(--bad-bg)'};
+      BG.forEach(function(b){ b.ax = anc[b.k][0]; b.ay = anc[b.k][1]; b.s2 = b.st === 'bad' ? 'bad' : b.st === 'warn' ? 'warn' : 'ok'; });
+      var srt = BG.slice().sort(function(a, b){ return (a.ay + (x1 - a.ax) * .25) - (b.ay + (x1 - b.ax) * .25); }), botLim = vh - 6 - bh;
+      var topLim = yC - fs * .3;
+      srt.forEach(function(b, i){ b.by = Math.max(b.ay - bh / 2, i ? srt[i - 1].by + bh + bGap : topLim); });
+      for (var bi = srt.length - 1; bi >= 0; bi--) srt[bi].by = Math.min(srt[bi].by, bi < srt.length - 1 ? srt[bi + 1].by - bh - bGap : botLim);
+      srt.forEach(function(b){ var c = SC[b.s2], cy = b.by + bh / 2;
+        o.push('<path fill="none" stroke="' + c + '" stroke-width="' + sw * .9 + '" stroke-linejoin="round" d="M' + bgx + ' ' + cy + ' L' + (bgx - fs * .7) + ' ' + cy + ' L' + b.ax + ' ' + b.ay + '"/>'); });
+      srt.forEach(function(b){ var c = SC[b.s2];
+        o.push('<circle cx="' + b.ax + '" cy="' + b.ay + '" r="' + fs * .3 + '" fill="' + c + '" stroke="var(--ice)" stroke-width="' + sw * .7 + '"/>');
+        var cx = bgx + bh * .5, cy = b.by + bh / 2, rr = bh * .3, ink = b.ideal ? 'var(--ok)' : 'var(--ice)', tx = bgx + bh * .95;
+        o.push('<rect x="' + bgx + '" y="' + b.by + '" width="' + bw + '" height="' + bh + '" rx="' + bh / 2 + '" fill="' + (b.ideal ? 'var(--ok)' : SB[b.s2]) + '"/>');
+        o.push('<circle cx="' + cx + '" cy="' + cy + '" r="' + rr + '" fill="' + (b.ideal ? 'var(--ice)' : c) + '"/>');
+        var ic = b.s2 === 'ok' ? 'M' + (cx - rr * .45) + ' ' + cy + ' L' + (cx - rr * .1) + ' ' + (cy + rr * .38) + ' L' + (cx + rr * .5) + ' ' + (cy - rr * .38)
+          : b.s2 === 'warn' ? 'M' + cx + ' ' + (cy - rr * .5) + ' L' + cx + ' ' + (cy + rr * .1) + ' M' + cx + ' ' + (cy + rr * .5) + ' L' + cx + ' ' + (cy + rr * .52)
+          : 'M' + (cx - rr * .38) + ' ' + (cy - rr * .38) + ' L' + (cx + rr * .38) + ' ' + (cy + rr * .38) + ' M' + (cx + rr * .38) + ' ' + (cy - rr * .38) + ' L' + (cx - rr * .38) + ' ' + (cy + rr * .38);
+        o.push('<path fill="none" stroke="' + ink + '" stroke-width="' + rr * .3 + '" stroke-linecap="round" stroke-linejoin="round" d="' + ic + '"/>');
+        o.push('<text x="' + tx + '" y="' + (b.by + bh * .47) + '" font-size="' + fs * 1.08 + '" font-weight="700" fill="' + (b.ideal ? 'var(--ice)' : 'var(--spruce)') + '">' + b.val + '</text>');
+        o.push('<text x="' + tx + '" y="' + (b.by + bh * .8) + '" font-size="' + fs * .78 + '" fill="' + (b.ideal ? 'var(--ice)' : 'var(--moss)') + '">' + b.sub + '</text>'); });
+    } else {
     [r.foot, r.sit].forEach(function(h){ o.push('<line class="s-dim" stroke-width="' + sw * .5 + '" x1="' + x1 + '" x2="' + (cC + 4) + '" y1="' + y(h) + '" y2="' + y(h) + '" opacity=".5"/>'); });
-    var ceilSt = (r.sloped && r.Hh > r.Hb + 0.5) ? 'bad' : (r.Hs < 229 || (r.sloped && r.slopeRatio > 0.1 + 1e-6)) ? 'warn' : 'ok';
     dim(cA, yF, y(r.foot), 'Foot ' + f.len(r.foot), chk['Feet above the cold zone']);
     dim(cA, y(r.foot), y(r.sit), f.len(r.rise), chk['Step between foot and sitting bench']);
     dim(cB, yF, y(r.sit), 'Seat ' + f.len(r.sit));
     dim(cB, y(r.sit), y(r.Hs), f.len(r.gap) + ' headroom', chk['Headroom over the sitting bench']);
     dim(cC, yF, yCb, 'Ceiling ' + f.big(r.Hb), ceilSt);
+    }
     if (r.clear <= 12){ tone(chk['Distance from heater to foot bench']); }
     if (r.clear <= 12) keyItems.push([chk['Distance from heater to foot bench'] === 'bad' ? 'lg-bad' : 'lg-dim', (r.clear > 0 ? 'Only ' + f.len(r.clear) : 'No space') + ' between the heater and the foot bench']);
     if (r.clear > 12){
       var dy = yF + fb + fs * 1.3;
       var dtn = tone(chk['Distance from heater to foot bench']);
       o.push('<line class="s-dim"' + (dtn[1] ? ' style="stroke:' + dtn[1] + '"' : '') + ' stroke-width="' + sw * (dtn[1] ? 1.1 : .7) + '" marker-start="url(#ah)" marker-end="url(#ah)" x1="' + (x0 + hp) + '" x2="' + fx + '" y1="' + dy + '" y2="' + dy + '"/>');
-      var dl = f.len(r.clear) + ' heater to foot bench'; o.push('<text x="' + Math.max((x0 + hp + fx) / 2, 4 + dl.length * fs * .27) + '" y="' + (dy + fs * 1.25) + '" class="' + dtn[0] + '" font-weight="' + dtn[2] + '" font-size="' + fs + '" text-anchor="middle">' + dl + '</text>');
+      var dl = f.len(r.clear) + ' heater to foot bench'; if (live) o.push('<text x="' + Math.max((x0 + hp + fx) / 2, 4 + dl.length * fs * .27) + '" y="' + (dy + fs * 1.25) + '" class="' + dtn[0] + '" font-weight="' + dtn[2] + '" font-size="' + fs + '" text-anchor="middle">' + dl + '</text>');
     }
     if (fb){ // wood floor: boards on a frame, falling to a linear drain under the benches
       var slope = fb * .25, dX0 = fx + (sx - fx) * .35, dW2 = 8;
@@ -1711,7 +1817,7 @@ if (typeof document !== 'undefined') (function(){
 
     svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
     svg.innerHTML = o.join('');
-    mountHandles(svg, HS, [0, 0, vw, vh]);
+    if (live) mountHandles(svg, HS, [0, 0, vw, vh]);
     try {
       var sg = svg.querySelector('#stoneLbl');
       if (sg && stoneLbl){
@@ -1744,7 +1850,7 @@ if (typeof document !== 'undefined') (function(){
     if (flagged.bad) keyItems.unshift(['lg-bad', 'Red measurements fail a check and need fixing']);
     if (flagged.warn) keyItems.splice(flagged.bad ? 1 : 0, 0, ['lg-warn', 'Yellow measurements are compromises: workable, but short of the recommended figure']);
     var lg = document.getElementById('secLegend');
-    if (lg){ lg.innerHTML = ''; keyItems.forEach(function(it){ lg.appendChild(el('li', null, [el('i', {class:it[0]}), el('span', {text:it[1]})])); }); }
+    if (lg){ lg.innerHTML = ''; keyItems.forEach(function(it){ lg.appendChild(el('li', null, [el('i', it[2] ? {class:it[0], text:it[2]} : {class:it[0]}), el('span', {text:it[1]})])); }); }
   }
 
   function drawStrat(r, f){
@@ -2632,7 +2738,9 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       tbSt('Sheet', '1 of 1 \u00b7 interior alteration' + (s.situ === 'free' ? ', accessory structure' : ''))]));
     // drawings, copied from the calculator as rendered
     var figs = el('div', {class:'bfigs'});
+    drawMode = 'badges'; try { draw(r, f); } catch(e){}                          // the sheet gets the print version of the side view
     [['section', 'Side view'], ['plan', 'Plan']].forEach(function(d){ var src = document.getElementById(d[0]), sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('viewBox', src.getAttribute('viewBox')); sv.setAttribute('role', 'img'); sv.setAttribute('aria-label', d[1]); sv.innerHTML = src.innerHTML.replace(/id="ah"/g, 'id="ahb"').replace(/url\(#ah\)/g, 'url(#ahb)').replace(/id="stoneLbl"/g, '').replace(/id="tsLbl"/g, ''); figs.appendChild(el('figure', null, [sv])); });
+    drawMode = 'site'; try { draw(r, f); } catch(e){}
     B.appendChild(figs);
     var figs3 = el('div', {class:'bfigs'});
     (s.situ === 'free' && s.xPorch === 'changing' ? [[isoInterior(r, f), '3D cutaway, heater wall and near side wall removed'], [isoAnnex(r, f), '3D cutaway of the changing room, far wall and right wall removed; the sauna door is in the back wall']] : [[isoInterior(r, f), '3D cutaway, heater wall and near side wall removed']]).concat([[isoExterior(r, f), s.situ === 'free' ? 'Exterior, door on the heater wall' : 'Outer shell as it sits in the room']]).forEach(function(d){ var fg = el('figure'); fg.innerHTML = d[0]; fg.appendChild(el('figcaption', {text:d[1] + (d[1].indexOf('Exterior') === 0 ? '. The grey box high on the heater wall is the fresh air hood; the exhaust hood sits low on the bench wall at the back, out of view.' : '')})); figs3.appendChild(fg); });
@@ -3358,6 +3466,8 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     try { var base = (location.hash || '').replace(/(^#|&)build\b/, '').replace(/^#&/, '#'); history.replaceState(null, '', location.pathname + location.search + (on ? (base && base !== '#' ? base + '&build' : '#build') : (base === '#' ? '' : base))); } catch(e){}
     window.scrollTo(0, 0); if (!on) update();
   }
+  window.addEventListener('beforeprint', function(){ if (document.body.classList.contains('building')) return; drawMode = 'badges'; try { draw(compute(s), makeFmt(s.units)); } catch(e){} });
+  window.addEventListener('afterprint', function(){ if (drawMode !== 'badges') return; drawMode = 'site'; try { draw(compute(s), makeFmt(s.units)); } catch(e){} });
   document.getElementById('toBuild').addEventListener('click', function(){ showBuilder(true); });
   document.getElementById('fromBuild').addEventListener('click', function(){ showBuilder(false); });
   document.getElementById('engBtn').addEventListener('click', function(){ var eo = document.getElementById('engsec'); if (eo){ eo.open = true; eo.scrollIntoView({behavior:'smooth', block:'start'}); } });
@@ -3448,10 +3558,16 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       }, function(err){ msg.textContent = err && err.code === 'declined' ? 'Save cancelled.' : 'Could not save here. The self-hosted copy of this page downloads ' + ext.toUpperCase() + ' files directly.'; });
     }, viaLink);
   }
+  function stillSvg(svgEl){                                                      // a still copy: no moving dots, glow, steam or marching dashes
+    Array.prototype.forEach.call(svgEl.querySelectorAll('[data-fx]'), function(n){ if (n.parentNode) n.parentNode.removeChild(n); });
+    Array.prototype.forEach.call(svgEl.querySelectorAll('animate,animateMotion,animateTransform'), function(n){ var p = n.parentNode; if (p){ if (n.getAttribute('attributeName') === 'stroke-dashoffset') p.removeAttribute('stroke-dasharray'); p.removeChild(n); } });
+    return svgEl;
+  }
   function exportSvg(id, name){
     var src = document.getElementById(id), clone = src.cloneNode(true), a = src.querySelectorAll('*'), b = clone.querySelectorAll('*');
     var props = ['fill','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','opacity','fill-opacity','font-family','font-size','font-weight','text-anchor'];
     for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v); }); b[i].removeAttribute('class'); b[i].removeAttribute('style'); }
+    stillSvg(clone);
     var vb = src.getAttribute('viewBox').split(' ');
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); clone.setAttribute('width', vb[2] + 'cm'); clone.setAttribute('height', vb[3] + 'cm'); clone.removeAttribute('role'); clone.removeAttribute('aria-labelledby'); clone.removeAttribute('id');
     saveFile(name, 'image/svg+xml', '<?xml version="1.0" encoding="UTF-8"?>\n<!-- Above the Stones. One drawing unit is 1 cm, so this opens at true size. -->\n' + new XMLSerializer().serializeToString(clone));
@@ -3460,6 +3576,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     var src = document.getElementById(id), clone = src.cloneNode(true), a = src.querySelectorAll('*'), b = clone.querySelectorAll('*');
     var props = ['fill','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','stroke-opacity','opacity','fill-opacity','font-family','font-size','font-weight','text-anchor','paint-order'];
     for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v === 'context-stroke' ? cs.getPropertyValue('color') : v); }); b[i].removeAttribute('class'); b[i].removeAttribute('style'); }
+    stillSvg(clone);
     var mk = {};                                                                  // arrowheads take the colour of their line, as on screen
     Array.prototype.forEach.call(clone.querySelectorAll('[marker-start],[marker-end]'), function(ln){ var sc = ln.getAttribute('stroke') || '#000';
       ['marker-start', 'marker-end'].forEach(function(at){ var v = ln.getAttribute(at), mm = v && /url\(["']?#([^"')]+)/.exec(v); if (!mm) return; var base = clone.querySelector('#' + mm[1]); if (!base) return;
@@ -3473,8 +3590,8 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
   function shareImage(msgId){
     var msg = document.getElementById(msgId) || document.getElementById('shareMsg'); if (msg) msg.textContent = 'Making the image\u2026';
     var root = document.documentElement, prevTheme = root.getAttribute('data-theme'), pd = document.getElementById('tab-draw'), wasHidden = pd.hidden, prevCss = pd.style.cssText;
-    var restore = function(){ shareBig = false; if (prevTheme === null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', prevTheme); if (wasHidden){ pd.hidden = true; pd.style.cssText = prevCss; } update(); };
-    root.setAttribute('data-theme', 'light'); shareBig = true;
+    var restore = function(){ shareBig = false; drawMode = 'site'; if (prevTheme === null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', prevTheme); if (wasHidden){ pd.hidden = true; pd.style.cssText = prevCss; } update(); };
+    root.setAttribute('data-theme', 'light'); shareBig = true; drawMode = 'badges';
     if (wasHidden){ pd.hidden = false; pd.style.cssText = 'position:absolute;left:-10000px;top:0;width:900px;visibility:hidden'; }
     update();
     var f = makeFmt(s.units), r = compute(s), ch = runChecks(s, r, f), m = heaterById(s.model), css = getComputedStyle(root), col = function(n){ return css.getPropertyValue(n).trim(); };
