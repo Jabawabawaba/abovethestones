@@ -510,7 +510,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 13. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 15. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -3440,7 +3440,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
   function exportSvg(id, name){
     var src = document.getElementById(id), clone = src.cloneNode(true), a = src.querySelectorAll('*'), b = clone.querySelectorAll('*');
     var props = ['fill','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','opacity','fill-opacity','font-family','font-size','font-weight','text-anchor'];
-    for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v); }); b[i].removeAttribute('class'); }
+    for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v); }); b[i].removeAttribute('class'); b[i].removeAttribute('style'); }
     var vb = src.getAttribute('viewBox').split(' ');
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); clone.setAttribute('width', vb[2] + 'cm'); clone.setAttribute('height', vb[3] + 'cm'); clone.removeAttribute('role'); clone.removeAttribute('aria-labelledby'); clone.removeAttribute('id');
     saveFile(name, 'image/svg+xml', '<?xml version="1.0" encoding="UTF-8"?>\n<!-- Above the Stones. One drawing unit is 1 cm, so this opens at true size. -->\n' + new XMLSerializer().serializeToString(clone));
@@ -3448,7 +3448,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
   function svgImage(id, boxW, boxH, scale){                                      // the live drawing, styles inlined, as an image sized to fit a box
     var src = document.getElementById(id), clone = src.cloneNode(true), a = src.querySelectorAll('*'), b = clone.querySelectorAll('*');
     var props = ['fill','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','stroke-opacity','opacity','fill-opacity','font-family','font-size','font-weight','text-anchor','paint-order'];
-    for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v === 'context-stroke' ? cs.getPropertyValue('color') : v); }); b[i].removeAttribute('class'); }
+    for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v === 'context-stroke' ? cs.getPropertyValue('color') : v); }); b[i].removeAttribute('class'); b[i].removeAttribute('style'); }
     var mk = {};                                                                  // arrowheads take the colour of their line, as on screen
     Array.prototype.forEach.call(clone.querySelectorAll('[marker-start],[marker-end]'), function(ln){ var sc = ln.getAttribute('stroke') || '#000';
       ['marker-start', 'marker-end'].forEach(function(at){ var v = ln.getAttribute(at), mm = v && /url\(["']?#([^"')]+)/.exec(v); if (!mm) return; var base = clone.querySelector('#' + mm[1]); if (!base) return;
@@ -3468,13 +3468,21 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     update();
     var f = makeFmt(s.units), r = compute(s), ch = runChecks(s, r, f), m = heaterById(s.model), css = getComputedStyle(root), col = function(n){ return css.getPropertyValue(n).trim(); };
     var C = {lake: col('--lake'), ice: col('--ice'), ink: col('--spruce'), moss: col('--moss'), line: col('--line'), ok: col('--ok'), okbg: col('--ok-bg'), warn: col('--warn'), warnbg: col('--warn-bg'), bad: col('--bad'), badbg: col('--bad-bg'), heat: col('--heat')};
-    var S2 = 2, W = 1600, H = 1000;
-    Promise.all([svgImage('section', 770, 600, S2), svgImage('plan', 700, 600, S2), document.fonts ? document.fonts.ready : null]).then(function(res){
+    var S2 = 2, W = 1600;
+    Promise.all([svgImage('section', 760, 552, S2), svgImage('strat', 660, 552, S2), document.fonts ? document.fonts.ready : null]).then(function(res){
       restore();
-      var cv = document.createElement('canvas'); cv.width = W * S2; cv.height = H * S2; var g = cv.getContext('2d'); g.scale(S2, S2);
+      var cv = document.createElement('canvas'), g = cv.getContext('2d');
       var FF = '"Familjen Grotesk", Arial, Helvetica, sans-serif', font = function(wt, px){ g.font = wt + ' ' + px + 'px ' + FF; };
+      var bad = ch.filter(function(c){ return c.st === 'bad'; }), warn = ch.filter(function(c){ return c.st === 'warn'; }), scored = ch.filter(function(c){ return c.st !== 'na'; }).length, pend = ch.length - scored;
+      // what to fix: lay it out first so the image can grow to fit it
+      var wrap = function(t, maxW){ var words = String(t).split(' '), lines = [], cur = ''; words.forEach(function(wd){ var tst = cur ? cur + ' ' + wd : wd; if (g.measureText(tst).width > maxW && cur){ lines.push(cur); cur = wd; } else cur = tst; }); if (cur) lines.push(cur); return lines; };
+      var items = bad.map(function(c){ return [c, 'bad']; }).concat(warn.map(function(c){ return [c, 'warn']; })), cols = items.length > 2 ? 2 : 1, colW = cols === 2 ? (W - 112 - 40 - 40) / 2 : W - 112 - 40;
+      var laid = items.map(function(it){ font(400, 20); var why = wrap(it[0].why, colW - 150); font(400, 20); var val = wrap(it[0].val, colW - 150); return {c: it[0], st: it[1], val: val.slice(0, 2), why: why.slice(0, 3), hgt: 30 + 26 * Math.min(2, val.length) + 26 * Math.min(3, why.length) + 22}; });
+      var colH = [0, 0]; laid.forEach(function(it){ var ci = cols === 2 && colH[1] < colH[0] ? 1 : 0; it.col = ci; it.y = colH[ci]; colH[ci] += it.hgt; });
+      var panelH = items.length ? 70 + Math.max(colH[0], colH[1]) + (pend ? 30 : 0) : 84 + (pend ? 30 : 0);
+      var top = 280, cardH = 610, pY = top + cardH + 24, H = pY + panelH + 76;
+      cv.width = W * S2; cv.height = H * S2; g = cv.getContext('2d'); g.scale(S2, S2);
       g.fillStyle = C.lake; g.fillRect(0, 0, W, H);
-      var bad = ch.filter(function(c){ return c.st === 'bad'; }), warn = ch.filter(function(c){ return c.st === 'warn'; }), scored = ch.filter(function(c){ return c.st !== 'na'; }).length;
       var vt = bad.length ? bad.length + ' thing' + (bad.length > 1 ? 's' : '') + ' to fix' : warn.length ? 'Workable, ' + warn.length + ' compromise' + (warn.length > 1 ? 's' : '') : 'Passes all ' + scored + ' checks';
       var vc = bad.length ? [C.bad, C.badbg] : warn.length ? [C.warn, C.warnbg] : [C.ok, C.okbg];
       g.fillStyle = C.ink; font(700, 46); g.fillText('My sauna design', 56, 92);
@@ -3486,13 +3494,24 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       tiles.forEach(function(t, i){ var x = tx + i * (tw + 16); g.fillStyle = i === 0 ? (mg >= 9.95 ? C.okbg : mg >= 0 ? C.warnbg : C.badbg) : C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, 164, tw, 92, 10); else g.rect(x, 164, tw, 92); g.fill(); g.strokeStyle = C.line; g.lineWidth = 1; g.stroke();
         g.fillStyle = i === 0 ? (mg >= 9.95 ? C.ok : mg >= 0 ? C.warn : C.bad) : C.ink; font(700, 32); g.fillText(t[0], x + 18, 210); g.fillStyle = C.moss; font(400, 19); g.fillText(t[1], x + 18, 240); });
       var card = function(x, y, w2, h2){ g.fillStyle = C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, y, w2, h2, 12); else g.rect(x, y, w2, h2); g.fill(); g.strokeStyle = C.line; g.stroke(); };
-      var sec = res[0], pl = res[1], top = 280, ch2 = 640;
-      card(56, top, 790, ch2); card(862, top, 682, ch2);
-      g.drawImage(sec.img, 56 + (790 - sec.w) / 2, top + (ch2 - sec.h) / 2, sec.w, sec.h);
-      var pk = Math.min(1, 660 / pl.w, 620 / pl.h); g.drawImage(pl.img, 862 + (682 - pl.w * pk) / 2, top + (ch2 - pl.h * pk) / 2, pl.w * pk, pl.h * pk);
+      var sec = res[0], st2 = res[1];
+      card(56, top, 790, cardH); card(862, top, 682, cardH);
+      var bodyT = top + 46, bodyH = cardH - 58;                                    // a header strip for the card titles, drawings below it
+      g.drawImage(sec.img, 56 + (790 - sec.w) / 2, bodyT + (bodyH - sec.h) / 2, sec.w, sec.h);
+      g.drawImage(st2.img, 862 + (682 - st2.w) / 2, bodyT + (bodyH - st2.h) / 2, st2.w, st2.h);
+      font(600, 18); g.fillStyle = C.moss; g.fillText('Side view', 76, top + 30); g.fillText('Head to toe temperature', 882, top + 30);
+      // the panel of things to fix and compromises
+      card(56, pY, W - 112, panelH);
+      if (!items.length){ g.fillStyle = C.ok; font(700, 24); g.fillText('\u2713  Nothing to fix and no compromises', 84, pY + 50); }
+      else { font(700, 24); g.fillStyle = C.ink; g.fillText(bad.length ? 'To fix before building' + (warn.length ? ', then the compromises' : '') : 'Compromises to know about', 84, pY + 48);
+        laid.forEach(function(it){ var x = 84 + it.col * (colW + 40), y = pY + 76 + it.y, pc = it.st === 'bad' ? [C.bad, C.badbg, 'Fix'] : [C.warn, C.warnbg, 'Compromise'];
+          font(700, 16); var pw2 = g.measureText(pc[2]).width + 22; g.fillStyle = pc[1]; g.beginPath(); if (g.roundRect) g.roundRect(x, y, pw2, 28, 14); else g.rect(x, y, pw2, 28); g.fill(); g.fillStyle = pc[0]; g.fillText(pc[2], x + 11, y + 19);
+          var tx2 = x + 140; font(700, 22); g.fillStyle = C.ink; g.fillText(it.c.name, tx2, y + 21);
+          var yy = y + 21; font(400, 20); g.fillStyle = C.ink; it.val.forEach(function(l){ yy += 26; g.fillText(l, tx2, yy); }); g.fillStyle = C.moss; it.why.forEach(function(l){ yy += 26; g.fillText(l, tx2, yy); }); }); }
+      if (pend){ font(400, 18); g.fillStyle = C.moss; g.fillText(pend + ' more check' + (pend > 1 ? 's run' : ' runs') + ' once a heater model is picked.', 84, pY + panelH - 22); }
       font(600, 20); g.fillStyle = C.ink; g.fillText('Checked with Above the Stones', 56, H - 30); var lw = g.measureText('Checked with Above the Stones').width;
       font(400, 20); g.fillStyle = C.moss; g.fillText('  \u00b7  jabawabawaba.github.io/abovethestones', 56 + lw, H - 30);
-      g.textAlign = 'right'; g.fillText('Side view and plan drawn to scale', W - 56, H - 30); g.textAlign = 'left';
+      g.textAlign = 'right'; g.fillText('Side view drawn to scale', W - 56, H - 30); g.textAlign = 'left';
       cv.toBlob(function(blob){ if (!blob){ if (msg) msg.textContent = 'Could not make the image here.'; return; } showShareModal(blob, msg); }, 'image/png');
     }).catch(function(){ restore(); if (msg) msg.textContent = 'Could not make the image here.'; });
   }
