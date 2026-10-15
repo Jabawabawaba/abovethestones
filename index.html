@@ -4,7 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Above the Stones: sauna design checker and bench height calculator</title>
-<meta name="description" content="Check a sauna design against the Trumpkin notes: bench heights, feet above the stones, heater fit, stone mass, ventilation and heat stratification.">
+<meta name="description" content="Free sauna design checker: bench heights, feet above the stones, heater sizing, stone mass and ventilation, drawn to scale with a printable builder's sheet. Based on Trumpkin's notes.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Above the Stones">
+<meta property="og:title" content="Above the Stones: a free sauna design checker">
+<meta property="og:description" content="Free sauna design checker: bench heights, feet above the stones, heater sizing, stone mass and ventilation, drawn to scale with a printable builder's sheet. Based on Trumpkin's notes.">
+<meta property="og:url" content="https://jabawabawaba.github.io/abovethestones/">
+<meta property="og:image" content="https://jabawabawaba.github.io/abovethestones/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Side view of a sauna drawn to scale, with the foot bench 8 inches above the top of the stones">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#15302B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2315302B'/%3E%3Cpath d='M14 46h36' stroke='%23C2431C' stroke-width='4' stroke-dasharray='6 4'/%3E%3Ccircle cx='22' cy='38' r='6' fill='%23E8EEF0'/%3E%3Ccircle cx='32' cy='36' r='6' fill='%23E8EEF0'/%3E%3Ccircle cx='42' cy='38' r='6' fill='%23E8EEF0'/%3E%3Crect x='12' y='20' width='40' height='5' rx='2' fill='%23C99A63'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -493,7 +505,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 11. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 12. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -1894,7 +1906,7 @@ if (typeof document !== 'undefined') (function(){
     v.className = 'verdict' + (bad.length ? ' bad' : warn.length ? ' warn' : '');
     var head = bad.length ? bad.length + ' thing' + (bad.length > 1 ? 's' : '') + ' to fix before you build'
              : warn.length ? 'Workable, with ' + warn.length + ' compromise' + (warn.length > 1 ? 's' : '')
-             : 'This design follows the Trumpkin notes on all ' + scored + ' checks';
+             : 'This design passes all ' + scored + ' checks';
     var body = first ? 'Start with: ' + first.name.toLowerCase() + '. ' + first.val + '.' : 'Feet above the stones, out of the cold zone, with enough air and distance from the heater.';
     if (s.mode === 'auto' && r.auto.notes.length) body += ' To get your feet up, the calculator has ' + r.auto.notes.join(' and ') + '.';
     if (pending) body += ' ' + pending + ' more checks run once you pick a heater model.';
