@@ -25,6 +25,7 @@
   --bad:#A32A1B; --bad-bg:#F6DAD4;
   --focus:#2F7396;
   --wallfill:#B7C4C8; --wallline:#4A5C60;
+  --vsup:#2E8B57; --vul:#7A4FB5;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -32,7 +33,7 @@
     --heat:#F0764C; --cold:#6BB4D8; --cold-fill:rgba(107,180,216,.17);
     --timber:#C99A63; --stone:#8C999B;
     --ok:#7FD3A8; --ok-bg:#16352A; --warn:#F0C465; --warn-bg:#3A2E12; --bad:#F59A8B; --bad-bg:#40201B;
-    --focus:#6BB4D8; --wallfill:#3A4A4E; --wallline:#9DB2AE;
+    --focus:#6BB4D8; --wallfill:#3A4A4E; --wallline:#9DB2AE; --vsup:#6FD3A0; --vul:#B79AF0;
   }
 }
 :root[data-theme="dark"]{
@@ -41,7 +42,7 @@
   --heat:#F0764C; --cold:#6BB4D8; --cold-fill:rgba(107,180,216,.17);
   --timber:#C99A63; --stone:#8C999B;
   --ok:#7FD3A8; --ok-bg:#16352A; --warn:#F0C465; --warn-bg:#3A2E12; --bad:#F59A8B; --bad-bg:#40201B;
-  --focus:#6BB4D8;
+  --focus:#6BB4D8; --vsup:#6FD3A0; --vul:#B79AF0;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -177,6 +178,8 @@ a.why.rpt{text-decoration:underline;text-underline-offset:.15em;margin-top:.15re
 .lg-stone{border-top:3px dashed var(--heat);height:0 !important;margin-top:.6rem !important}
 .lg-cold{background:var(--cold-fill);border-top:2px dotted var(--cold)}
 .lg-vent{background:var(--spruce);width:.55rem;height:1.05rem !important;margin-left:.65rem}
+.s-vsup{fill:var(--vsup)}.s-vul{fill:var(--vul)}
+.lg-vsup,.lg-vul{width:.55rem;height:1.05rem !important;margin-left:.65rem}.lg-vsup{background:var(--vsup)}.lg-vul{background:var(--vul)}
 .lg-ring{width:.8rem;height:.8rem !important;border:2px solid var(--cold);border-radius:50% !important;margin-left:.5rem}
 .lg-clear{width:.55rem;height:1.05rem !important;border:1.5px solid var(--spruce);margin-left:.65rem}
 .s-ventp{fill:var(--heat);stroke:var(--ice);stroke-width:1}
@@ -487,7 +490,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/above-the-stones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/above-the-stones" target="_blank" rel="noopener">github.com/Jabawabawaba/above-the-stones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 9. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 10. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -1585,27 +1588,25 @@ if (typeof document !== 'undefined') (function(){
     var vent = function(x, yy, cls){ o.push('<rect class="' + (cls || 's-vent') + '" x="' + (x - vs / 2) + '" y="' + (yy - vs) + '" width="' + vs + '" height="' + vs * 2 + '"/>'); };
     var natElec = r.vent === 'nat' && s.heater === 'electric';
     var T2 = function(yy, l1, l2){ if (sm) return; var sfs = fs * .82; [l1, l2].forEach(function(t, i){ if (t) o.push('<text data-kt2="' + l1 + ' ' + l2 + ', on the bench wall" data-fit="' + Math.max(20, Math.min(s.sitDepth, W * .5) - vs * 1.0 - 9) + '" x="' + (x1 - vs * 1.0) + '" y="' + (yy - sfs * .15 + i * sfs * 1.05) + '" class="t-m" font-size="' + sfs + '" text-anchor="end">' + t + '</text>'); }); };
-    if (!natElec){ vent(x0, y(r.supplyH)); T(x0, yC - fs * .6, (r.vent === 'mech' ? 'Fresh air in' : 'Adjustable supply') + ', over the heater, ' + f.len(r.supplyH) + ' up or higher', 't-m'); }
+    var vk = [];                                                                  // one key line and one colour per job: air in, air out, UL cooling
+    if (!natElec){ vent(x0, y(r.supplyH), 's-vsup'); T(x0, yC - fs * .6, (r.vent === 'mech' ? 'Fresh air in' : 'Adjustable supply') + ', over the heater, ' + f.len(r.supplyH) + ' up or higher', 't-m');
+      vk.push(['lg-vsup', (r.vent === 'mech' ? 'Fresh air supply' : 'Adjustable supply') + ', high on the heater wall over the ' + (s.heater === 'wood' ? 'stove' : 'heater') + ', centre ' + f.len(r.supplyH) + ' up or higher']); }
     if (r.vent === 'mech'){
-      vent(x1, lowV); T2(lowV, 'Mechanical', 'exhaust');
-      if (r.ul){ vent(x0, y(10)); if (!sm) keyItems.push(['lg-vent', 'UL cooling vent: the small low vent behind the heater, for cooling the heater only']); }
+      vent(x1, lowV); T2(lowV, 'Mechanical', 'exhaust'); vk.push(['lg-vent', 'Mechanical exhaust, low in the bench wall under the foot bench, ducted to the fan']);
+      if (r.ul){ vent(x0, y(10), 's-vul'); vk.push(['lg-vul', 'UL cooling vent, low behind the heater: cooling air for the heater only, not room ventilation']); }
     } else {
-      if (natElec){ vent(x0, y(10)); T(x0, yC - fs * .6, 'Natural updraft: fresh air in below the heater', 't-m'); vent(x1, y(61)); T2(y(61), 'Natural', 'exhaust'); }
-      else { vent(x1, lowV); T2(lowV, 'Combustion', 'air'); }
-      vent(x1, yCb + vs * 1.6, 's-clear'); T(x1, yC - fs * 1.9, 'Clearing exhaust, opened after bathing', 't-m', 'end');
+      if (natElec){ vent(x0, y(10), 's-vsup'); T(x0, yC - fs * .6, 'Natural updraft: fresh air in below the heater', 't-m'); vent(x1, y(61)); T2(y(61), 'Natural', 'exhaust');
+        vk.push(['lg-vsup', 'Fresh air supply, low behind or below the heater']); vk.push(['lg-vent', 'Natural exhaust, about ' + f.len(61) + ' up the bench wall']); }
+      else { vent(x1, lowV, 's-vsup'); T2(lowV, 'Combustion', 'air'); vk.push(['lg-vsup', 'Combustion air, low in the bench wall under the benches']); }
+      vent(x1, yCb + vs * 1.6, 's-clear'); T(x1, yC - fs * 1.9, 'Clearing exhaust, opened after bathing', 't-m', 'end'); vk.push(['lg-clear', 'Clearing exhaust near the ceiling, opened only after bathing']);
     }
-    if (r.sit + 100 <= r.Hs - 15) o.push('<circle class="s-sensor" cx="' + (x1 - sw * 2.4) + '" cy="' + y(r.sit + 100) + '" r="' + fs * .32 + '"/>');
-    if (sm){
-      var natE = r.vent === 'nat' && s.heater === 'electric';
-      keyItems.unshift(
+    var hasTherm = r.sit + 100 <= r.Hs - 15;
+    if (hasTherm) o.push('<circle class="s-sensor" cx="' + (x1 - sw * 2.4) + '" cy="' + y(r.sit + 100) + '" r="' + fs * .32 + '"/>');
+    if (sm) keyItems.unshift(
         ['lg-stone', 'Top of stones, ' + f.len(s.stone) + ' off the floor'],
-        ['lg-cold', 'Cold zone, the lower third, up to ' + f.len(r.coldTop) + (r.exempt ? '. Drawn lighter because the Saunum blower pushes mixed air through it' : '')],
-        ['lg-vent', r.vent === 'mech' ? 'Vents: fresh air in high over the heater, mechanical exhaust low under the foot bench' + (r.ul ? ', and a small low vent behind the heater for UL heater cooling only' : '')
-                  : natE ? 'Vents: fresh air in below the heater, natural exhaust about 24″ up the bench wall'
-                  : 'Vents: adjustable supply high over the stove, combustion air low under the benches']);
-      if (r.vent !== 'mech') keyItems.push(['lg-clear', 'Clearing exhaust near the ceiling, opened only after bathing']);
-      if (r.sit + 100 <= r.Hs - 15) keyItems.push(['lg-ring', 'Thermometer, ' + (f.imp ? '39″' : '1 m') + ' above the sitting bench']);
-    }
+        ['lg-cold', 'Cold zone, the lower third, up to ' + f.len(r.coldTop) + (r.exempt ? '. Drawn lighter because the Saunum blower pushes mixed air through it' : '')]);
+    vk.forEach(function(v){ keyItems.push(v); });
+    if (hasTherm) keyItems.push(['lg-ring', 'Thermometer on the bench wall, ' + (f.imp ? '39″' : '1 m') + ' above the sitting bench']);
     var cap = document.getElementById('secTitle');
     if (cap && sm) cap.textContent = 'Side view, drawn to scale. Heater wall on the left, bench wall on the right. Drag a bench, the heater (up and down for the stones, sideways for its depth), the ceiling or either wall to change it.';
     else if (cap) cap.textContent = 'Side view, drawn to scale. Heater wall on the left, bench wall on the right. Foot bench is ' + f.len(Math.abs(r.foot - s.stone)) + (r.foot >= s.stone ? ' above' : ' below') + ' the top of the stones. Drag a bench, the heater (up and down for the stones, sideways for its depth), the ceiling or either wall to change it. ' + (r.sit + 100 <= r.Hs - 15 ? 'The blue ring on the bench wall is where the thermometer goes, 1 m (39″) above the sitting bench. ' : '')
@@ -1715,7 +1716,7 @@ if (typeof document !== 'undefined') (function(){
       });
       var fit = Array.prototype.slice.call(svg.querySelectorAll('[data-fit]')), k = 1;
       fit.forEach(function(t){ var avail = parseFloat(t.getAttribute('data-fit')), len = t.getComputedTextLength(); if (len > 0) k = Math.min(k, avail / len); });
-      if (k < .8 && fit.length){ keyItems.push(['lg-vent', fit[0].getAttribute('data-kt2')]); fit.forEach(function(t){ t.parentNode.removeChild(t); }); }
+      if (k < .8 && fit.length){ fit.forEach(function(t){ t.parentNode.removeChild(t); }); }
       else if (k < 1) fit.forEach(function(t){ t.setAttribute('font-size', parseFloat(t.getAttribute('font-size')) * k); });
     } catch(e){}
     if (mgn < -0.05 && !r.exempt) flagged.bad = true; else if (mgn < 9.95) flagged.warn = true;
