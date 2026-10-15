@@ -228,6 +228,10 @@ details.grp[open]>summary{padding-bottom:.35rem}
 .export>summary{cursor:pointer;font-weight:600;padding:.7rem 0;min-height:2.75rem;display:flex;align-items:center}
 .exgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.8rem 1.2rem;margin:.6rem 0 .8rem}
 .exgrid>div{display:flex;flex-direction:column;gap:.25rem;align-items:flex-start}
+.shmodal{position:fixed;inset:0;z-index:60;background:rgba(10,20,20,.55);display:flex;align-items:center;justify-content:center;padding:1rem}.shmodal[hidden]{display:none}
+.shcard{background:var(--ice);color:var(--spruce);border-radius:.6rem;max-width:min(64rem,100%);max-height:100%;overflow:auto;padding:1rem 1rem .9rem;box-shadow:0 1rem 3rem rgba(0,0,0,.35)}
+.shcard h2{margin:0 0 .6rem;font-size:1.15rem}.shcard img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:.35rem;background:#fff}
+.shbtns{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.8rem}.shbtns .hint{flex-basis:100%}
 .whatsnew{margin:0 0 1.2rem;font-size:.9rem;color:var(--moss)}.whatsnew summary{cursor:pointer;font-weight:600;padding:.4rem 0}.whatsnew ul{margin:.3rem 0 0;padding-left:1.2rem}.whatsnew li{margin:.2rem 0}
 /* ---- navigation, tabs, verdict-first ---- */
 .topnav{position:sticky;top:0;z-index:30;display:flex;gap:.2rem;flex-wrap:wrap;background:var(--lake);border-bottom:1px solid var(--line);padding:.35rem 0;margin:0 0 1.2rem}
@@ -473,6 +477,7 @@ footer p{margin:0 0 .5rem}
       <div class="share adv-only">
         <button type="button" class="usebtn" id="btnSum">Copy summary</button>
         <button type="button" class="usebtn" id="btnLink">Copy link to this design</button>
+        <button type="button" class="usebtn" id="btnImg">Save image to share</button>
         <button type="button" class="usebtn" id="btnPrint">Print or save as PDF</button>
         <span class="hint" id="shareMsg" role="status"></span>
         <textarea id="shareBox" readonly hidden rows="8" aria-label="Design summary"></textarea>
@@ -505,7 +510,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 12. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 13. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -517,6 +522,7 @@ footer p{margin:0 0 .5rem}
     <button type="button" class="usebtn" id="fromBuild">Back to the calculator</button>
     <button type="button" class="usebtn" id="printBuild">Print or save as PDF</button>
     <button type="button" class="usebtn" id="linkBuild">Copy link to this sheet</button>
+    <button type="button" class="usebtn" id="imgBuild">Save image to share</button>
     <button type="button" class="usebtn" id="engBtn">Engineer’s review</button>
     <span class="hint" id="buildMsg" role="status"></span>
   </div>
@@ -1486,7 +1492,8 @@ if (typeof document !== 'undefined') (function(){
     b.addEventListener('click', function(){ if (s.view !== b.getAttribute('data-view')) startPrev = null; s.view = b.getAttribute('data-view'); buildForm(); update(); });
   });
 
-  function small(){ return window.innerWidth < 640; }
+  var shareBig = false;                                                          // draw the full desktop version while making the share image
+  function small(){ return !shareBig && window.innerWidth < 640; }
   /* ----- drawing ----- */
   function draw(r, f){
     var svg = document.getElementById('section');
@@ -1913,7 +1920,7 @@ if (typeof document !== 'undefined') (function(){
     v.innerHTML = '<p class="big"></p><p></p>'; v.children[0].textContent = head; v.children[1].textContent = body;
     var keys = el('ul', {class:'vkeys'}); [[f.len(Math.abs(r.foot - s.stone)) + (r.foot >= s.stone ? ' above' : ' below'), 'stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'seat'], [f.big(r.Hmax), 'ceiling'], [(r.layout === 'L' ? 'L, ' : '') + r.seats, 'seats']].forEach(function(kv){ keys.appendChild(el('li', null, [el('b', {text:kv[0]}), document.createTextNode(kv[1])])); });
     if (bad.length || warn.length){ var jump = el('button', {type:'button', class:'linkbtn', text:'See the ' + (bad.length + warn.length) + (bad.length + warn.length > 1 ? ' checks' : ' check')}); jump.style.margin = '0'; jump.addEventListener('click', function(){ showTab('checks'); document.getElementById('tabs').scrollIntoView({behavior:'smooth', block:'start'}); }); keys.appendChild(el('li', null, [jump])); }
-    var share2 = el('div', {class:'vshare'}); [['Copy summary', 'btnSum'], ['Copy link', 'btnLink']].forEach(function(bt){ var lb = el('button', {type:'button', class:'linkbtn', text:bt[0]}); lb.style.margin = '0'; lb.addEventListener('click', function(){ var real = document.getElementById(bt[1]); if (real) real.click(); }); share2.appendChild(lb); });
+    var share2 = el('div', {class:'vshare'}); [['Copy summary', 'btnSum'], ['Copy link', 'btnLink'], ['Save image', 'btnImg']].forEach(function(bt){ var lb = el('button', {type:'button', class:'linkbtn', text:bt[0]}); lb.style.margin = '0'; lb.addEventListener('click', function(){ var real = document.getElementById(bt[1]); if (real) real.click(); }); share2.appendChild(lb); });
     share2.appendChild(el('span', {class:'hint', id:'vshareMsg', role:'status'}));
     keys.appendChild(el('li', {class:'vshareli'}, [share2]));
     v.appendChild(keys);
@@ -3411,6 +3418,8 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
   document.getElementById('newsBtn').addEventListener('click', function(){ var wn = document.getElementById('whatsnew'); wn.open = true; wn.scrollIntoView({behavior:'smooth', block:'start'}); });
   document.getElementById('undoBtn').addEventListener('click', undo); document.getElementById('redoBtn').addEventListener('click', redo);
   document.addEventListener('keydown', function(e){ var t = e.target, typing = t && ((t.tagName === 'INPUT' && t.type === 'text') || t.tagName === 'TEXTAREA'); if (typing) return; if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z'){ e.preventDefault(); undo(); } else if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.shiftKey && e.key.toLowerCase() === 'z'))){ e.preventDefault(); redo(); } });
+  document.getElementById('btnImg').addEventListener('click', function(){ shareImage('shareMsg'); });
+  document.getElementById('imgBuild').addEventListener('click', function(){ shareImage('buildMsg'); });
   document.getElementById('btnLink').addEventListener('click', function(){ var lk = designLink(); copyOut(lk, 'Link copied. It reopens the calculator with these numbers.' + (lk.length > 2000 ? ' It is ' + lk.length + ' characters, which is fine for browsers and most messaging apps but may be cut by some older email systems; the JSON export is the safe alternative.' : '')); });
   /* ---------- exports ---------- */
   function saveFile(name, mime, text, msgId){
@@ -3422,7 +3431,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     var cu = window.claude && window.claude.use ? window.claude.use('downloads') : Promise.resolve(null);
     Promise.resolve(cu).then(function(dl){
       if (!dl) return viaLink();
-      var okExt = /^(svg|json|txt|csv|html|md)$/.test(ext), fname = okExt ? name : name + '.txt';
+      var okExt = /^(gif|png|jpg|jpeg|webp|txt|json|md|csv|html|svg|pdf|xlsx|zip|docx|pptx)$/.test(ext), fname = okExt ? name : name + '.txt';
       dl.save({filename: fname, data: isBlob ? text : new Blob([text], {type: okExt ? mime : 'text/plain'})}).then(function(){
         msg.textContent = okExt ? 'Saved ' + fname + '.' : 'Saved as ' + fname + ' because this viewer only allows certain file types. Rename it to ' + name + ' before opening.';
       }, function(err){ msg.textContent = err && err.code === 'declined' ? 'Save cancelled.' : 'Could not save here. The self-hosted copy of this page downloads ' + ext.toUpperCase() + ' files directly.'; });
@@ -3435,6 +3444,71 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     var vb = src.getAttribute('viewBox').split(' ');
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); clone.setAttribute('width', vb[2] + 'cm'); clone.setAttribute('height', vb[3] + 'cm'); clone.removeAttribute('role'); clone.removeAttribute('aria-labelledby'); clone.removeAttribute('id');
     saveFile(name, 'image/svg+xml', '<?xml version="1.0" encoding="UTF-8"?>\n<!-- Above the Stones. One drawing unit is 1 cm, so this opens at true size. -->\n' + new XMLSerializer().serializeToString(clone));
+  }
+  function svgImage(id, boxW, boxH, scale){                                      // the live drawing, styles inlined, as an image sized to fit a box
+    var src = document.getElementById(id), clone = src.cloneNode(true), a = src.querySelectorAll('*'), b = clone.querySelectorAll('*');
+    var props = ['fill','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','stroke-opacity','opacity','fill-opacity','font-family','font-size','font-weight','text-anchor','paint-order'];
+    for (var i = 0; i < a.length; i++){ var cs = getComputedStyle(a[i]); props.forEach(function(pn){ var v = cs.getPropertyValue(pn); if (v && v !== 'none' || pn === 'fill' || pn === 'stroke') b[i].setAttribute(pn, v === 'context-stroke' ? cs.getPropertyValue('color') : v); }); b[i].removeAttribute('class'); }
+    var mk = {};                                                                  // arrowheads take the colour of their line, as on screen
+    Array.prototype.forEach.call(clone.querySelectorAll('[marker-start],[marker-end]'), function(ln){ var sc = ln.getAttribute('stroke') || '#000';
+      ['marker-start', 'marker-end'].forEach(function(at){ var v = ln.getAttribute(at), mm = v && /url\(["']?#([^"')]+)/.exec(v); if (!mm) return; var base = clone.querySelector('#' + mm[1]); if (!base) return;
+        var key = mm[1] + '|' + sc; if (!mk[key]){ var nm = base.cloneNode(true), nid = mm[1] + '_' + Object.keys(mk).length; nm.setAttribute('id', nid); Array.prototype.forEach.call(nm.querySelectorAll('*'), function(e){ e.setAttribute('fill', sc); }); base.parentNode.appendChild(nm); mk[key] = nid; }
+        ln.setAttribute(at, 'url(#' + mk[key] + ')'); }); });
+    var vb = src.getAttribute('viewBox').split(' ').map(Number), k = Math.min(boxW / vb[2], boxH / vb[3]), w = vb[2] * k, hh = vb[3] * k;
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); clone.setAttribute('width', w * scale); clone.setAttribute('height', hh * scale); clone.removeAttribute('id');
+    clone.setAttribute('font-family', 'Familjen Grotesk, Arial, Helvetica, sans-serif');
+    return new Promise(function(res, rej){ var im = new Image(); im.onload = function(){ res({img: im, w: w, h: hh}); }; im.onerror = rej; im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone)); });
+  }
+  function shareImage(msgId){
+    var msg = document.getElementById(msgId) || document.getElementById('shareMsg'); if (msg) msg.textContent = 'Making the image\u2026';
+    var root = document.documentElement, prevTheme = root.getAttribute('data-theme'), pd = document.getElementById('tab-draw'), wasHidden = pd.hidden, prevCss = pd.style.cssText;
+    var restore = function(){ shareBig = false; if (prevTheme === null) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', prevTheme); if (wasHidden){ pd.hidden = true; pd.style.cssText = prevCss; } update(); };
+    root.setAttribute('data-theme', 'light'); shareBig = true;
+    if (wasHidden){ pd.hidden = false; pd.style.cssText = 'position:absolute;left:-10000px;top:0;width:900px;visibility:hidden'; }
+    update();
+    var f = makeFmt(s.units), r = compute(s), ch = runChecks(s, r, f), m = heaterById(s.model), css = getComputedStyle(root), col = function(n){ return css.getPropertyValue(n).trim(); };
+    var C = {lake: col('--lake'), ice: col('--ice'), ink: col('--spruce'), moss: col('--moss'), line: col('--line'), ok: col('--ok'), okbg: col('--ok-bg'), warn: col('--warn'), warnbg: col('--warn-bg'), bad: col('--bad'), badbg: col('--bad-bg'), heat: col('--heat')};
+    var S2 = 2, W = 1600, H = 1000;
+    Promise.all([svgImage('section', 770, 600, S2), svgImage('plan', 700, 600, S2), document.fonts ? document.fonts.ready : null]).then(function(res){
+      restore();
+      var cv = document.createElement('canvas'); cv.width = W * S2; cv.height = H * S2; var g = cv.getContext('2d'); g.scale(S2, S2);
+      var FF = '"Familjen Grotesk", Arial, Helvetica, sans-serif', font = function(wt, px){ g.font = wt + ' ' + px + 'px ' + FF; };
+      g.fillStyle = C.lake; g.fillRect(0, 0, W, H);
+      var bad = ch.filter(function(c){ return c.st === 'bad'; }), warn = ch.filter(function(c){ return c.st === 'warn'; }), scored = ch.filter(function(c){ return c.st !== 'na'; }).length;
+      var vt = bad.length ? bad.length + ' thing' + (bad.length > 1 ? 's' : '') + ' to fix' : warn.length ? 'Workable, ' + warn.length + ' compromise' + (warn.length > 1 ? 's' : '') : 'Passes all ' + scored + ' checks';
+      var vc = bad.length ? [C.bad, C.badbg] : warn.length ? [C.warn, C.warnbg] : [C.ok, C.okbg];
+      g.fillStyle = C.ink; font(700, 46); g.fillText('My sauna design', 56, 92);
+      font(400, 24); g.fillStyle = C.moss;
+      g.fillText(f.big(s.W) + ' \u00d7 ' + f.big(s.D) + ' \u00d7 ' + (r.sloped ? f.big(r.Hh) + ' to ' + f.big(r.Hb) : f.big(s.H)) + ' hot room for ' + s.n + (s.n === 1 ? ' bather' : ' bathers') + (r.layout === 'L' ? ', L-shaped benches' : '') + '  \u00b7  ' + (m ? m.name : (s.heater === 'wood' ? 'wood stove' : 'electric heater') + ', model not chosen'), 56, 132);
+      font(700, 24); var pw = g.measureText(vt).width + 40; g.fillStyle = vc[1]; g.beginPath(); if (g.roundRect) g.roundRect(W - 56 - pw, 62, pw, 46, 23); else g.rect(W - 56 - pw, 62, pw, 46); g.fill(); g.fillStyle = vc[0]; g.fillText(vt, W - 56 - pw + 20, 93);
+      var mg = r.foot - s.stone, tiles = [[(mg >= 0 ? f.len(mg) + ' above' : f.len(-mg) + ' below'), 'the top of the stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'sitting bench'], [f.len(r.gap), 'headroom'], [f.big(r.Hmax), 'ceiling'], [r.seats + '', 'seats at 24\u2033']];
+      var tx = 56, tw = (W - 112 - 5 * 16) / 6;
+      tiles.forEach(function(t, i){ var x = tx + i * (tw + 16); g.fillStyle = i === 0 ? (mg >= 9.95 ? C.okbg : mg >= 0 ? C.warnbg : C.badbg) : C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, 164, tw, 92, 10); else g.rect(x, 164, tw, 92); g.fill(); g.strokeStyle = C.line; g.lineWidth = 1; g.stroke();
+        g.fillStyle = i === 0 ? (mg >= 9.95 ? C.ok : mg >= 0 ? C.warn : C.bad) : C.ink; font(700, 32); g.fillText(t[0], x + 18, 210); g.fillStyle = C.moss; font(400, 19); g.fillText(t[1], x + 18, 240); });
+      var card = function(x, y, w2, h2){ g.fillStyle = C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, y, w2, h2, 12); else g.rect(x, y, w2, h2); g.fill(); g.strokeStyle = C.line; g.stroke(); };
+      var sec = res[0], pl = res[1], top = 280, ch2 = 640;
+      card(56, top, 790, ch2); card(862, top, 682, ch2);
+      g.drawImage(sec.img, 56 + (790 - sec.w) / 2, top + (ch2 - sec.h) / 2, sec.w, sec.h);
+      var pk = Math.min(1, 660 / pl.w, 620 / pl.h); g.drawImage(pl.img, 862 + (682 - pl.w * pk) / 2, top + (ch2 - pl.h * pk) / 2, pl.w * pk, pl.h * pk);
+      font(600, 20); g.fillStyle = C.ink; g.fillText('Checked with Above the Stones', 56, H - 30); var lw = g.measureText('Checked with Above the Stones').width;
+      font(400, 20); g.fillStyle = C.moss; g.fillText('  \u00b7  jabawabawaba.github.io/abovethestones', 56 + lw, H - 30);
+      g.textAlign = 'right'; g.fillText('Side view and plan drawn to scale', W - 56, H - 30); g.textAlign = 'left';
+      cv.toBlob(function(blob){ if (!blob){ if (msg) msg.textContent = 'Could not make the image here.'; return; } showShareModal(blob, msg); }, 'image/png');
+    }).catch(function(){ restore(); if (msg) msg.textContent = 'Could not make the image here.'; });
+  }
+  function showShareModal(blob, msg){
+    var md = document.getElementById('shModal');
+    if (!md){ md = el('div', {id:'shModal', class:'shmodal', role:'dialog', 'aria-modal':'true', 'aria-label':'Image to share'}); document.body.appendChild(md);
+      md.addEventListener('click', function(e){ if (e.target === md) md.hidden = true; }); document.addEventListener('keydown', function(e){ if (e.key === 'Escape') md.hidden = true; }); }
+    var url = URL.createObjectURL(blob), img = el('img', {src:url, alt:'Your sauna design: key numbers, side view and plan'});
+    var dl = el('button', {type:'button', class:'bigbtn', text:'Download image'}), cp = el('button', {type:'button', class:'usebtn', text:'Copy image'}), cl = el('button', {type:'button', class:'linkbtn', text:'Close'}); cl.style.margin = '0';
+    var hint = el('span', {class:'hint', id:'shMsg', role:'status', text:'Post it with the design link (Copy link) so people can open your numbers. On a phone you can also press and hold the image to save it.'});
+    dl.addEventListener('click', function(){ saveFile('sauna-design.png', 'image/png', blob, 'shMsg'); });
+    cp.addEventListener('click', function(){ try { navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(function(){ hint.textContent = 'Image copied. Paste it straight into your post.'; }, function(){ hint.textContent = 'Copying images is blocked here; use Download instead.'; }); } catch(e){ hint.textContent = 'Copying images is not supported here; use Download instead.'; } });
+    if (!(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)) cp.hidden = true;
+    md.innerHTML = ''; md.appendChild(el('div', {class:'shcard'}, [el('h2', {text:'Your design, ready to share'}), img, el('div', {class:'shbtns'}, [dl, cp, cl, hint])]));
+    cl.addEventListener('click', function(){ md.hidden = true; });
+    md.hidden = false; dl.focus(); if (msg) msg.textContent = '';
   }
   function geometry(){
     var r = compute(s), bd = s.sitDepth + s.footDepth, isL = r.layout === 'L', flip = s.side === 'L', W = s.W, D = s.D;
