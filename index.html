@@ -492,7 +492,7 @@ footer p{margin:0 0 .5rem}
       </ul></details>
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
-        <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/above-the-stones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/above-the-stones" target="_blank" rel="noopener">github.com/Jabawabawaba/above-the-stones</a>. Nothing you enter leaves your browser.</p>
+        <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
         <p>Version 23 October 2026, revision 11. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
@@ -974,7 +974,7 @@ function runChecks(s, r, f){
   return c;
 }
 
-var REPO = 'https://github.com/Jabawabawaba/above-the-stones', ISSUES = REPO + '/issues/new';
+var REPO = 'https://github.com/Jabawabawaba/abovethestones', ISSUES = REPO + '/issues/new';
 var NA_BRANDS = {Harvia:1, Helo:1, Saunum:1, HUUM:1, IKI:1, Narvi:1, Aitokiuas:0, Kastor:0};   // brand-level, by whether the maker sells through North American dealers; unverified per model
 function rankHeaters(s, f){
   return HEATERS.filter(function(hh){ return hh.type === s.heater; }).map(function(hh){
