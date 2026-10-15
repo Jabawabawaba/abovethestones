@@ -487,7 +487,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/above-the-stones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/above-the-stones" target="_blank" rel="noopener">github.com/Jabawabawaba/above-the-stones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 7. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 8. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -1474,7 +1474,8 @@ if (typeof document !== 'undefined') (function(){
     var W = Math.max(s.D, 60), H = Math.max(r.Hmax, 120), sm = small(), keyItems = [];
     var fs = Math.max(W + 140, H + 92) / (small() ? 23 : 30), sw = fs / 8;
     var fb = s.floorType === 'wood' ? Math.max(12, r.floorT) : 0;
-    var mL = r.sloped ? 22 + fs * 1.6 : 22, mR = 16 + fs * 7.8, mT = fs * ((s.vent === 'nat' || (s.vent === 'auto' && s.heater === 'wood')) ? 3.9 : 2.6), mB = fs * 4.8 + fb;
+    var ulLbl = r.vent === 'mech' && r.ul && !sm;                                            // UL cooling vent label sits under the floor, clear of the timber
+    var mL = r.sloped ? 22 + fs * 1.6 : 22, mR = 16 + fs * 7.8, mT = fs * ((s.vent === 'nat' || (s.vent === 'auto' && s.heater === 'wood')) ? 3.9 : 2.6), mB = fs * 4.8 + fb + (ulLbl ? fs * 1.3 : 0);
     var vw = W + mL + mR, vh = H + mT + mB;
     var x0 = mL, x1 = mL + W, yC = mT, yF = mT + H;
     var y = function(h){ return yF - Math.max(0, Math.min(H, h)); };
@@ -1483,8 +1484,8 @@ if (typeof document !== 'undefined') (function(){
     var T = function(x, yy, txt, cls, anchor, rot){
       o.push('<text x="' + x + '" y="' + yy + '" class="' + (cls||'t') + '" font-size="' + fs + '" text-anchor="' + (anchor||'start') + '"' + (rot ? ' transform="rotate(' + rot + ' ' + x + ' ' + yy + ')"' : '') + '>' + txt + '</text>');
     };
-    var KT = function(x, yy, txt, cls, anchor, avail, kc, kt, size){
-      o.push('<text data-avail="' + avail + '" data-kc="' + kc + '" data-kt="' + kt.replace(/"/g, '&quot;') + '" x="' + x + '" y="' + yy + '" class="' + cls + '" font-size="' + (size || fs) + '" text-anchor="' + (anchor || 'start') + '">' + txt + '</text>');
+    var KT = function(x, yy, txt, cls, anchor, avail, kc, kt, size, halo){
+      o.push('<text data-avail="' + avail + '" data-kc="' + kc + '" data-kt="' + kt.replace(/"/g, '&quot;') + '" x="' + x + '" y="' + yy + '" class="' + cls + '" font-size="' + (size || fs) + '" text-anchor="' + (anchor || 'start') + '"' + (halo ? ' paint-order="stroke" stroke="var(--ice)" stroke-width="' + (size || fs) * .28 + '" stroke-linejoin="round"' : '') + '>' + txt + '</text>');
     };
     o.push('<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs>');
 
@@ -1586,7 +1587,10 @@ if (typeof document !== 'undefined') (function(){
     if (!natElec){ vent(x0, y(r.supplyH)); T(x0, yC - fs * .6, (r.vent === 'mech' ? 'Fresh air in' : 'Adjustable supply') + ', over the heater, ' + f.len(r.supplyH) + ' up or higher', 't-m'); }
     if (r.vent === 'mech'){
       vent(x1, lowV); T2(lowV, 'Mechanical', 'exhaust');
-      if (r.ul){ vent(x0, y(10)); if (!sm) KT(x0 + hp + 6, yF - fs * .45, 'UL cooling vent', 't-m', 'start', fx - 4 - (x0 + hp + 6), 'lg-vent', 'Small low vent behind the heater: UL heater cooling only', fs * .78); }
+      if (r.ul){ vent(x0, y(10));
+        if (ulLbl){ var uly = yF + fb + fs * 3.95, ulx = x0 - 9;
+          o.push('<path class="s-dim" fill="none" stroke-width="' + sw * .8 + '" marker-end="url(#ah)" d="M' + ulx + ' ' + (uly - fs * .9) + 'L' + ulx + ' ' + y(10) + 'L' + (x0 - vs / 2 - 1) + ' ' + y(10) + '"/>');
+          o.push('<text x="' + (ulx - fs * .05) + '" y="' + uly + '" class="t-m" font-size="' + fs * .85 + '">UL cooling vent</text>'); } }
     } else {
       if (natElec){ vent(x0, y(10)); T(x0, yC - fs * .6, 'Natural updraft: fresh air in below the heater', 't-m'); vent(x1, y(61)); T2(y(61), 'Natural', 'exhaust'); }
       else { vent(x1, lowV); T2(lowV, 'Combustion', 'air'); }
@@ -1620,8 +1624,10 @@ if (typeof document !== 'undefined') (function(){
     var midX = (x0 + hp + fx) / 2;
     var mgnPre = r.foot - s.stone, gxPre = fx - fs * .9;
     if (!sm){
-      KT(midX, yF - 18 - fs * .9 - (r.vent === 'mech' && r.ul ? fs * .9 : 0), r.exempt ? 'Cold zone, mixed' : 'Cold zone', 't-c', 'middle', fx - (x0 + hp) - 10, 'lg-cold', 'Cold zone, the lower third, up to ' + f.len(r.coldTop) + (r.exempt ? '. Drawn lighter because the Saunum blower pushes mixed air through it' : ''));
-      KT(x0 + hp + 6, y(st) + fs * 1.15, 'Top of stones', 't-h', 'start', (mgnPre < 0 ? gxPre - fs * .6 : fx + 2) - (x0 + hp + 6), 'lg-stone', 'Top of stones, ' + f.len(s.stone) + ' off the floor');
+      KT(midX, yF - 18 - fs * .9, r.exempt ? 'Cold zone, mixed' : 'Cold zone', 't-c', 'middle', fx - (x0 + hp) - 10, 'lg-cold', 'Cold zone, the lower third, up to ' + f.len(r.coldTop) + (r.exempt ? '. Drawn lighter because the Saunum blower pushes mixed air through it' : ''));
+      var tsX = s.guard ? (hx0 + hw + 12) + sw * 1.3 + fs * .35 : x0 + hp + 6, tsBase = y(st) + fs * 1.15, tsEnd = mgnPre < 0 ? gxPre - fs * .6 : fx - fs * .2;
+      if (r.step.on) for (var tsi = 1; tsi <= r.step.n; tsi++){ if (yF - r.step.rise * tsi < tsBase + fs * .2){ tsEnd = Math.min(tsEnd, fx - r.step.depth * (r.step.n + 1 - tsi) - fs * .2); break; } }   // a step that reaches up into the label
+      o.push('<text id="tsLbl" data-av="' + (tsEnd - tsX) + '" data-kt="' + ('Top of stones, ' + f.len(s.stone) + ' off the floor').replace(/"/g, '&quot;') + '" x="' + tsX + '" y="' + tsBase + '" class="t-h" font-size="' + fs + '" paint-order="stroke" stroke="var(--ice)" stroke-width="' + fs * .28 + '" stroke-linejoin="round">Top of stones</text>');
     }
     var mgn = r.foot - s.stone, gx = fx - fs * .9, stoneLbl = null, lxLoop = lx;
     var soft = r.exempt && mgn < 9.95;
@@ -1674,7 +1680,7 @@ if (typeof document !== 'undefined') (function(){
       if (s.heater === 'wood'){ o.push('<rect class="s-pad" x="' + hpx0 + '" y="' + (yF - 3) + '" width="' + (hpx1 - hpx0 + 45) + '" height="3"/>'); keyItems.push(['lg-pad', 'Non-combustible hearth pad on the floor under and in front of the stove']); }
       keyItems.push(['lg-drain', 'Wood floor: boards on a ' + f.thin(s.floorFrame) + ' frame, falling to a linear drain under the benches']);
     }
-    T(x0, yF + fb + fs * 3.9, 'Heater wall', 't-m'); T(x1, yF + fb + fs * 3.9, 'Bench wall', 't-m', 'end');
+    var wly = yF + fb + fs * (ulLbl ? 5.25 : 3.9); T(x0, wly, 'Heater wall', 't-m'); T(x1, wly, 'Bench wall', 't-m', 'end');
 
     svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
     svg.innerHTML = o.join('');
@@ -1689,6 +1695,14 @@ if (typeof document !== 'undefined') (function(){
         if (widest() > L.avail){ build(L.two);                             // else wrap
           if (widest() > L.avail){ sg.innerHTML = ''; keyItems.unshift([L.kc, L.kt]); } }   // else hand it to the key
       }
+    } catch(e){}
+    try {                                                                         // Top of stones: one line, else two, else the key
+      var tl = svg.querySelector('#tsLbl');
+      if (tl){ var tav = parseFloat(tl.getAttribute('data-av')), tx = tl.getAttribute('x');
+        if (tl.getComputedTextLength() > tav){
+          tl.innerHTML = '<tspan x="' + tx + '">Top of</tspan><tspan x="' + tx + '" dy="' + fs * 1.05 + '">stones</tspan>';
+          var tw = Math.max.apply(null, Array.prototype.map.call(tl.querySelectorAll('tspan'), function(sp){ return sp.getComputedTextLength(); }));
+          if (tw > tav){ keyItems.push(['lg-stone', tl.getAttribute('data-kt')]); tl.parentNode.removeChild(tl); } } }
     } catch(e){}
     try {
       Array.prototype.forEach.call(svg.querySelectorAll('[data-avail]'), function(t){
@@ -2572,7 +2586,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       tbSt('Sheet', '1 of 1 \u00b7 interior alteration' + (s.situ === 'free' ? ', accessory structure' : ''))]));
     // drawings, copied from the calculator as rendered
     var figs = el('div', {class:'bfigs'});
-    [['section', 'Side view'], ['plan', 'Plan']].forEach(function(d){ var src = document.getElementById(d[0]), sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('viewBox', src.getAttribute('viewBox')); sv.setAttribute('role', 'img'); sv.setAttribute('aria-label', d[1]); sv.innerHTML = src.innerHTML.replace(/id="ah"/g, 'id="ahb"').replace(/url\(#ah\)/g, 'url(#ahb)').replace(/id="stoneLbl"/g, ''); figs.appendChild(el('figure', null, [sv])); });
+    [['section', 'Side view'], ['plan', 'Plan']].forEach(function(d){ var src = document.getElementById(d[0]), sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); sv.setAttribute('viewBox', src.getAttribute('viewBox')); sv.setAttribute('role', 'img'); sv.setAttribute('aria-label', d[1]); sv.innerHTML = src.innerHTML.replace(/id="ah"/g, 'id="ahb"').replace(/url\(#ah\)/g, 'url(#ahb)').replace(/id="stoneLbl"/g, '').replace(/id="tsLbl"/g, ''); figs.appendChild(el('figure', null, [sv])); });
     B.appendChild(figs);
     var figs3 = el('div', {class:'bfigs'});
     (s.situ === 'free' && s.xPorch === 'changing' ? [[isoInterior(r, f), '3D cutaway, heater wall and near side wall removed'], [isoAnnex(r, f), '3D cutaway of the changing room, far wall and right wall removed; the sauna door is in the back wall']] : [[isoInterior(r, f), '3D cutaway, heater wall and near side wall removed']]).concat([[isoExterior(r, f), s.situ === 'free' ? 'Exterior, door on the heater wall' : 'Outer shell as it sits in the room']]).forEach(function(d){ var fg = el('figure'); fg.innerHTML = d[0]; fg.appendChild(el('figcaption', {text:d[1] + (d[1].indexOf('Exterior') === 0 ? '. The grey box high on the heater wall is the fresh air hood; the exhaust hood sits low on the bench wall at the back, out of view.' : '')})); figs3.appendChild(fg); });
