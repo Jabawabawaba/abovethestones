@@ -99,7 +99,9 @@ input[type=number]:focus-visible,button:focus-visible,input[type=checkbox]:focus
 .draw svg{display:block;width:100%;height:auto;max-height:70vh}
 .draw.plan{margin-top:1rem}.draw.plan svg{max-height:26rem}
 .s-seat{fill:var(--spruce)}.s-foot{fill:var(--timber);opacity:.55}
-.draw figcaption{color:var(--moss);font-size:.85rem;padding:.35rem .25rem .4rem}
+.draw figcaption{color:var(--moss);font-size:.85rem;padding:.35rem .25rem .4rem;position:relative}
+.lg-seat{width:.8rem;height:.8rem !important;border-radius:50% !important;background:var(--spruce);margin:.12rem 0 0 .52rem}.lg-heater{background:var(--stone);width:.9rem;margin-left:.45rem}.lg-ventp{background:var(--heat);width:.9rem;height:.5rem !important;margin:.35rem 0 0 .45rem}.lg-foot{background:var(--timber);opacity:.55;width:.9rem;margin-left:.45rem}
+.draw figcaption .info{display:inline;margin-left:.3rem}.draw figcaption .info .tip{position:static;margin-top:.45rem;box-shadow:none;font-size:.85rem}.draw figcaption .info:hover .tip,.draw figcaption .info:focus-within .tip{display:none}.draw figcaption .info.open .tip{display:block}.draw figcaption .info.open button{background:var(--spruce);color:var(--lake);border-color:var(--spruce)}.lg-door{width:.95rem;height:.95rem !important;border:1.5px solid var(--moss);border-left:0;border-bottom:0;border-radius:0 100% 0 0 !important;margin-left:.45rem;background:transparent}.lg-zone{background:rgba(194,67,28,.12);border:1.5px dashed var(--heat)}
 figure{margin:0}
 .s-room{fill:none;stroke:var(--spruce);pointer-events:none}
 .s-cold{fill:var(--cold-fill)}
@@ -424,11 +426,12 @@ footer p{margin:0 0 .5rem}
       <figure class="draw">
         <svg id="section" role="img" aria-labelledby="secTitle"></svg>
         <details class="legend-wrap" open><summary>Key</summary><ul class="legend" id="secLegend"></ul></details>
-        <figcaption id="secTitle">Side view of the hot room, drawn to scale from your numbers. Heater wall on the left, bench wall on the right.</figcaption>
+        <figcaption id="secTitle">Side view, drawn to scale.</figcaption>
       </figure>
       <figure class="draw plan adv-only">
         <svg id="plan" role="img" aria-labelledby="planTitle"></svg>
-        <figcaption id="planTitle">Plan view from above. Each dot is one bather at 60 cm (24″), counted along the front edge of the foot bench. The door swings outward and cannot latch, so anyone can leave with a push. Drag any wall to resize the room. Orange blocks in the walls are the vents: fresh air supply over the heater, exhaust low in the bench wall about the middle of the bench run (the Trumpkin notes: opposite the heater, under the foot bench, cheated a little away from the heater), and a clearing vent high in the far corner when ventilation is natural. The blue slot is the floor drain. Drag the heater to the other side, or drag the step along the bench.</figcaption>
+        <details class="legend-wrap" open><summary>Key</summary><ul class="legend" id="planLegend"></ul></details>
+        <figcaption id="planTitle">Plan view from above.</figcaption>
       </figure>
       <figure class="draw plan adv-only">
         <svg id="strat" role="img" aria-labelledby="stratTitle"></svg>
@@ -490,7 +493,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/above-the-stones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/above-the-stones" target="_blank" rel="noopener">github.com/Jabawabawaba/above-the-stones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 10. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 11. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -1286,6 +1289,7 @@ if (typeof document !== 'undefined') (function(){
   var openGroups = narrow ? {'Room interior':true, 'Heater':true} : {'Room interior':true, 'Heater':true, 'Benches':true};
   var SIMPLE = {designs:1, preset:1, reset:1, hasWin:1, heaterDims:1, W:1, D:1, ceil:1, H:1, Hheat:1, n:1, bDoor:1, glassRead:1, heater:1, model:1, stone:1, proj:1, airsolo:1, mode:1, footH:1, sitH:1, sitDepth:1, footDepth:1};
   var SIMPLE_CHECKS = {'Ventilation approach':1, 'Seating':1, 'Head to toe temperature':1};
+  function setCap(id, short, more){ var c = document.getElementById(id); if (!c) return; c.innerHTML = ''; c.appendChild(document.createTextNode(short)); if (more) c.appendChild(infoBtn(more)); }
   function infoBtn(text, id){ var tipA = {class:'tip', role:'tooltip', text:text}; if (id) tipA.id = id; var wrap = el('span', {class:'info'}, [el('button', {type:'button', 'aria-label':'More about this', text:'i'}), el('span', tipA)]);
     wrap.querySelector('button').addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); wrap.classList.toggle('open'); }); return wrap; }
   function buildForm(){
@@ -1607,13 +1611,11 @@ if (typeof document !== 'undefined') (function(){
         ['lg-cold', 'Cold zone, the lower third, up to ' + f.len(r.coldTop) + (r.exempt ? '. Drawn lighter because the Saunum blower pushes mixed air through it' : '')]);
     vk.forEach(function(v){ keyItems.push(v); });
     if (hasTherm) keyItems.push(['lg-ring', 'Thermometer on the bench wall, ' + (f.imp ? '39″' : '1 m') + ' above the sitting bench']);
-    var cap = document.getElementById('secTitle');
-    if (cap && sm) cap.textContent = 'Side view, drawn to scale. Heater wall on the left, bench wall on the right. Drag a bench, the heater (up and down for the stones, sideways for its depth), the ceiling or either wall to change it.';
-    else if (cap) cap.textContent = 'Side view, drawn to scale. Heater wall on the left, bench wall on the right. Foot bench is ' + f.len(Math.abs(r.foot - s.stone)) + (r.foot >= s.stone ? ' above' : ' below') + ' the top of the stones. Drag a bench, the heater (up and down for the stones, sideways for its depth), the ceiling or either wall to change it. ' + (r.sit + 100 <= r.Hs - 15 ? 'The blue ring on the bench wall is where the thermometer goes, 1 m (39″) above the sitting bench. ' : '')
-      + (r.exempt && noDuct ? 'The Air Perfect has no tall duct. Heat rises off the stones as usual, while the unit draws air from between its two stone layers and blows the mixed air out low toward the benches. ' : r.exempt ? 'The tall duct on the heater wall is the Saunum blower. Follow the arrows: heat rises off the stones, the ceiling layer is pulled back into the top of the duct, and mixed air comes out low and rises up through the benches, the reverse of a normal convective loop. ' : '')
-      + (r.vent === 'mech' ? 'Mechanical downdraft: passive supply high over the heater, fan exhaust below the foot bench.' + (r.ul ? ' The small low vent behind the heater is the UL cooling supply for its high-limit sensor.' : '')
-        : natElec ? 'Natural updraft: supply below or behind the heater, exhaust about 24″ up the far wall, and a clearing exhaust near the ceiling that stays shut while bathing.'
-        : 'Natural: the fire pulls the exhaust. Adjustable supply high over the stove, combustion air low under the benches, and a clearing exhaust near the ceiling that stays shut while bathing.');
+    var mgC = r.foot - s.stone;
+    setCap('secTitle', 'Side view, to scale. ' + (mgC >= 9.95 ? 'Feet are ' + f.len(mgC) + ' above the top of the stones' + (mgC >= 19.95 ? ': ideal.' : '. ' + f.len(10) + ' is good, ' + f.len(20) + ' ideal.') : mgC >= 0 ? 'Feet are only ' + f.len(mgC) + ' above the stones; aim for ' + f.len(10) + ' or more.' : 'Feet are ' + f.len(-mgC) + ' below the stones; raise the benches or the ceiling until they clear by ' + f.len(10) + ' or more.'),
+      'Heater wall on the left, bench wall on the right. Hot air rises off the stones, crosses under the ceiling and rolls down over the benches; cooler air returns along the floor to the heater. Anything below the top of the stones sits under that loop, which is why the feet need to clear them. '
+      + (r.exempt && noDuct ? 'The Air Perfect has no tall duct: it draws air from between its two stone layers and blows the mixed air out low toward the benches. ' : r.exempt ? 'The tall duct is the Saunum blower: it pulls the ceiling layer back down and blows mixed air out low under the benches, the reverse of the usual loop. ' : '')
+      + (sm ? '' : 'Drag a bench, the heater (up and down for the stones, sideways for its depth), the ceiling or either wall to change it.'));
 
     // room
     o.push('<path class="s-room" stroke-width="' + sw * 2.2 + '" d="M' + x0 + ' ' + yF + 'L' + x0 + ' ' + yCh + 'L' + x1 + ' ' + yCb + 'L' + x1 + ' ' + yF + 'z"/>');
@@ -1721,7 +1723,7 @@ if (typeof document !== 'undefined') (function(){
     } catch(e){}
     if (mgn < -0.05 && !r.exempt) flagged.bad = true; else if (mgn < 9.95) flagged.warn = true;
     if (flagged.bad) keyItems.unshift(['lg-bad', 'Red measurements fail a check and need fixing']);
-    if (flagged.warn) keyItems.splice(flagged.bad ? 1 : 0, 0, ['lg-warn', 'Yellow measurements are compromises: workable, but short of what the Trumpkin notes recommend']);
+    if (flagged.warn) keyItems.splice(flagged.bad ? 1 : 0, 0, ['lg-warn', 'Yellow measurements are compromises: workable, but short of the recommended figure']);
     var lg = document.getElementById('secLegend');
     if (lg){ lg.innerHTML = ''; keyItems.forEach(function(it){ lg.appendChild(el('li', null, [el('i', {class:it[0]}), el('span', {text:it[1]})])); }); }
   }
@@ -1768,8 +1770,10 @@ if (typeof document !== 'undefined') (function(){
     }
 
     svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh); svg.innerHTML = o.join('');
-    var adj = r.exempt ? ' The left column is the still-air baseline. A Saunum is designed to give a more even temperature from head to toe: its blower pulls the hot ceiling layer down and sends mixed air out at floor level, so the ceiling runs cooler and the feet warmer than the numbers on the left. There are no hard figures for how much, from the Trumpkin notes or from Saunum, so the right-hand column is an illustration of that intent and carries no temperatures on purpose.' : r.stratAdjHi < 0 ? ' Mechanical downdraft typically takes 4 to 15°C off the head to toe figure.' : r.stratAdjHi > 0 ? ' Natural convection with an electric heater typically adds 8 to 12°C to the head to toe figure.' : '';
-    document.getElementById('stratTitle').textContent = 'Heat stratification for your ceiling height, modelled on the simple stratification chart in the Trumpkin notes: ' + (imp ? '194°F at the ceiling and 90°F' : '90°C at the ceiling and 32°C') + ' at the floor. Red is the löyly cavity, blue the cold zone, grey the heater up to the stones. The box is a seated bather from foot bench to head.' + adj + ' It is a simple model for comparing designs, not a prediction of your thermometer.';
+    var adj = r.exempt ? ' The left column is still air. A Saunum blower pulls the ceiling layer down and sends mixed air out low, so the ceiling runs cooler and the feet warmer; nobody publishes by how much, so the right column shows the idea without numbers.' : r.stratAdjHi < 0 ? ' Mechanical downdraft typically takes 4 to 15°C (7 to 27°F) off the head to toe gap.' : r.stratAdjHi > 0 ? ' Natural ventilation with an electric heater typically adds 8 to 12°C (14 to 22°F) to it.' : '';
+    var sp = Math.round(r.strat.pct);
+    setCap('stratTitle', 'Temperature from floor to ceiling. Your head and feet are about ' + td(r.strat.diff) + ' (' + sp + '%) apart in still air: ' + (sp <= 15 ? 'ideal, under 15%.' : sp <= 20 ? 'good, under 20%; 15% is ideal.' : 'too much; aim for under 20%. A higher foot bench closes the gap.'),
+      'A simple model: ' + (imp ? '194°F at the ceiling and 90°F' : '90°C at the ceiling and 32°C') + ' at the floor. Red is the hot layer under the ceiling, blue the cold zone, grey the heater up to the stones. The box is a seated bather from foot bench to head.' + adj + ' Use it to compare designs, not to predict your thermometer.');
   }
   function drawPlan(r, f){
     var svg = document.getElementById('plan'), HP = [];
@@ -1841,6 +1845,12 @@ if (typeof document !== 'undefined') (function(){
     if (natV){ R('s-ventp', x0 + 2, y0 + 12, wt - 4, vW, ' data-clear="1"'); if (!sm2) o.push('<text x="' + mx(x0 + wt + 2) + '" y="' + (y0 + 12 + vW / 2 + vfs * .35) + '" class="t-m" text-anchor="' + (flip ? 'end' : 'start') + '" font-size="' + vfs + '">Clearing, high</text>'); }
     o.push('<rect x="' + Math.min(mx(dx), mx(dx + dw)) + '" y="' + (y1 - sw) + '" width="' + dw + '" height="' + (wt + sw * 2) + '" fill="var(--ice)"/>');
     o.push('<path class="s-dim" stroke-width="' + sw * .7 + '" d="M' + mx(dx) + ' ' + (y1 + wt) + ' L' + mx(dx) + ' ' + (y1 + wt + dw) + ' A' + dw + ' ' + dw + ' 0 0 ' + (flip ? 1 : 0) + ' ' + mx(dx + dw) + ' ' + (y1 + wt) + '"/>');
+    var pk = [['lg-seat', 'Bather: one seat per 60 cm (24\u2033) along the front edge of the foot bench'], ['lg-timber', 'Sitting bench' + (r.step.on ? ', step' : '') + (s.guard ? (r.step.on ? ',' : '') + ' and the guard rail around the heater' : '')], ['lg-foot', 'Foot bench'], ['lg-heater', s.heater === 'wood' ? 'Stove' : 'Heater'], ['lg-ventp', small() ? (r.vent === 'mech' ? 'Vents: supply by the heater, exhaust low in the bench wall' : 'Vents: supply by the heater, exhaust in the bench wall, clearing vent in the far corner') : 'Vents, labelled in the wall'], ['lg-door', 'Door: opens out, no latch']];
+    if (s.floorType === 'wood') pk.push(['lg-drain', 'Floor drain under the foot bench']);
+    if (s.heater === 'wood' && s.clr > 0) pk.push(['lg-zone', 'Stove clearance to combustibles, ' + f.len(s.clr)]);
+    var plg = document.getElementById('planLegend'); if (plg){ plg.innerHTML = ''; pk.forEach(function(it){ plg.appendChild(el('li', null, [el('i', {class:it[0]}), el('span', {text:it[1]})])); }); }
+    setCap('planTitle', 'From above. ' + (r.seats >= s.n ? 'Seats ' + r.seats + ', enough for ' + s.n + '.' : 'Seats ' + r.seats + ', short of the ' + s.n + ' bathers you want.') + (small() ? '' : ' Drag a wall to resize, the heater to the other side, or the step along the bench.'),
+      'Seats are counted along the front edge of the foot bench, so nobody in an inside corner sits on someone else\u2019s legs. The door opens outward with no latch, so anyone can leave with a push. ' + (r.vent === 'mech' ? 'Fresh air comes in high over the heater and leaves low in the bench wall about the middle of the run, a little away from the heater, so it crosses the whole room first.' : 'Air comes in at the heater and leaves through the bench wall; the clearing vent high in the far corner stays shut until after bathing.'));
     T(x0 - wt, y0 - wt - fs * 1.9, 'Outside ' + f.big(r.outW) + ' × ' + f.big(r.outD) + ', walls ' + f.thin(r.wallT), 't');
     T(x0 - wt, y0 - wt - fs * .6, 'Inside ' + f.big(s.W) + ' × ' + f.big(s.D) + '. ' + (isL ? 'L-shape' : 'Straight') + ', seats ' + r.seats, 't-m');
     T(x0 - wt, y1 + wt + dw + fs * 1.5, 'Door opens out, no latch', 't-m');
