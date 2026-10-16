@@ -511,7 +511,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 20. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 21. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -646,20 +646,22 @@ function heaterById(id){ for (var i = 0; i < HEATERS.length; i++) if (HEATERS[i]
 /* Simple stratification, fitted to Trumpkin's 'Simple Heat Stratification In Sauna By Ceiling Height' chart:
    90 F at the floor, 194 F at the ceiling, a steep cold zone up to 30 in, a step at 36 in, then a straight line to the ceiling.
    Columns for 7, 8, 9 and 10 ft cabins reproduce within a degree or two; between 6 and 7 ft it blends toward the chart's barrel column. */
-function stratTemp(hIn, HIn){
+function stratTemp(hIn, HIn, sIn){
   var lerp = function(a, b, t){ return a + (b - a) * Math.max(0, Math.min(1, t)); };
   var t7 = (HIn - 72) / 12, tU = (HIn - 84) / 36;
+  // Trumpkin's chart is drawn for stones about 30 in up. The steep part below the stones and the step just above them move with the top of the stones.
+  var S = Math.max(18, Math.min(sIn == null ? 30 : sIn, Math.max(18, HIn - 30)));
   var T30 = HIn >= 84 ? lerp(150, 153, tU) : lerp(122, 150, t7);
   var T36 = HIn >= 84 ? lerp(162, 166, tU) : lerp(133, 162, t7);
-  var T42 = HIn >= 84 ? T36 + (194 - T36) * 6 / Math.max(6, HIn - 36) : lerp(159, 166, t7);
-  var k = [[0, 90], [30, T30], [36, T36], [42, T42], [Math.max(HIn, 48), 194]];
+  var T42 = HIn >= 84 ? T36 + (194 - T36) * 6 / Math.max(6, HIn - S - 6) : lerp(159, 166, t7);
+  var k = [[0, 90], [S, T30], [S + 6, T36], [S + 12, T42], [Math.max(HIn, S + 18), 194]];
   if (hIn <= 0) return 90; if (hIn >= HIn) return 194;
   for (var i = 1; i < k.length; i++) if (hIn <= k[i][0]) return lerp(k[i-1][1], k[i][1], (hIn - k[i-1][0]) / (k[i][0] - k[i-1][0]));
   return 194;
 }
-function stratify(Hcm, footCm){
+function stratify(Hcm, footCm, stoneCm){
   var H = Hcm / IN, toeH = Math.max(0, footCm / IN), headH = Math.min(H, toeH + 54);   // the chart's seated bather spans 54 in from foot bench to head
-  var toe = stratTemp(toeH, H), head = stratTemp(headH, H);
+  var sIn = stoneCm == null ? null : stoneCm / IN, toe = stratTemp(toeH, H, sIn), head = stratTemp(headH, H, sIn);
   return {toeH: toeH * IN, headH: headH * IN, toe: toe, head: head, diff: head - toe, pct: (head - toe) / head * 100};
 }
 
@@ -725,7 +727,7 @@ function compute(s){
   r.cfmHi = Math.max(25 * s.n, ach * CFM_PER_LS) + (r.ul ? 25 : 0);
 
   r.vent = s.vent === 'mech' ? 'mech' : s.vent === 'nat' ? 'nat' : (s.heater === 'electric' ? 'mech' : 'nat');
-  r.strat = stratify(Hs, foot);
+  r.strat = stratify(Hs, foot, s.stone);
   // The Trumpkin notes: without combustion to pull exhaust, natural convection adds about 8 to 12 C head to toe; mechanical downdraft removes about 4 to 15 C.
   var selfExhaust = s.heater === 'wood' && r.vent === 'nat';
   r.stratAdjLo = selfExhaust ? 0 : r.vent === 'mech' ? -15 * 1.8 : 8 * 1.8;
@@ -847,13 +849,15 @@ function runChecks(s, r, f){
        : 'A comfortable sitting height that keeps the foot bench as high as it can be.',
     more: 'The usual range is 40 to 45 cm (16 to 18″). The low end is better: it lifts the foot bench and is easier on knees. As little as 25 cm (10″) works when it is needed to get the feet higher.'});
 
-  var pp = r.V / s.n;
+  var pp = r.V / s.n, CF = 35.3147, minPP = 105 / CF - 0.005, floorV = (70 * s.n + 35) / CF - 0.005;   // 3 m³ is written as 105 cu ft; the floor is 70 cu ft each plus 35
   c.push({name:'Air volume per bather', val: f.vol(pp) + ' each, ' + f.vol(r.V) + ' total',
-    st: pp >= 3.75 ? 'ok' : pp >= 3 ? 'warn' : 'bad',
+    st: pp >= 3.75 ? 'ok' : (pp >= minPP || r.V >= floorV) ? 'warn' : 'bad',
     why: pp >= 3.75 ? 'Enough air for everyone to breathe easy and for the heat to stay even.'
-       : pp >= 3 ? 'Meets the bare minimum, but the air will get stale with a full bench. Fewer bathers or more ventilation helps.'
+       : pp >= minPP ? 'Meets the bare minimum, but the air will get stale with a full bench. Fewer bathers or more ventilation helps.'
+       : r.V >= floorV ? 'Under the usual minimum but above the absolute floor. Workable with good ventilation; it will feel close with a full bench.'
        : 'Too little air for this many people. Plan on fewer bathers at once.',
-    more: '4 to 6 m³ (140 to 210 cu ft) per person is recommended for fresh air and even heat. The Finnish building guidance (RT cards) sets 3 m³ (105 cu ft) as the minimum.'});
+    more: '4 to 6 m³ (140 to 210 cu ft) per person is recommended for fresh air and even heat. The Finnish building guidance (RT cards) sets 3 m³ (105 cu ft) as the minimum. Trumpkin\u2019s kit reviews give an absolute floor of '
+       + (f.imp ? '70 cu ft per person plus 35 cu ft, ' + Math.round(70 * s.n + 35) + ' cu ft' : 'about 2 m³ per person plus 1 m³, ' + (Math.round((70 * s.n + 35) / CF * 10) / 10) + ' m³') + ' for ' + s.n + (s.n === 1 ? ' bather' : ' bathers') + '; below that the air goes stale too fast.'});
 
   c.push({name:'Distance from heater to foot bench', val: (r.clear >= 0 ? f.len(r.clear) : 'No') + ' clear space',
     st: (r.clear < 60 || s.D < 183) ? 'bad' : r.clear < 90 ? 'warn' : 'ok',
@@ -1877,7 +1881,7 @@ if (typeof document !== 'undefined') (function(){
     var svg = document.getElementById('strat'), imp = f.imp, step = imp ? 6 * IN : 15, H = r.Hs;
     var n = Math.ceil(H / step - 1e-6), rowH = 22, colW = 150, labW = 78, padT = 30, padB = 8;
     var col2 = r.exempt ? 118 : 0, gap2 = r.exempt ? 14 : 0, padTop = r.exempt ? 46 : padT; padT = padTop;
-    var vw = labW + colW + gap2 + col2 + 210, vh = padT + n * rowH + rowH + padB + 30, o = [], fsz = 13;
+    var vw = labW + colW + gap2 + col2 + 210, vh = padT + n * rowH + rowH + padB + 30 + 24 + 40, o = [], fsz = 13;
     var stratColor = function(F){ var st = [[90,[169,207,230]],[110,[198,222,234]],[135,[227,224,217]],[155,[241,211,197]],[172,[235,176,154]],[194,[219,128,102]]];   // one temperature scale for every room
       if (F <= st[0][0]) return 'rgb(' + st[0][1].join(',') + ')';
       for (var q = 1; q < st.length; q++) if (F <= st[q][0]){ var a = st[q - 1], b = st[q], k = (F - a[0]) / (b[0] - a[0]); return 'rgb(' + a[1].map(function(v, j){ return Math.round(v + (b[1][j] - v) * k); }).join(',') + ')'; }
@@ -1891,16 +1895,17 @@ if (typeof document !== 'undefined') (function(){
       o.push('<text x="' + (labW + colW + gap2 + col2 / 2) + '" y="' + (padT - 27) + '" text-anchor="middle" font-size="' + fsz + '" class="t-m">With the blower</text>');
       o.push('<text x="' + (labW + colW + gap2 + col2 / 2) + '" y="' + (padT - 10) + '" text-anchor="middle" font-size="' + fsz + '" class="t-warn" font-weight="600">illustration only</text>');
     }
+    var ot = [];                                                                   // row labels go on top of the stones line
     for (var i = n; i >= 0; i--){
-      var hc = Math.min(i * step, H), F = stratTemp(hc / IN, H / IN), yy = padT + (n - i) * rowH;
+      var hc = Math.min(i * step, H), F = stratTemp(hc / IN, H / IN, s.stone / IN), yy = padT + (n - i) * rowH;
       var isCold = hc <= H / 3 + .01;
       o.push('<rect x="' + labW + '" y="' + yy + '" width="' + colW + '" height="' + (rowH - 1) + '" fill="' + stratColor(F) + '"/>');
       if (isCold) o.push('<rect x="' + labW + '" y="' + yy + '" width="' + colW + '" height="' + (rowH - 1) + '" fill="url(#coldHatch)"/>');
       if (r.exempt){ var tRow = n ? i / n : 1, warm = 0.17 + 0.07 * tRow;                    // opacity only: deliberately not tied to any temperature
         o.push('<rect x="' + (labW + colW + gap2) + '" y="' + yy + '" width="' + col2 + '" height="' + (rowH - 1) + '" fill="var(--heat)" fill-opacity="' + warm.toFixed(3) + '"/>');
         if (i === 0) o.push('<rect x="' + (labW + colW + gap2) + '" y="' + yy + '" width="' + col2 + '" height="' + (rowH - 1) + '" fill="var(--cold)" fill-opacity=".14"/>'); }
-      o.push('<text x="' + (labW - 10) + '" y="' + (yy + rowH * .7) + '" text-anchor="end" font-size="' + fsz + '" class="t-m">' + (imp ? Math.round(hc / IN) : Math.round(hc)) + '</text>');
-      o.push('<text x="' + (labW + colW / 2) + '" y="' + (yy + rowH * .7) + '" text-anchor="middle" font-size="' + fsz + '" fill="#14302B" font-weight="700" paint-order="stroke" stroke="' + stratColor(F) + '" stroke-width="3">' + (imp ? Math.round(F) + '°F' : Math.round((F - 32) / 1.8) + '°C') + '</text>');
+      ot.push('<text x="' + (labW - 10) + '" y="' + (yy + rowH * .7) + '" text-anchor="end" font-size="' + fsz + '" class="t-m">' + (imp ? Math.round(hc / IN) : Math.round(hc)) + '</text>');
+      ot.push('<text x="' + (labW + colW / 2) + '" y="' + (yy + rowH * .7) + '" text-anchor="middle" font-size="' + fsz + '" fill="#14302B" font-weight="700" paint-order="stroke" stroke="' + stratColor(F) + '" stroke-width="3">' + (imp ? Math.round(F) + '°F' : Math.round((F - 32) / 1.8) + '°C') + '</text>');
       if (hc <= s.stone + .01) o.push('<rect class="s-heater" x="' + (labW - 70) + '" y="' + yy + '" width="12" height="' + (rowH - 1) + '" opacity=".6"/>');
     }
     var iCold = Math.floor((H / 3 + .01) / step), yCold = padT + (n - iCold) * rowH, yEnd = padT + (n + 1) * rowH - 1;   // the cold zone: bracket, edge line and a key line under the chart
@@ -1908,6 +1913,13 @@ if (typeof document !== 'undefined') (function(){
     o.push('<line x1="' + (labW - 7) + '" x2="' + (labW + colW) + '" y1="' + (yCold - .5) + '" y2="' + (yCold - .5) + '" stroke="var(--cold)" stroke-width="2.5" stroke-dasharray="5 3"/>');
     o.push('<rect x="' + (labW - 7) + '" y="' + (yEnd + 12) + '" width="16" height="14" fill="' + stratColor(110) + '"/><rect x="' + (labW - 7) + '" y="' + (yEnd + 12) + '" width="16" height="14" fill="url(#coldHatch)" stroke="var(--cold)" stroke-width="1"/>');
     o.push('<text x="' + (labW + 16) + '" y="' + (yEnd + 24) + '" font-size="' + fsz + '" class="t-c" font-weight="700">Cold zone: the lower third, below ' + f.len(H / 3) + '</text>');
+    var yS = yOf(Math.min(s.stone, H));                                            // top of the stones, across the heater column and the chart, under the row labels
+    o.push('<line x1="' + (labW - 73) + '" x2="' + (labW - 55) + '" y1="' + yS + '" y2="' + yS + '" stroke="var(--heat)" stroke-width="2.5"/><line x1="' + labW + '" x2="' + (labW + colW) + '" y1="' + yS + '" y2="' + yS + '" stroke="var(--heat)" stroke-width="2.5" stroke-dasharray="6 3"/>');
+    o.push(ot.join(''));
+    o.push('<rect class="s-heater" x="' + (labW - 7) + '" y="' + (yEnd + 36) + '" width="16" height="14" opacity=".6"/><line x1="' + (labW - 9) + '" x2="' + (labW + 11) + '" y1="' + (yEnd + 36) + '" y2="' + (yEnd + 36) + '" stroke="var(--heat)" stroke-width="2.5" stroke-dasharray="5 2"/>');
+    o.push('<text x="' + (labW + 16) + '" y="' + (yEnd + 48) + '" font-size="' + fsz + '" class="t" font-weight="600">Heater, with the top of the stones at ' + f.len(s.stone) + '</text>');
+    o.push('<text x="' + (labW - 7) + '" y="' + (yEnd + 72) + '" font-size="' + (fsz - 1) + '" class="t-m">An estimate, not a measurement: Trumpkin\u2019s stratification</text>');
+    o.push('<text x="' + (labW - 7) + '" y="' + (yEnd + 88) + '" font-size="' + (fsz - 1) + '" class="t-m">chart, shifted to your stones and adjusted for ventilation.</text>');
     var yTop = padT + (n - Math.min(n, Math.round(r.strat.headH / step))) * rowH, yBot = padT + (n - Math.round(r.strat.toeH / step) + 1) * rowH;
     o.push('<rect x="' + (labW + 1.5) + '" y="' + yTop + '" width="' + (colW - 3) + '" height="' + (yBot - yTop - 1) + '" fill="none" stroke="var(--spruce)" stroke-width="3"/>');
     var bx = labW + colW + gap2 + col2 + 14, tf = function(F){ return imp ? Math.round(F) + '°F' : Math.round((F - 32) / 1.8) + '°C'; }, td = function(F){ return imp ? Math.round(F) + '°F' : Math.round(F / 1.8) + '°C'; };
@@ -1929,7 +1941,7 @@ if (typeof document !== 'undefined') (function(){
     var adj = r.exempt ? ' The left column is still air. A Saunum blower pulls the ceiling layer down and sends mixed air out low, so the ceiling runs cooler and the feet warmer; nobody publishes by how much, so the right column shows the idea without numbers.' : r.stratAdjHi < 0 ? ' Mechanical downdraft typically takes 4 to 15°C (7 to 27°F) off the head to toe gap.' : r.stratAdjHi > 0 ? ' Natural ventilation with an electric heater typically adds 8 to 12°C (14 to 22°F) to it.' : '';
     var sp = Math.round(r.strat.pct);
     setCap('stratTitle', 'Temperature from floor to ceiling. Your head and feet are about ' + td(r.strat.diff) + ' (' + sp + '%) apart in still air: ' + (sp <= 15 ? 'ideal, under 15%.' : sp <= 20 ? 'good, under 20%; 15% is ideal.' : 'too much; aim for under 20%. A higher foot bench closes the gap.'),
-      'A simple model: ' + (imp ? '194°F at the ceiling and 90°F' : '90°C at the ceiling and 32°C') + ' at the floor. Each row is coloured by its temperature on one scale for every room, blue for cool through to terracotta at the hottest. Striped rows under the dashed line are the cold zone, the lower third of the room; grey is the heater up to the stones. The box is a seated bather from foot bench to head.' + adj + ' Use it to compare designs, not to predict your thermometer.');
+      'A simple model: ' + (imp ? '194°F at the ceiling and 90°F' : '90°C at the ceiling and 32°C') + ' at the floor. Each row is coloured by its temperature on one scale for every room, blue for cool through to terracotta at the hottest. Striped rows under the dashed line are the cold zone, the lower third of the room; grey is the heater and the orange dashed line the top of its stones. The steepest change sits below the stones and moves with them: Trumpkin\u2019s chart is drawn for stones about ' + f.len(76) + ' up, so the curve is shifted to your heater. The box is a seated bather from foot bench to head. Treat the numbers as an estimate; real rooms vary with the heater, the ventilation and how tight the room is.' + adj + ' Use it to compare designs, not to predict your thermometer.');
   }
   function drawPlan(r, f){
     var svg = document.getElementById('plan'), HP = [];
