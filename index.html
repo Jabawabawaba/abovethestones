@@ -511,7 +511,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 19. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 20. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -798,11 +798,12 @@ function compute(s){
   return r;
 }
 
-var UNIT_MET = /(\d[\d.,]*(?:\s*(?:to|\u00d7|x)\s*\d[\d.,]*)*\s*(?:cm|mm|m\u00b3|m|kg))\s+\(([^()]*?(?:\u2033|\u2032|ft|lb)[^()]*)\)/g;
+var UNIT_MET = /(\d[\d.,]*(?:\s*(?:to|or|\u00d7|x)\s*\d[\d.,]*)*\s*(?:cm|mm|m\u00b2|m\u00b3|m|kg|l\/s|Pa))\s+\(([^()]*?(?:\u2033|\u2032|ft|lb|CFM)[^()]*)\)/g;
+var UNIT_RSI = /(RSI [^()]+?)\s+\((R-[^()]+)\)/g;
 var UNIT_IMP = /([\d\u00bc\u00bd\u00be\u215b\u215c\u215d\u215e][\d.,\u00bc\u00bd\u00be\u215b\u215c\u215d\u215e]*(?:\s*(?:to|\u00d7|x)\s*[\d\u00bc\u00bd\u00be][\d.,\u00bc\u00bd\u00be]*)*\s*(?:\u2033|\u2032|ft))\s+\(([^()]*?\d\s*(?:cm|mm|m\u00b3|m)(?![a-z])[^()]*)\)/g;
 function unitText(str, imp){                                                     // show only the units the page is set to
   if (typeof str !== 'string' || str.indexOf('(') < 0) return str;
-  return str.replace(UNIT_MET, function(m0, met, im){ return imp ? im : met; }).replace(UNIT_IMP, function(m0, im, met){ return imp ? im : met; });
+  return str.replace(UNIT_MET, function(m0, met, im){ return imp ? im : met; }).replace(UNIT_IMP, function(m0, im, met){ return imp ? im : met; }).replace(UNIT_RSI, function(m0, met, im){ return imp ? im : met; });
 }
 function runChecks(s, r, f){
   var c = [];
@@ -964,17 +965,17 @@ function runChecks(s, r, f){
          + (over ? ' Go up a size or cut the glass.' : '')
          + (!fits && !over ? ' An oversized heater cycles on and off harder, cannot hold lower temperatures well and can be a fire hazard.' : '')});
     var useKg = model.akg || model.kg, perM3 = useKg / r.V;
-    c.push({name:'Stone mass in this heater', val: f.mass(useKg) + (model.akg ? ' of active stone' : ' of stone') + (model.akg && model.akg < model.kg ? ' out of ' + f.mass(model.kg) : '') + ', which is ' + (Math.round(perM3 * 10) / 10) + ' kg per m³ here',
+    c.push({name:'Stone mass in this heater', val: f.mass(useKg) + (model.akg ? ' of active stone' : ' of stone') + (model.akg && model.akg < model.kg ? ' out of ' + f.mass(model.kg) : '') + ', which is ' + f.dens(perM3, true) + ' here',
       st: perM3 >= 4 ? 'ok' : 'warn',
       why: perM3 >= 6 ? 'Plenty of stone for soft, lasting steam.'
          : perM3 >= 4 ? 'Enough stone for good steam. More would be softer.'
          : 'Light on stone for this room. Expect sharper, shorter bursts of steam.',
-      more: 'More hot stone per cubic metre of room means each ladle of water turns to gentle steam instead of a harsh blast. 4 kg per m³ is the minimum and 6 is better.'
+      more: 'More hot stone per ' + (f.imp ? 'cubic foot' : 'cubic metre') + ' of room means each ladle of water turns to gentle steam instead of a harsh blast. ' + (f.imp ? '0.25 lb per cu ft is the minimum and 0.37 is better.' : '4 kg per m³ is the minimum and 6 is better.')
          + (perM3 < 4 ? ' 3 may be the best available in North America, and a well designed heater can do better than its numbers suggest.' : '')});
     if (model.group === 'caution') c.push({name:'Heater choice', val: model.name, st:'warn', why: 'This heater has a known drawback for a Finnish-style sauna.', more: model.note});
   } else {
     c.push({name:'Heater matched to the room', val:'No heater model loaded', st:'na', why:'Pick a heater model to compare its rated range with this room.', more:'Glass and masonry are counted as extra volume before comparing.'});
-    c.push({name:'Stone mass in this heater', val:'No heater model loaded', st:'na', why:'Pick a heater model to check how much stone it holds for this room.', more:'4 to 6 kg of active stone per m³ of room is the target.'});
+    c.push({name:'Stone mass in this heater', val:'No heater model loaded', st:'na', why:'Pick a heater model to check how much stone it holds for this room.', more: (f.imp ? '0.25 to 0.37 lb of active stone per cu ft of room' : '4 to 6 kg of active stone per m³ of room') + ' is the target.'});
   }
   if (s.heater === 'wood'){
     var isLw = r.layout === 'L', worst = isLw ? Math.min(r.clrFront, r.clrSide) : r.clrFront, okClr = worst >= s.clr - 0.5;
@@ -1026,17 +1027,18 @@ function makeFmt(units){
       var t = half(cm / IN), ft = Math.floor(t / 12), i = t - ft * 12;
       return ft + '′' + (i > 0 ? ' ' + inStr(i) : '');
     },
-    alt: function(cm){ return imp ? Math.round(cm) + ' cm' : inStr(cm / IN); },
+    alt: function(cm){ return ''; },                                                // one set of units only; the old second column is left empty
     vol: function(m3){ return imp ? Math.round(m3 * 35.3147) + ' cu ft' : (Math.round(m3 * 10) / 10) + ' m³'; },
-    volAlt: function(m3){ return imp ? (Math.round(m3 * 10) / 10) + ' m³' : Math.round(m3 * 35.3147) + ' cu ft'; },
+    volAlt: function(m3){ return ''; },
     mass: function(kg){ return imp ? Math.round(kg * 2.20462 / 5) * 5 + ' lb' : Math.round(kg) + ' kg'; },
     thin: function(cm){
       if (!imp) return Math.round(cm * 10) + ' mm';
       var e = Math.round(cm / IN * 8), w = Math.floor(e / 8), fr = ['', '⅛', '¼', '⅜', '½', '⅝', '¾', '⅞'][e % 8];
       return (w === 0 && fr ? '' : w) + fr + '″';
     },
-    thinAlt: function(cm){ return imp ? Math.round(cm * 10) + ' mm' : (Math.round(cm / IN * 8) / 8) + '″'; },
-    massAlt: function(kg){ return imp ? Math.round(kg) + ' kg' : Math.round(kg * 2.20462 / 5) * 5 + ' lb'; }
+    thinAlt: function(cm){ return ''; },
+    massAlt: function(kg){ return ''; },
+    dens: function(kgm3, dp){ return imp ? (Math.round(kgm3 * 0.062428 * 100) / 100) + ' lb per cu ft' : (dp ? Math.round(kgm3 * 10) / 10 : kgm3) + ' kg per m³'; }
   };
 }
 
@@ -1044,7 +1046,7 @@ function makeFmt(units){
 if (typeof document !== 'undefined') (function(){
   var KEY = 'sauna-calc-v1';
   var DEFAULTS = {units:'imperial', view:'simple', W:243.84, D:243.84, H:259.08, n:4, heater:'electric', ul:true,
-    model:'', bottom:0, stone:76.2, proj:45.72, masonry:0, hasWin:false, winCount:0, winArea:0.23, w1:'side-far', w2:'', w3:'', w4:'', mode:'auto', footH:96.52, sitH:139.7, sitDepth:60.96, footDepth:45.72, layout:'auto', legLen:0, stepOn:false, stepN:0, stepW:91.44, stepD:30.48, stepPos:'center', stepOff:0, stepLeg:false, side:'R', vent:'auto', airsolo:false, ceil:'flat', Hheat:243.84, availW:0, availD:0, availH:0, cost:{}, extra:[], fix:{}, ductIn:6, tradeFit:false, crVent:'', start:'', startHeater:'', autoHeat:true, guard:true, benchSupport:'legs', rail:'auto', railKind:'none', railWhere:'auto', railStyle:'board', railH:0, grabPost:true, handRail:false, handH:0, naOnly:false, schedMode:'diy', pmStart:'', compareWith:'', slabHeat:'none', crLight:'', showLight:true, engWork:true, engSnow:30, engSoil:1500, engFeed:60, engWind:115, engRafter:'2×6', plWater:'', plWaste:'', plHot:'', plDist:914.4, xRoute:'', plRoute:'', studSize:'2x4', bInsul:'wool', crInsul:'', crPT:'', crHeat:'', bWall:'', bBench:'', bFinish:'', bDoor:'wood-window', bLight:'', pAddr:'', pOwner:'', pBy:'', gDrain:'', bNotes:'', xFound:'', xSiding:'', xRoof:'', xRoofing:'', xPorch:'', annexW:243.84, annexD:182.88, annexSide:'front', annexUse:'', porchD:121.92, crDoor:'front', crCubPlace:'floor', crCubWall:'door', crWinN:1, crWinArea:0.5, crWinWall:'front', crBench:true, crHooks:0, crCubbies:0, crPorchD:0, xPower:'', iRoom:'', iFloor:'', iExhaust:'', iSupply:'', iAbove:'', rate:0.30, sessionH:1.5, clr:91.44,
+    model:'', bottom:0, stone:76.2, proj:45.72, masonry:0, hasWin:false, winCount:0, winArea:0.23, w1:'side-far', w2:'', w3:'', w4:'', mode:'auto', footH:96.52, sitH:139.7, sitDepth:60.96, footDepth:45.72, layout:'auto', legLen:0, stepOn:false, stepN:0, stepW:91.44, stepD:30.48, stepPos:'center', stepOff:0, stepLeg:false, side:'R', vent:'auto', airsolo:false, ceil:'flat', Hheat:243.84, availW:0, availD:0, availH:0, cost:{}, costUnits:'', extra:[], fix:{}, ductIn:6, tradeFit:false, crVent:'', start:'', startHeater:'', autoHeat:true, guard:true, benchSupport:'legs', rail:'auto', railKind:'none', railWhere:'auto', railStyle:'board', railH:0, grabPost:true, handRail:false, handH:0, naOnly:false, schedMode:'diy', pmStart:'', compareWith:'', slabHeat:'none', crLight:'', showLight:true, engWork:true, engSnow:30, engSoil:1500, engFeed:60, engWind:115, engRafter:'2×6', plWater:'', plWaste:'', plHot:'', plDist:914.4, xRoute:'', plRoute:'', studSize:'2x4', bInsul:'wool', crInsul:'', crPT:'', crHeat:'', bWall:'', bBench:'', bFinish:'', bDoor:'wood-window', bLight:'', pAddr:'', pOwner:'', pBy:'', gDrain:'', bNotes:'', xFound:'', xSiding:'', xRoof:'', xRoofing:'', xPorch:'', annexW:243.84, annexD:182.88, annexSide:'front', annexUse:'', porchD:121.92, crDoor:'front', crCubPlace:'floor', crCubWall:'door', crWinN:1, crWinArea:0.5, crWinWall:'front', crBench:true, crHooks:0, crCubbies:0, crPorchD:0, xPower:'', iRoom:'', iFloor:'', iExhaust:'', iSupply:'', iAbove:'', rate:0.30, sessionH:1.5, clr:91.44,
     situ:'inside', outer:1.27, studs:8.89, pir:3.0, gap:1.5, clad:1.905, floorType:'wood', floorFrame:13.97, flooring:2.54, ceilJoist:13.97};
   var s = JSON.parse(JSON.stringify(DEFAULTS));
   try {                                                               // first visit only: the browser's own region setting, nothing is sent anywhere
@@ -1115,7 +1117,7 @@ if (typeof document !== 'undefined') (function(){
       {k:'outer', type:'thin', label:'Outer skin'},
       {k:'studSize', type:'pick', label:'Wall framing', hint:'The Trumpkin notes call for insulated 2×4 framing; 2×6 holds more insulation for a cold climate.', opts:[['2x4','2×4 studs'],['2x6','2×6 studs'],['other','Other depth']]},
       {k:'studs', type:'thin', label:'Stud depth', show:function(){ return s.studSize === 'other'; }},
-      {k:'pir', type:'thin', label:'Foil-faced PIR', hint:'The only vapor barrier, taped at every seam. Sauna boards are commonly about 30 mm.'},
+      {k:'pir', type:'thin', label:'Foil-faced PIR', hint:'The only vapor barrier, taped at every seam. Sauna boards are commonly about 30 mm (1¼″).'},
       {k:'gap', type:'thin', label:'Air gap on vertical furring', hint:'The Trumpkin notes ask for 10 to 20 mm (½ to ¾″).'},
       {k:'clad', type:'thin', label:'Interior cladding', hint:'1×4 tongue and groove is ¾″ (19 mm) actual.'},
       {k:'floorType', type:'seg', label:'Floor', opts:[['wood','Wood frame and drain'],['slab','Existing slab']]},
@@ -1139,14 +1141,14 @@ if (typeof document !== 'undefined') (function(){
       {k:'masonry', type:'area', label:'Stone, tile or uninsulated wall area'},
       {k:'clr', type:'small', label:'Stove clearance to combustibles', hint:'From the stove manual; 36″ (91 cm) is the default for an unlisted stove.', show:function(){ return s.heater === 'wood'; }},
       {k:'guard', type:'check', label:'Guard rail around the heater', hint:'A wooden rail at about stone height, 10 cm (4″) off the heater. Most inspectors and kit manuals want one.'},
-      {k:'ul', type:'check', label:'UL-listed heater (North America)', hint:'Adds 15 to 25 CFM to keep the high-limit sensor cool.', show:function(){return s.heater==='electric';}},
+      {k:'ul', type:'check', label:'UL-listed heater (North America)', hint:'Adds 7 to 12 l/s (15 to 25 CFM) to keep the high-limit sensor cool.', show:function(){return s.heater==='electric';}},
       {k:'airsolo', type:'check', label:'Saunum AirSolo air mixer fitted', hint:'Offered because the feet are below the stones. Saunum\u2019s stand-alone blower treats the room like a Saunum.', show:function(){ return airsoloAvailable(); }}]},
     {legend:'Benches', fields:[
       {k:'mode', type:'seg', label:'Bench heights', opts:[['auto','Work them out'],['own','Check my own']]},
       {k:'footH', type:'small', label:'Foot bench height', show:function(){return s.mode==='own';}},
       {k:'sitH', type:'small', label:'Sitting bench height', show:function(){return s.mode==='own';}},
       {k:'benchSupport', type:'pick', label:'How the benches are held up', hint:'Any of these keeps the space under the benches open, as the Trumpkin notes want; skirts and closed risers do not.', opts:[['legs','Legs at the front, ledger at the wall'],['wall','Wall-hung on ledgers and brackets, nothing on the floor'],['cantilever','Cantilevered from the wall framing']]},
-      {k:'sitDepth', type:'small', label:'Sitting bench depth', hint:'24 to 28″ minimum in the Trumpkin notes, up to 40″ if there is room.'},
+      {k:'sitDepth', type:'small', label:'Sitting bench depth', hint:'60 to 70 cm (24 to 28″) minimum in the Trumpkin notes, up to 100 cm (40″) if there is room.'},
       {k:'footDepth', type:'small', label:'Foot bench depth'},
       {k:'stepOn', type:'check', label:'Add a step up to the foot bench', hint:'Even rises of 18″ (46 cm) or less. Does not count against the heater clearance.', show:function(){ return compute(s).step.fits; }},
       {k:'stepNo', type:'note', text:function(){ var r0 = compute(s); return r0.foot <= 30 ? 'No step needed: the foot bench is low enough to step onto.' : 'No room for a step. It needs at least ' + makeFmt(s.units).len(r0.step.n * 15 + 30) + ' of floor between the heater and the foot bench, and this design has ' + makeFmt(s.units).len(Math.max(0, r0.clear)) + '.'; }, show:function(){ return !compute(s).step.fits; }},
@@ -1402,7 +1404,7 @@ if (typeof document !== 'undefined') (function(){
           wrap.appendChild(el('label', {for:id, text:fd.label}));
           if (fd.hint){ var lbEl = wrap.querySelector('label') || wrap.querySelector('.lab'); if (lbEl) lbEl.appendChild(infoBtn(fd.hint)); else wrap.appendChild(infoBtn(fd.hint)); }
           var ps = el('select', {id:id});
-          [['', 'Choose an example'], ['min', 'The Trumpkin minimum, 8 × 8 × 8½ ft'], ['kit7', 'Typical indoor kit, 6 × 5 × 7 ft'], ['kit4', 'Small kit, 4 × 4 × 6½ ft']].forEach(function(o){ ps.appendChild(el('option', {value:o[0], text:o[1]})); });
+          [['', 'Choose an example'], ['min', 'The Trumpkin minimum, 2.4 × 2.4 × 2.6 m (8 × 8 × 8½ ft)'], ['kit7', 'Typical indoor kit, 1.8 × 1.5 × 2.1 m (6 × 5 × 7 ft)'], ['kit4', 'Small kit, 1.2 × 1.2 × 2 m (4 × 4 × 6½ ft)']].forEach(function(o){ ps.appendChild(el('option', {value:o[0], text:o[1]})); });
           ps.addEventListener('change', function(){ loadPreset(ps.value); });
           wrap.appendChild(el('div', {class:'row'}, [ps])); (subTarget && fd.sub === subTarget.key ? subTarget.el : fs).appendChild(wrap); return;
         }
@@ -2135,7 +2137,7 @@ if (typeof document !== 'undefined') (function(){
         el('td', {class:'n', 'data-l':'Stones at', text: x.h.stone != null ? f.len(x.h.stone) : 'set by you'}),
         el('td', {class:'n', 'data-l':'Foot bench', text: f.len(x.r.foot)}),
         el('td', {class:'n', 'data-l':'Headroom', text: f.len(x.r.gap)}),
-        el('td', {class:'n', 'data-l':'Active stone', text: (Math.round(x.perM3 * 10) / 10) + ' kg/m³'}),
+        el('td', {class:'n', 'data-l':'Active stone', text: f.imp ? (Math.round(x.perM3 * 0.062428 * 100) / 100) + ' lb/cu ft' : (Math.round(x.perM3 * 10) / 10) + ' kg/m³'}),
         el('td', null, [el('span', {class:'pill ' + x.st, text: LABEL[x.st]})]),
         el('td', null, [btn])]));
     });
@@ -2147,7 +2149,7 @@ if (typeof document !== 'undefined') (function(){
     else if (allRows.length > 3){ var lb = el('button', {type:'button', class:'linkbtn', text:'Show fewer'}); lb.style.margin = '0'; lb.addEventListener('click', function(){ fitLimit = 3; update(); document.getElementById('fitTitle').scrollIntoView({behavior:'smooth', block:'start'}); }); moreWrap.appendChild(lb); }
 
     var gr = document.getElementById('glassRead'); if (gr){ var ar = function(m2){ return f.imp ? (Math.round(m2 * SQFT * 10) / 10) + ' sq ft' : (Math.round(m2 * 100) / 100) + ' m²'; }; gr.textContent = ar(r.glass) + ' of glass' + (s.winCount > 0 ? ' (door ' + ar(doorGlass(s)) + ', windows ' + ar(windowGlass(s)) + ')' : '') + '.';
-      var gt = document.getElementById('glassTip'); if (gt){ var addV = r.glass * 1.25, vol = function(m3){ return f.imp ? Math.round(m3 * 35.3147) + ' cu ft' : (Math.round(m3 * 10) / 10) + ' m³'; }; gt.textContent = 'Glass counts toward heater size: it loses heat far faster than an insulated wall, so each ' + (f.imp ? 'square foot' : 'square metre') + ' of glass is treated as about ' + (f.imp ? '4 cu ft' : '1.25 m³') + ' more room to heat. This design\u2019s ' + ar(r.glass) + ' adds about ' + vol(addV) + ' to the ' + vol(r.V) + ' room, so the heater is sized for ' + vol(r.V + addV) + '. A window in a wood door is about 3 sq ft; a full glass door about 15 sq ft.'; } }
+      var gt = document.getElementById('glassTip'); if (gt){ var addV = r.glass * 1.25, vol = function(m3){ return f.imp ? Math.round(m3 * 35.3147) + ' cu ft' : (Math.round(m3 * 10) / 10) + ' m³'; }; gt.textContent = 'Glass counts toward heater size: it loses heat far faster than an insulated wall, so each ' + (f.imp ? 'square foot' : 'square metre') + ' of glass is treated as about ' + (f.imp ? '4 cu ft' : '1.25 m³') + ' more room to heat. This design\u2019s ' + ar(r.glass) + ' adds about ' + vol(addV) + ' to the ' + vol(r.V) + ' room, so the heater is sized for ' + vol(r.V + addV) + '. ' + (f.imp ? 'A window in a wood door is about 3 sq ft; a full glass door about 15 sq ft.' : 'A window in a wood door is about 0.3 m²; a full glass door about 1.4 m².'); } }
     var setSum = function(id, t){ var e = document.getElementById('sum_' + id); if (e) e.textContent = t; };
     setSum('Roominterior', f.big(s.W) + ' × ' + f.big(s.D) + ' × ' + (r.sloped ? f.big(r.Hh) + ' to ' + f.big(r.Hb) : f.big(s.H)) + ', ' + s.n + (s.n === 1 ? ' bather' : ' bathers'));
     setSum('Heater', (heaterById(s.model) ? heaterById(s.model).name : (s.heater === 'electric' ? 'Electric' : 'Wood') + ', no model') + ', stones at ' + f.len(s.stone));
@@ -2161,7 +2163,7 @@ if (typeof document !== 'undefined') (function(){
     var B = document.getElementById('build'); B.innerHTML = '';
     function sec(title, rows, note){
       var dl = el('dl');
-      rows.forEach(function(rw){ dl.appendChild(el('div', {class:'kv'}, [el('dt', {text:rw[0]}), el('dd', null, [document.createTextNode(rw[1]), el('span', {class:'sub', text:rw[2]||''})])])); });
+      rows.forEach(function(rw){ dl.appendChild(el('div', {class:'kv'}, [el('dt', {text:rw[0]}), el('dd', null, [document.createTextNode(rw[1]), el('span', {class:'sub', text:String(rw[2]||'').replace(/^[\s\u00d7,]+/, '')})])])); });
       var sc = el('section', title.indexOf('Space') === 0 ? {id:'space'} : null, [el('h3', {text:title}), dl]); if (note) sc.appendChild(el('p', {class:'note', text:note})); B.appendChild(sc);
     }
     sec(s.mode === 'auto' ? 'Bench heights' : 'Your bench heights', [
@@ -2178,13 +2180,13 @@ if (typeof document !== 'undefined') (function(){
     sec('Heater', [
       ['Room volume', f.vol(r.V), f.volAlt(r.V)],
       ['Shop for a heater rated for', f.vol(r.effV) + (r.effVhi - r.effV > .05 ? ' to ' + f.vol(r.effVhi) : ''), 'volume plus glass and masonry allowances'],
-      ['Power by the RT rule', (small ? 'about ' : 'up to ') + (Math.round(r.effVhi * 10) / 10) + ' kW', small ? '1 kW per m³' : 'less per m³ in rooms over 10 m³, so go by the maker\u2019s room range']],
-      'Finnish RT guidance: 1 kW per m³ under 10 m³ and slightly less above, plus 1 to 1.5 kW per m² of glass and 0.7 kW per m² of stone or tile. Stay inside the maker\u2019s stated room range. If the ceiling is tight, a smaller heater with lower stones can beat a bigger one. A wall-mounted thermostat sensor is better than one inside the heater.');
+      ['Power by the RT rule', (small ? 'about ' : 'up to ') + (Math.round(r.effVhi * 10) / 10) + ' kW', small ? (f.imp ? '1 kW per 35 cu ft' : '1 kW per m³') : (f.imp ? 'less per cu ft in rooms over 350 cu ft' : 'less per m³ in rooms over 10 m³') + ', so go by the maker\u2019s room range']],
+      'Finnish RT guidance: ' + (f.imp ? '1 kW per 35 cu ft under 350 cu ft and slightly less above, plus 1 to 1.5 kW per 11 sq ft of glass and 0.7 kW per 11 sq ft of stone or tile.' : '1 kW per m³ under 10 m³ and slightly less above, plus 1 to 1.5 kW per m² of glass and 0.7 kW per m² of stone or tile.') + ' Stay inside the maker\u2019s stated room range. If the ceiling is tight, a smaller heater with lower stones can beat a bigger one. A wall-mounted thermostat sensor is better than one inside the heater.');
 
     sec('Stones', [
-      ['Minimum', f.mass(r.stoneLo), f.massAlt(r.stoneLo) + ' at 4 kg per m³'],
-      ['Better', f.mass(r.stoneHi), f.massAlt(r.stoneHi) + ' at 6 kg per m³']],
-      'Stone mass above the elements is what makes soft steam. The Trumpkin notes say it is sometimes worth upsizing a heater purely to get more stones, and that many North American heaters fall short of 4 kg per m³.');
+      ['Minimum', f.mass(r.stoneLo), 'at ' + f.dens(4)],
+      ['Better', f.mass(r.stoneHi), 'at ' + (f.imp ? '0.37 lb per cu ft' : f.dens(6))]],
+      'Stone mass above the elements is what makes soft steam. The Trumpkin notes say it is sometimes worth upsizing a heater purely to get more stones, and that many North American heaters fall short of ' + f.dens(4) + '.');
 
     var cfm = Math.round(r.cfmLo / 5) * 5 + ' to ' + Math.round(r.cfmHi / 5) * 5 + ' CFM';
     var ls = Math.round(r.cfmLo / CFM_PER_LS) + ' to ' + Math.round(r.cfmHi / CFM_PER_LS) + ' l/s';
@@ -2197,15 +2199,15 @@ if (typeof document !== 'undefined') (function(){
       ['Floor build-up', s.floorType === 'wood' ? f.thin(r.floorT) : 'none', s.floorType === 'wood' ? 'frame, boards and ' + f.thin(r.slopeRise) + ' of fall to the drain' : 'finished floor is the slab'],
       ['Floor area lost to walls', Math.round((r.outW * r.outD - s.W * s.D) / (f.imp ? 929.03 : 10000) * 10) / 10 + (f.imp ? ' sq ft' : ' m²'), '']],
       (s.floorType === 'wood'
-        ? 'The Trumpkin notes rate a wood frame with tongue and groove boards sloped to a linear drain under the benches as the best unheated floor for a detached sauna, 5 to 10°C warmer at the foot bench than concrete or tile. Build the walls beside the floor, not on top of it, so the boards can be replaced later. Stop wall cladding 1″ above the finished floor. A wood stove still needs a concrete pad. The fall shown is the usual ¼″ per foot, which the notes do not specify.'
+        ? 'The Trumpkin notes rate a wood frame with tongue and groove boards sloped to a linear drain under the benches as the best unheated floor for a detached sauna, 5 to 10°C warmer at the foot bench than concrete or tile. Build the walls beside the floor, not on top of it, so the boards can be replaced later. Stop wall cladding 25 mm (1″) above the finished floor. A wood stove still needs a concrete pad. The fall shown is the usual ' + (f.imp ? '¼″ per foot' : '2 cm per metre') + ', which the notes do not specify.'
         : 'On unheated concrete or tile the Trumpkin notes say to raise the ceiling and benches another 10 to 20 cm (4 to 8″) to get clear of the deeper cold zone, so budget that on top of the height shown. Seal bare concrete and use duckboards.')
       + ' The foil is the only vapor barrier. Everything outside it has to be able to dry outward, so no second barrier.');
 
     if (s.heater === 'electric') sec('Electrical and running cost', [
-      ['Heater power used', r.kw + ' kW', r.kwFrom === 'model' ? 'from the model loaded' : r.kwFrom === 'catalog' ? 'the smallest heater in the list rated for this room. Load a model for its real rating' : 'estimated at 1 kW per m³. Load a model for its real rating'],
+      ['Heater power used', r.kw + ' kW', r.kwFrom === 'model' ? 'from the model loaded' : r.kwFrom === 'catalog' ? 'the smallest heater in the list rated for this room. Load a model for its real rating' : 'estimated at ' + (f.imp ? '1 kW per 35 cu ft' : '1 kW per m³') + '. Load a model for its real rating'],
       ['Current at 240 V', Math.round(r.amps) + ' A', 'single phase'],
       ['Smallest breaker', r.breaker ? r.breaker + ' A' : 'over 150 A', '125% of the load. The manual and your electrician set the breaker and wire'],
-      ['Heat-up time', r.heatUpMin ? 'about ' + (r.heatUpMin >= 60 ? Math.floor(r.heatUpMin / 60) + ' h ' + (r.heatUpMin % 60) + ' min' : r.heatUpMin + ' min') : 'not enough power for this room', 'to ' + (s.units === 'imperial' ? '194°F' : '90°C') + ' from cold, with ' + Math.round(r.stonesKgH || r.stoneHi) + ' kg of stone; an estimate from the room\u2019s thermal mass and envelope loss, not from the Trumpkin notes'],
+      ['Heat-up time', r.heatUpMin ? 'about ' + (r.heatUpMin >= 60 ? Math.floor(r.heatUpMin / 60) + ' h ' + (r.heatUpMin % 60) + ' min' : r.heatUpMin + ' min') : 'not enough power for this room', 'to ' + (s.units === 'imperial' ? '194°F' : '90°C') + ' from cold, with ' + f.mass(r.stonesKgH || r.stoneHi) + ' of stone; an estimate from the room\u2019s thermal mass and envelope loss, not from the Trumpkin notes'],
       ['Energy per session', (Math.round(r.kwh * 10) / 10) + ' kWh', 'about 45 min of heat-up, then half duty for ' + s.sessionH + ' h'],
       ['Cost per session', (Math.round(r.cost * 100) / 100).toFixed(2), 'at ' + s.rate + ' per kWh, in your currency. Change the price above']],
       'This block is plain arithmetic, not from the Trumpkin notes. A 9 kW heater wants roughly a 50 A circuit, so check the capacity of your panel and any feeder to an outbuilding before you buy.');
@@ -2221,19 +2223,19 @@ if (typeof document !== 'undefined') (function(){
     }
 
     sec('Ventilation', [
-      [r.vent === 'mech' ? 'Exhaust fan airflow' : 'Fresh air needed', f.imp ? cfm : ls, f.imp ? ls : cfm],
-      ['Per bather', f.imp ? '20 to 25 CFM' : '10 to 12 l/s', f.imp ? '10 to 12 l/s' : '20 to 25 CFM'],
+      [r.vent === 'mech' ? 'Exhaust fan airflow' : 'Fresh air needed', f.imp ? cfm : ls, ''],
+      ['Per bather', f.imp ? '20 to 25 CFM' : '10 to 12 l/s', ''],
       ['Floor of 6 air changes an hour', f.imp ? Math.round(r.ach * CFM_PER_LS) + ' CFM' : Math.round(r.ach) + ' l/s', r.achBinds ? 'this sets your minimum' : 'bather count sets your minimum'],
       ['Supply vent height', !(r.vent === 'nat' && s.heater === 'electric') ? f.len(r.supplyLo) + ' to ' + f.len(r.supplyH) + ' or higher' : 'below or behind the heater', !(r.vent === 'nat' && s.heater === 'electric') ? 'two thirds to three quarters of the way from stones to ceiling' : 'see note'],
-      ['Duct', ([6, 7, 8].indexOf(s.ductIn) >= 0 ? s.ductIn : 6) + '″ rigid round', 'for both the passive supply and the fan exhaust. Go to 7 or 8″ on the supply if the run has bends'],
-      ['Fan', r.vent === 'mech' ? 'inline, ' + Math.round(r.cfmHi / 5) * 5 + ' CFM or more at 0.2″ wc' : 'none needed', r.vent === 'mech' ? 'with a speed control. The Trumpkin notes mention a Fantech FG 6 and say AC Infinity fans often disappoint' : ''],
+      ['Duct', (f.imp ? ([6, 7, 8].indexOf(s.ductIn) >= 0 ? s.ductIn : 6) + '″' : ({6:150, 7:175, 8:200}[s.ductIn] || 150) + ' mm') + ' rigid round', 'for both the passive supply and the fan exhaust. Go to 175 or 200 mm (7 or 8″) on the supply if the run has bends'],
+      ['Fan', r.vent === 'mech' ? 'inline, ' + (f.imp ? Math.round(r.cfmHi / 5) * 5 + ' CFM or more at 0.2″ wc' : Math.round(r.cfmHi / CFM_PER_LS) + ' l/s or more at 50 Pa') : 'none needed', r.vent === 'mech' ? 'with a speed control. The Trumpkin notes mention a Fantech FG 6 and say AC Infinity fans often disappoint' : ''],
       ['Thermometer', (f.imp ? '39″' : '1 m') + ' above the sitting bench', 'on the bench wall, at least 6″ (15 cm) from corners and ceiling'],
       ['CO\u2082 target', 'under 700 ppm', 'ideally under 550']],
       r.vent === 'mech'
         ? 'Mechanical downdraft: a passive, adjustable fresh air supply on the wall directly over the heater with a baffle (near the ceiling without one), or in the ceiling above the heater nudged toward the bathers, and an inline duct fan pulling exhaust from below the foot bench on the opposite wall. Choose a fan with speed control so you can tune it down.' + (r.ul ? ' The UL allowance goes through a small supply behind or below the heater.' : '')
           + (r.exempt ? ' With a Saunum the supply stays in the same place. Its own manual says to put the air supply above the unit when extraction is mechanical (under or beside it only when extraction is natural), the outlet near the floor as far from the unit as possible, at least 6 air changes an hour, an 80 to 100 mm supply pipe with an extraction pipe twice that diameter, and an optional drying vent in the ceiling on the far side that stays shut while bathing. That matches the Trumpkin notes. Two things to watch: keep the supply at least 30 cm (12″) from the temperature sensor, and because the blower pushes mixed air along the floor toward the exhaust, run the exhaust fan no harder than the CO\u2082 reading needs or you will throw away heat. The blower fixes stratification only, not fresh air.' : '')
         : s.heater === 'wood' ? 'A stove fed from inside the hot room draws its own exhaust up the flue. The Trumpkin notes suggest an adjustable supply over the stove, at least halfway from the stones to the ceiling and nearer the ceiling is best, adjustable combustion air low under the benches, and a clearing exhaust near the ceiling in the far corner that you open afterwards to dry the room.'
-        : 'Natural updraft: supply below or behind the heater, exhaust in the ceiling or about 24″ up the opposite wall, and a clearing exhaust near the ceiling for drying out afterwards. The Trumpkin notes call this unreliable with electric heaters and say that if fresh air bothers bathers you should reduce the flow, not move the vent lower.');
+        : 'Natural updraft: supply below or behind the heater, exhaust in the ceiling or about 60 cm (24″) up the opposite wall, and a clearing exhaust near the ceiling for drying out afterwards. The Trumpkin notes call this unreliable with electric heaters and say that if fresh air bothers bathers you should reduce the flow, not move the vent lower.');
   }
 
   var rz; window.addEventListener('resize', function(){ if (document.body.classList.contains('building')) return; clearTimeout(rz); rz = setTimeout(update, 150); });
@@ -2267,12 +2269,12 @@ if (typeof document !== 'undefined') (function(){
       ['bench-wax', 'Sauna wax or paraffin oil on benches only', 'ok', 'The Trumpkin notes point to Tikkurila products. Anything that seals wood reduces its ability to take up and release moisture.'],
       ['stain', 'Sauna-rated stain on walls', 'warn', 'Possible with a sauna-rated product, but sealing the walls reduces their ability to buffer moisture, which the Trumpkin notes value.']]},
     {k:'bDoor', label:'Door', none:'Opens outward, no latch. A window lets you see who is on the other side.', opts:[
-      ['glass', 'Full glass door', 'ok', 'Lets you see who is on the other side. Counted automatically as about 15 sq ft of glass.'],
-      ['wood-window', 'Wood door with a window', 'ok', 'Keeps more of the wall in soft wood and still lets you see who is there. Counted as about 3 sq ft of glass. The default.'],
+      ['glass', 'Full glass door', 'ok', 'Lets you see who is on the other side. Counted automatically as about 1.4 m² (15 sq ft) of glass.'],
+      ['wood-window', 'Wood door with a window', 'ok', 'Keeps more of the wall in soft wood and still lets you see who is there. Counted as about 0.3 m² (3 sq ft) of glass. The default.'],
       ['solid', 'Solid wood door', 'warn', 'The most wood, but the Trumpkin notes like being able to see whether anyone is on the other side before opening.']]},
     {k:'bInsul', label:'Cavity insulation in the hot room walls and ceiling', none:'Cavity insulation as well as the foil PIR, since PIR loses R-value when cold. Unfaced only.', opts:[
-      ['wool', 'Unfaced mineral wool batts', 'ok', 'The usual choice: R-4.2 per inch, takes heat, does not burn, and unfaced so the foil PIR stays the only vapor barrier.'],
-      ['glass', 'Unfaced fiberglass batts', 'ok', 'Cheaper, about R-3.7 per inch. Unfaced only: a kraft or foil facing would be a second vapor barrier behind the PIR.'],
+      ['wool', 'Unfaced mineral wool batts', 'ok', 'The usual choice: RSI 2.9 per 100 mm (R-4.2 per inch), takes heat, does not burn, and unfaced so the foil PIR stays the only vapor barrier.'],
+      ['glass', 'Unfaced fiberglass batts', 'ok', 'Cheaper, about RSI 2.6 per 100 mm (R-3.7 per inch). Unfaced only: a kraft or foil facing would be a second vapor barrier behind the PIR.'],
       ['ccsf', 'Closed-cell spray foam', 'warn', 'Its own vapor barrier, so with the foil PIR you have two and moisture between them has nowhere to go.'],
       ['none', 'None, PIR only', 'warn', 'The Trumpkin notes say PIR alone loses R-value as it gets cold; cavity insulation matters, especially in a cold climate.']]},
     {k:'bLight', multi:true, label:'Lighting', none:'Many saunas have no artificial light. If you add it, plan for safety, ambiance and cleaning.', opts:[
@@ -2293,7 +2295,7 @@ if (typeof document !== 'undefined') (function(){
       ['piers', 'Concrete piers or blocks', 'ok', 'Cheap and quick, and leaves the floor frame open to dry from below. Go below frost depth where frost heave is a risk. Screen the underside against animals.' + G],
       ['helical', 'Helical piles', 'ok', 'Fast, no excavation, good on slopes. Needs an installer.' + G],
       ['skids', 'Timber skids on gravel', 'ok', 'Makes the building movable and often keeps it under permit thresholds. Use a compacted gravel pad for drainage.' + G]]},
-    {k:'xSiding', grp:'free', label:'Exterior siding', none:'Any of these, over a ventilated rain screen gap; the freestanding wall already allows about 2″ for it.' + G, opts:[
+    {k:'xSiding', grp:'free', label:'Exterior siding', none:'Any of these, over a ventilated rain screen gap; the freestanding wall already allows about 5 cm (2″) for it.' + G, opts:[
       ['lap', 'Horizontal lap or clapboard', 'ok', 'Matches most houses. Fix over vertical furring so the wall can dry outward, which is what the foil-only vapor barrier relies on.' + G],
       ['vertical', 'Vertical board and batten', 'ok', 'Classic cabin look. Needs horizontal furring, or cross-battens, to keep the drainage gap open.' + G],
       ['metal', 'Metal panels', 'ok', 'Long lasting and low upkeep. Metal does not breathe, so the ventilated gap behind it matters even more.' + G],
@@ -2732,7 +2734,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     var run = function(mtr){ return imp ? Math.round(mtr * 3.281) + ' ft' : Math.round(mtr) + ' m'; };
     var letter = 0, L = function(t){ return String.fromCharCode(65 + letter++) + '.  ' + t; };
     var sec = function(title, rows, notes){ title = L(title);
-      var t = el('table'); rows.forEach(function(rw){ if (rw) t.appendChild(el('tr', null, [el('td', {text:rw[0]}), el('td', {text:rw[1]}), el('td', {text:rw[2] || ''})])); });
+      var t = el('table'); rows.forEach(function(rw){ if (rw) t.appendChild(el('tr', null, [el('td', {text:rw[0]}), el('td', {text:rw[1]}), el('td', {text:String(rw[2] || '').replace(/^[\s\u00d7,]+/, '')})])); });
       var d = el('div', {class:'bsec'}, [el('h2', {text:title}), t]);
       if (notes && notes.length){ var ul = el('ul', {class:'blist'}); notes.forEach(function(n){ ul.appendChild(el('li', {text:n})); }); d.appendChild(ul); }
       return d;
@@ -2828,7 +2830,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
           return el('div', {class:'bchoice'}, [el('div', {class:'tick'}, [cb, el('label', {for:cid, text:lab})]), el('span', {class:'printval', text: s[k] ? 'Yes' : 'No'}), el('p', {text: hint})]); };
         if (s.annexSide === 'front') ax.appendChild(crPick('crVent', 'Where the sauna\u2019s fresh air comes from', [['', 'Not decided'], ['room', 'From the changing room, through the shared wall over the heater'], ['outside', 'From outside, through the side wall beside the heater']], s.crVent === 'outside' ? 'The supply moves to the exterior side wall at the heater corner, high, and the exhaust stays low in the opposite corner under the bench. That keeps the sauna breathing outdoor air whatever the changing room is doing.' + G : s.crVent === 'room' ? 'Simple, and the Trumpkin notes are fine with a well-ventilated adjoining room as the source. The changing room then needs its own fresh air, and a shower or damp towels there will feed moisture into the sauna.' + G : 'With the changing room in front, the heater wall is no longer an outside wall, so the supply over the heater has to draw from somewhere.' + G));
         ax.appendChild(crPick('crDoor', 'Outside door of the changing room', [['front', 'On the far wall, opposite the sauna'], ['left', 'On the left side wall'], ['right', 'On the right side wall']], 'Opens outward like the sauna door, with a covered landing if you can. Straight across from the sauna door keeps wet feet on one line.' + G));
-        ax.appendChild(crPick('crPorchD', 'Covered porch outside that door', [[0, 'None'], [121.92, '4 ft deep'], [182.88, '6 ft deep'], [243.84, '8 ft deep']], 'At least 4 ft so the door can swing out onto it; 6 ft gives room for a bench to cool down on under cover. Drawn on the exterior view.' + G, true));
+        ax.appendChild(crPick('crPorchD', 'Covered porch outside that door', [[0, 'None'], [121.92, '1.2 m (4 ft) deep'], [182.88, '1.8 m (6 ft) deep'], [243.84, '2.4 m (8 ft) deep']], 'At least 1.2 m (4 ft) so the door can swing out onto it; 1.8 m (6 ft) gives room for a bench to cool down on under cover. Drawn on the exterior view.' + G, true));
         ax.appendChild(crPick('crWinN', 'Windows in the changing room', [[0, 'None'], [1, '1'], [2, '2'], [3, '3']], 'A normal room, so glass is welcome here: daylight for dressing and a view out. These do not count toward the sauna heater.' + G, true));
         if (s.crWinN > 0){
           var wIn = numInput('bx_crWinArea', imp ? Math.round(s.crWinArea * SQFT * 10) / 10 : Math.round(s.crWinArea * 100) / 100, imp ? 0.5 : 0.05);
@@ -2840,18 +2842,18 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
           opts.forEach(function(o){ var mid = 'bx_crLight_' + o[0], mcb = el('input', {type:'checkbox', id:mid}); mcb.checked = picked.indexOf(o[0]) >= 0; mcb.addEventListener('change', function(){ var cur2 = lightsOf('crLight').filter(function(x){ return x !== o[0]; }); if (mcb.checked) cur2.push(o[0]); if (o[0] === 'none' && mcb.checked) cur2 = ['none']; else if (mcb.checked) cur2 = cur2.filter(function(x){ return x !== 'none'; }); s.crLight = cur2.join(','); rerender(''); }); box.appendChild(el('div', {class:'tick'}, [mcb, el('label', {for:mid, text:o[1]})])); });
           var notes = {ceiling:'A damp-rated ceiling fixture on a switch by the outside door.', wall:'Softer than a downlight; mount at about 6 ft, clear of the hooks.', led:'Low light for the eyes after a hot round, and it lights the floor where wet feet go.', none:'Fine for a daytime sauna with a window; add a battery lantern for winter evenings.'};
           return el('div', {class:'bchoice' + (picked.length ? '' : ' open')}, [el('label', null, [document.createTextNode('Changing room lighting')].concat(picked.length ? [] : [el('span', {class:'todo', text:'to decide'})])), box, el('span', {class:'printval' + (picked.length ? '' : ' undecided'), text: picked.length ? picked.map(function(k){ return (opts.filter(function(o){ return o[0] === k; })[0] || [k, k])[1]; }).join(', ') : 'Not decided'}), el('p', {text: (picked.length ? picked.map(function(k){ return notes[k] || ''; }).join(' ') : 'Tick everything you want; the drawings show all of it.') + G})]); })());
-        ax.appendChild(crChk('crBench', 'A bench to sit on', 'Along the wall with no doors. About 18″ deep, the length of the wall. The Trumpkin notes: the changing room is where people relax between rounds, so make it comfortable.'));
-        ax.appendChild(crPick('crHooks', 'Coat hooks', [[0, 'Two per bather (' + (2 * s.n) + ')'], [2, '2'], [4, '4'], [6, '6'], [8, '8'], [12, '12']], 'Two per person: one for clothes, one for a towel. Mount at about 5 ft, on the wall beside the outside door.' + G, true));
+        ax.appendChild(crChk('crBench', 'A bench to sit on', 'Along the wall with no doors. About 45 cm (18″) deep, the length of the wall. The Trumpkin notes: the changing room is where people relax between rounds, so make it comfortable.'));
+        ax.appendChild(crPick('crHooks', 'Coat hooks', [[0, 'Two per bather (' + (2 * s.n) + ')'], [2, '2'], [4, '4'], [6, '6'], [8, '8'], [12, '12']], 'Two per person: one for clothes, one for a towel. Mount at about 1.5 m (5 ft), on the wall beside the outside door.' + G, true));
         if (s.crCubbies !== -1){ ax.appendChild(crPick('crCubPlace', 'Where the cubbies go', [['floor', 'On the floor along a wall'], ['under', 'Under the bench'], ['stack', 'Stacked in a column against a wall']], s.crCubPlace === 'under' ? 'Boxes slid under the bench, one per person. Keeps the floor clear; shoes and wet things stay low.' + G : s.crCubPlace === 'stack' ? 'A single column of cubbies, floor to about shoulder height. Takes the least floor space.' + G : 'Low boxes against a wall, which also make a place to sit and pull boots on.' + G));
           if (s.crCubPlace !== 'under') ax.appendChild(crPick('crCubWall', 'Which wall', [['door', 'Beside the outside door'], ['far', 'Far wall, opposite the sauna'], ['left', 'Left side wall'], ['right', 'Right side wall'], ['sauna', 'Sauna wall, beside the sauna door']], 'The bench takes one side wall; the drawings will move the cubbies where you say.' + G)); }
-        ax.appendChild(crPick('crCubbies', 'Cubbies or lockers', [[0, 'One per bather (' + s.n + ')'], [-1, 'None'], [2, '2'], [4, '4'], [6, '6'], [8, '8']], 'A cubby per person for shoes, phone and glasses, about 12″ square. Below the hooks, or a stack beside the door.' + G, true));
+        ax.appendChild(crPick('crCubbies', 'Cubbies or lockers', [[0, 'One per bather (' + s.n + ')'], [-1, 'None'], [2, '2'], [4, '4'], [6, '6'], [8, '8']], 'A cubby per person for shoes, phone and glasses, about 30 cm (12″) square. Below the hooks, or a stack beside the door.' + G, true));
         ax.appendChild(crQ('crHeat', 'Is the changing room heated', [['no', 'Unheated', 'ok', 'Insulate it anyway if you can: it keeps the room from feeling like the outdoors in winter and stops condensation on the sauna-side wall.' + G], ['yes', 'Heated', 'ok', 'Treat it as a room in a house: insulate to R-13 walls and R-30 ceiling at least (R-20 and R-38 in a cold climate) and use a standard vapor retarder on the warm side per your climate.' + G]], 'Decides how much insulation it needs.' + G));
         ax.appendChild(crQ('crInsul', 'Changing room insulation', [
-          ['wool', 'Mineral wool batts', 'ok', 'R-4.2 per inch, fire resistant, unbothered by damp. A kraft-faced batt or a separate vapor retarder on the warm side is fine here. Do not run the sauna\u2019s foil PIR into it.' + G],
-          ['glass', 'Fiberglass batts', 'ok', 'Cheapest, R-3.7 per inch. Kraft-faced toward the heated side, or unfaced with a vapor retarder, per your climate. Keep it dry: wet fiberglass loses most of its value.' + G],
-          ['dense', 'Dense-pack cellulose', 'ok', 'Blown into closed cavities, R-3.7 per inch, good air-sealing, recycled content. Needs an installer with a blower and a vapor retarder on the warm side.' + G],
-          ['ocsf', 'Open-cell spray foam', 'ok', 'R-3.7 per inch, seals air leaks as it goes. Vapor-open, so it still wants a vapor retarder on the warm side in a cold climate.' + G],
-          ['ccsf', 'Closed-cell spray foam', 'ok', 'R-6.5 per inch and its own vapor barrier, so no separate retarder. The best choice around a shower wall. Costs the most and cannot be reworked.' + G],
+          ['wool', 'Mineral wool batts', 'ok', 'RSI 2.9 per 100 mm (R-4.2 per inch), fire resistant, unbothered by damp. A kraft-faced batt or a separate vapor retarder on the warm side is fine here. Do not run the sauna\u2019s foil PIR into it.' + G],
+          ['glass', 'Fiberglass batts', 'ok', 'Cheapest, RSI 2.6 per 100 mm (R-3.7 per inch). Kraft-faced toward the heated side, or unfaced with a vapor retarder, per your climate. Keep it dry: wet fiberglass loses most of its value.' + G],
+          ['dense', 'Dense-pack cellulose', 'ok', 'Blown into closed cavities, RSI 2.6 per 100 mm (R-3.7 per inch), good air-sealing, recycled content. Needs an installer with a blower and a vapor retarder on the warm side.' + G],
+          ['ocsf', 'Open-cell spray foam', 'ok', 'RSI 2.6 per 100 mm (R-3.7 per inch), seals air leaks as it goes. Vapor-open, so it still wants a vapor retarder on the warm side in a cold climate.' + G],
+          ['ccsf', 'Closed-cell spray foam', 'ok', 'RSI 4.5 per 100 mm (R-6.5 per inch) and its own vapor barrier, so no separate retarder. The best choice around a shower wall. Costs the most and cannot be reworked.' + G],
           ['rigid', 'Rigid foam board (PIR, XPS or EPS)', 'ok', 'Continuous board over the studs, taped, cuts thermal bridging. Foil-faced PIR or XPS is its own vapor retarder; EPS is not. Often paired with batts in the cavity.' + G],
           ['hybrid', 'Flash and batt', 'ok', 'An inch of closed-cell foam against the sheathing, then batts. Foam handles air sealing and condensation, batts fill the R cheaply.' + G],
           ['none', 'None', 'warn', 'Fine for a seasonal shed, cold and damp in winter otherwise, and a shower in an uninsulated room will grow mold.' + G]],
@@ -2954,10 +2956,11 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       r.step.on ? ['Step up to the foot bench', r.step.n + (r.step.n > 1 ? ' steps, ' : ' step, ') + f.len(r.step.rise) + ' rise each', f.len(r.step.width) + ' wide, treads ' + f.len(r.step.depth) + ' deep, ' + (s.stepPos === 'fullL' ? 'the full length of both benches' + (r.step.legTrim ? ', stopping short of the door' : '') : s.stepPos === 'full' ? 'the full length of the bench' : s.stepPos === 'heater' ? 'at the heater end' : s.stepPos === 'far' ? 'at the end away from the heater' : s.stepPos === 'custom' ? f.len(r.step.x0 - (r.layout === 'L' ? s.sitDepth + s.footDepth : 0)) + ' from the far side wall' : 'centred on the bench') + (r.step.leg ? ', continued along the return leg' : '') + '. Rise is general practice, not from the Trumpkin notes']
         : ['Steps up to the foot bench', nSteps ? nSteps + ' at about ' + f.len(riser) + ' each' : 'none needed', nSteps ? 'not drawn. Add one in the Benches section of the calculator' : ''],
       ['Foot bench to top of stones', f.len(Math.abs(r.foot - s.stone)) + (r.foot >= s.stone ? ' above' : ' below'), r.exempt ? 'below is by design with a Saunum' : '10 cm (4″) good, 20 cm (8″) ideal']],
-      [(s.benchSupport === 'wall' ? 'Wall-hung: 2×4 ledgers on the bench wall and the side wall, angle brackets or a diagonal strut under the front edge every 4 ft, nothing standing on the floor. Blocking behind the ledgers.' : s.benchSupport === 'cantilever' ? 'Cantilevered: the bench frame runs back into the wall framing on doubled studs or a steel bracket, engineered for 40 psf. Blocking and a ledger behind the cladding.' : 'On legs: 2×4 ledger on the wall, removable legs or a leg frame at the front edge every 4 ft, no skirt.'), 'Leave gaps in every bench surface, at least 1 part air to 5 parts wood, so heat and air rise through.', 'Keep the space under the benches open so air can move through it.', 'Keep at least ' + (imp ? '36″ (90 cm)' : '90 cm') + ' between the heater and the foot bench.']));
+      [(s.benchSupport === 'wall' ? 'Wall-hung: 2×4 ledgers on the bench wall and the side wall, angle brackets or a diagonal strut under the front edge every 1.2 m (4 ft), nothing standing on the floor. Blocking behind the ledgers.' : s.benchSupport === 'cantilever' ? 'Cantilevered: the bench frame runs back into the wall framing on doubled studs or a steel bracket, engineered for 40 psf. Blocking and a ledger behind the cladding.' : 'On legs: 2×4 ledger on the wall, removable legs or a leg frame at the front edge every 1.2 m (4 ft), no skirt.'), 'Leave gaps in every bench surface, at least 1 part air to 5 parts wood, so heat and air rise through.', 'Keep the space under the benches open so air can move through it.', 'Keep at least ' + (imp ? '36″ (90 cm)' : '90 cm') + ' between the heater and the foot bench.']));
 
     var RV = rOf(), wallMin = 20, ceilMin = 30, wallCold = 25, ceilCold = 38;
-    var rLine = function(actual, minR, coldR){ return actual >= coldR ? 'about R-' + actual + ', good for a cold climate' : actual >= minR ? 'about R-' + actual + ', meets the R-' + minR + ' minimum. R-' + coldR + ' or more in a cold climate' : 'about R-' + actual + ', BELOW the R-' + minR + ' minimum. Deeper framing or thicker PIR'; };
+    var rv = function(R){ return imp ? 'R-' + R : 'RSI ' + (Math.round(R * 0.1761 * 10) / 10); };
+    var rLine = function(actual, minR, coldR){ return actual >= coldR ? 'about ' + rv(actual) + ', good for a cold climate' : actual >= minR ? 'about ' + rv(actual) + ', meets the ' + rv(minR) + ' minimum. ' + rv(coldR) + ' or more in a cold climate' : 'about ' + rv(actual) + ', BELOW the ' + rv(minR) + ' minimum. Deeper framing or thicker PIR'; };
     var airBox = el('div', {class:'airtight'}, [el('strong', {text:'This room is airtight by design. '}), document.createTextNode('The foil face of the PIR is both the vapor barrier and the air barrier: one continuous layer across walls and ceiling, with every seam, fastener, corner and penetration taped with aluminium tape. Fresh air enters only through the supply vent and leaves only through the exhaust. Do not add poly or any second barrier: everything outside the foil must be able to dry outward. The Trumpkin notes: a sauna runs at positive pressure with a lot of moisture, and without a sealed barrier that moisture condenses in the insulation and rots the wall.')]);
     cols.appendChild(el('div', {class:'bsec'}, [el('h2', {text:L('Air and vapor barrier')}), airBox]));
     var framing = sec('Framing and insulation', [
@@ -2966,17 +2969,17 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       ['Pressure-treated', s.situ === 'free' ? 'bottom plates on concrete, floor frame near grade' : 'bottom plate on the slab only', 'with a sill gasket or capillary break under the plate. Kiln-dried, never treated, for everything inside the hot room'],
       s.floorType === 'wood' ? ['Under the heater', (s.fix && s.fix.heaterFloor === 'pier') ? 'a pier directly under the heater' : (s.fix && s.fix.heaterFloor === 'pad') ? 'a concrete pad framed into the floor' : (s.fix && s.fix.heaterFloor === 'double') ? 'sistered joists and solid blocking' : 'solid blocking between the joists', 'the heater and stones are a ' + f.mass((heaterById(s.model) && heaterById(s.model).kg ? heaterById(s.model).kg : r.stoneHi) + (s.heater === 'wood' ? 113 : 27)) + ' point load; see the engineer\u2019s review'] : null,
       ['Cavity insulation', RV.ins.n, s.bInsul === 'wool' || !s.bInsul ? 'unfaced, cut to fill the cavity without compressing' : s.bInsul === 'glass' ? 'unfaced only, no kraft or foil facing' : ''],
-      ['Wall R-value', rLine(RV.wall, wallMin, wallCold), 'cavity R-' + RV.cavityWall + ' plus foil PIR R-' + RV.pir + ', air gap and cladding'],
+      ['Wall R-value', rLine(RV.wall, wallMin, wallCold), 'cavity ' + rv(RV.cavityWall) + ' plus foil PIR ' + rv(RV.pir) + ', air gap and cladding'],
       ['Ceiling R-value', rLine(RV.ceil, ceilMin, ceilCold), 'the ceiling is where the heat is, so it gets the higher target'],
-      s.situ === 'free' && s.floorType === 'wood' && s.xFound !== 'slab' ? ['Floor R-value', 'insulate the floor frame to R-20 or more', 'mineral wool between the joists, with a vented, screened underside'] : null],
+      s.situ === 'free' && s.floorType === 'wood' && s.xFound !== 'slab' ? ['Floor R-value', 'insulate the floor frame to ' + rv(20) + ' or more', 'mineral wool between the joists, with a vented, screened underside'] : null],
       ['Targets are general practice built on the Trumpkin notes, which set no R-value but call for insulating and air-sealing well, reducing thermal bridging through the studs (the continuous foil PIR does that), and keeping cavity insulation because PIR loses R-value when cold. Meet them with whatever materials you like.', 'Keep at least half the R-value in the cavity so the PIR stays warm enough to work.']);
     cols.appendChild(framing);
     cols.appendChild(sec('Wall build-up, outside to inside, ' + f.thin(r.wallT) + ' total', [
       ['1. Outer skin', f.thin(s.outer), s.situ === 'inside' ? 'drywall or sheathing' : 'sheathing, rain screen and siding'],
       ['2. Studs with cavity insulation', f.thin(s.studs), (s.studSize === '2x6' ? '2×6' : '2×4') + ' framing at 16″ OC, ' + RV.ins.n.toLowerCase()],
       ['3. Foil-faced PIR, the vapor and air barrier', f.thin(s.pir), 'foil facing the room, every seam and fastener taped'],
-      ['4. Air gap on vertical furring', f.thin(s.gap), '10 to 20 mm, open top and bottom'],
-      ['5. Interior cladding', f.thin(s.clad), 'tongue and groove, stops 1″ above the finished floor']],
+      ['4. Air gap on vertical furring', f.thin(s.gap), '10 to 20 mm (½ to ¾″), open top and bottom'],
+      ['5. Interior cladding', f.thin(s.clad), 'tongue and groove, stops 25 mm (1″) above the finished floor']],
       ['The foil is the only vapor barrier. Do not add poly or a second barrier anywhere outside it, so the wall can dry outward.', 'Ceiling is the same stack hung from the joists: cladding, air gap, foil PIR, then ' + f.thin(s.ceilJoist) + ' joists with insulation. ' + f.thin(r.ceilT) + ' total.']));
     cols.appendChild(sec('Floor', s.floorType === 'wood' ? [
       ['Type', 'wood frame, boards and drain', f.thin(r.floorT) + ' total build-up'],
@@ -2988,10 +2991,10 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     var natE = r.vent === 'nat' && s.heater === 'electric';
     var PLs = plumbing(), distFt = s.plDist / IN / 12;
     if (PLs.any) cols.appendChild(sec('Plumbing', [
-      ['Water supply', s.plWater === 'hose' ? 'seasonal hose to a frost-free bib' : s.plWater === 'well' ? 'own well or tank' : 'buried line from the house' + (s.plRoute === 'shared' ? ', sharing the feeder trench' : s.plRoute === 'separate' ? ', in its own trench' : ''), s.plWater === 'hose' ? 'drain everything down before frost' : '¾″ PEX below frost depth' + (s.plWater !== 'hose' ? ', ' + Math.round(distFt) + ' ft trench, shut-off and drain-down valve at the house' : '')],
+      ['Water supply', s.plWater === 'hose' ? 'seasonal hose to a frost-free bib' : s.plWater === 'well' ? 'own well or tank' : 'buried line from the house' + (s.plRoute === 'shared' ? ', sharing the feeder trench' : s.plRoute === 'separate' ? ', in its own trench' : ''), s.plWater === 'hose' ? 'drain everything down before frost' : '20 mm (¾″) PEX below frost depth' + (s.plWater !== 'hose' ? ', ' + (imp ? Math.round(distFt) + ' ft' : Math.round(distFt * 0.3048) + ' m') + ' trench, shut-off and drain-down valve at the house' : '')],
       PLs.shower ? ['Hot water', s.plHot === 'tankless' ? 'electric tankless, about 27 kW' : s.plHot === 'house' ? 'from the house, insulated line' : s.plHot === 'small' ? '10 to 20 gal tank, 1.5 to 4.5 kW' : s.plHot === 'none' ? 'none, cold shower' : 'not decided', s.plHot === 'tankless' ? '110 A at 240 V: sized into the feeder in the engineer\u2019s review' : s.plHot === 'small' ? 'drain for winter if the room is unheated' : ''] : null,
-      PLs.drain ? ['Sauna floor drain', '2″ linear drain under the foot bench', s.gDrain === 'daylight' ? 'to daylight or a dry well, screened' : 'P-trap with a trap primer, since it sees little water and the trap dries out'] : null,
-      PLs.shower ? ['Shower', '2″ drain with P-trap, curb or linear drain', 'waterproof the floor and 6 ft up the walls; the Trumpkin notes like a shower close to the hot room with a door straight outside for cooling off'] : null,
+      PLs.drain ? ['Sauna floor drain', '50 mm (2″) linear drain under the foot bench', s.gDrain === 'daylight' ? 'to daylight or a dry well, screened' : 'P-trap with a trap primer, since it sees little water and the trap dries out'] : null,
+      PLs.shower ? ['Shower', '50 mm (2″) drain with P-trap, curb or linear drain', 'waterproof the floor and 1.8 m (6 ft) up the walls; the Trumpkin notes like a shower close to the hot room with a door straight outside for cooling off'] : null,
       PLs.wc ? ['Toilet', '3″ soil line, 1½″ vent', 'needs sewer or septic; 15″ minimum from the centreline to a wall, 21″ clear in front'] : null,
       PLs.shower || PLs.wc ? ['Venting', (PLs.wc ? '2″' : '1½″') + ' vent through the roof, or an AAV where allowed', 'within the developed-length limits from each trap'] : null,
       ['Waste', s.plWaste === 'sewer' ? 'to the house sewer' : s.plWaste === 'septic' ? 'to septic' : s.plWaste === 'drywell' ? 'grey water to a dry well' : 'not decided', (s.plWaste === 'sewer' || s.plWaste === 'septic' ? (PLs.wc ? '3″' : '2″') + ' line at ¼″ per foot, ' + Math.round(distFt) + ' ft, cleanout at the building' : s.plWaste === 'drywell' ? 'shower and floor drain only; sized for the flow, above the water table' : '')],
@@ -3000,9 +3003,9 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       ['Rough-in happens with the floor frame or slab, before the walls close. Pressure-test the supply and water-test the drains before they are covered.']));
     cols.appendChild(sec('Ventilation, ' + (r.vent === 'mech' ? 'mechanical downdraft' : 'natural'), [
       ['Fresh air supply', natE ? 'below or behind the heater' : f.len(r.supplyLo) + ' to ' + f.len(r.supplyH) + ' up, or higher', natE ? '' : (s.situ === 'free' && s.xPorch === 'changing' && s.annexSide === 'front' ? (s.crVent === 'outside' ? 'on the exterior side wall at the heater corner, ducted from outside; exhaust stays in the opposite corner under the bench' : s.crVent === 'room' ? 'through the shared wall over the heater, drawing from the changing room' : 'over the heater; decide on the sheet whether it draws from the changing room or from outside') : 'on the heater wall directly over the heater, or in the ceiling above it. Passive and adjustable')],
-      ['Exhaust', r.vent === 'mech' ? 'below the foot bench on the bench wall, about the middle of the run, cheated away from the heater' : natE ? 'about 24″ up the far wall' : 'none: the fire draws it', r.vent === 'mech' ? 'inline duct fan with speed control' : ''],
-      r.vent === 'mech' ? ['Fan airflow', Math.round(r.cfmLo / 5) * 5 + ' to ' + Math.round(r.cfmHi / 5) * 5 + ' CFM', Math.round(r.cfmLo / CFM_PER_LS) + ' to ' + Math.round(r.cfmHi / CFM_PER_LS) + ' l/s at about 0.2″ wc'] : null,
-      ['Duct', ([6, 7, 8].indexOf(s.ductIn) >= 0 ? s.ductIn : 6) + '″ rigid round', 'both runs. 7 or 8″ on the supply if it has bends'],
+      ['Exhaust', r.vent === 'mech' ? 'below the foot bench on the bench wall, about the middle of the run, cheated away from the heater' : natE ? 'about 60 cm (24″) up the far wall' : 'none: the fire draws it', r.vent === 'mech' ? 'inline duct fan with speed control' : ''],
+      r.vent === 'mech' ? ['Fan airflow', imp ? Math.round(r.cfmLo / 5) * 5 + ' to ' + Math.round(r.cfmHi / 5) * 5 + ' CFM' : Math.round(r.cfmLo / CFM_PER_LS) + ' to ' + Math.round(r.cfmHi / CFM_PER_LS) + ' l/s', 'at about ' + (imp ? '0.2″ wc' : '50 Pa')] : null,
+      ['Duct', (imp ? ([6, 7, 8].indexOf(s.ductIn) >= 0 ? s.ductIn : 6) + '″' : ({6:150, 7:175, 8:200}[s.ductIn] || 150) + ' mm') + ' rigid round', 'both runs. 175 or 200 mm (7 or 8″) on the supply if it has bends'],
       r.ul ? ['UL heater cooling supply', 'low, behind or below the heater', 'small, throttled to the minimum that stops high-limit trips'] : null,
       r.vent !== 'mech' ? ['Clearing exhaust', 'near the ceiling, far corner', 'closed while bathing, opened after to dry the room'] : null,
       s.heater === 'wood' && r.vent === 'nat' ? ['Combustion air', 'low, under the benches', 'adjustable'] : null,
@@ -3011,7 +3014,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       ['Heater', m ? m.name : 'not chosen', m ? 'rated for ' + f.vol(m.vmin) + ' to ' + f.vol(m.vmax) : 'room counts as ' + f.vol(r.effV) + ' with glass and masonry'],
       ['Top of stones', f.len(s.stone), f.alt(s.stone) + (s.bottom ? ', wall-hung with ' + f.len(s.bottom) + ' under it' : '')],
       ['Heater depth from wall', f.len(s.proj), 'including the gap behind it. Follow the manual\u2019s clearances exactly'],
-      ['Stones', f.mass(r.stoneLo) + ' to ' + f.mass(r.stoneHi), '4 to 6 kg per m³ of room'],
+      ['Stones', f.mass(r.stoneLo) + ' to ' + f.mass(r.stoneHi), (imp ? '0.25 to 0.37 lb per cu ft' : '4 to 6 kg per m³') + ' of room'],
       s.heater === 'electric' ? ['Power', r.kw + ' kW, about ' + Math.round(r.amps) + ' A at 240 V', 'smallest breaker ' + r.breaker + ' A by arithmetic. Breaker and wire per the manual and your electrician'] : ['Clearance to combustibles', f.len(s.clr), 'from the stove manual, or an approved heat shield'],
       ['Thermostat sensor', 'wall-mounted', 'where the heater manual says, clear of the fresh air supply'],
       ['Heater guard rail', s.guard ? f.len(Math.max(s.stone + 6, 60)) + ' high, ' + f.len(10) + ' or more off the heater' : 'none chosen', s.guard ? 'wood rail on two posts, open below so air still reaches the heater' : 'most inspectors will ask for one'],
@@ -3027,12 +3030,12 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       [(s.studSize === '2x6' ? '2×6' : '2×4') + ' wall studs, kiln-dried', studs + ' at 16″ centres', 'plus ' + run(3 * 2 * (r.outW + r.outD) / 100) + ' of plate'],
       ['Furring strips', run((per / oc) * avgH + (s.W / 100 / oc) * (s.D / 100)), 'vertical on walls, across the joists on the ceiling'],
       s.floorType === 'wood' ? ['Floor boards', area(ceilA * 1.1), 'plus joists at 16″ centres, about ' + run((Math.ceil(s.W / 100 / oc) + 1) * s.D / 100 + 2 * s.W / 100)] : null,
-      r.rail.on && r.rail.foot ? ['Footrest rail', run((r.rail.segs.reduce(function(a, sg){ return a + (sg[1] - sg[0]); }, 0) + (r.rail.leg ? r.rail.leg[1] - r.rail.leg[0] : 0)) / 100 * 1.1), (r.rail.style === 'round' ? '1¼″ dowel or round rail' : '1×4 top board at a slant') + ' plus short posts every 4 ft, screwed to the bench frame' + (r.rail.hand ? '; handrail: the same run again in 2×2 with posts to ' + f.len(r.rail.postH) : r.rail.posts.length ? '; ' + r.rail.posts.length + ' grab post' + (r.rail.posts.length > 1 ? 's' : '') + ' in 2×2, ' + f.len(r.rail.handH) + ' above the bench' : '')] : null,
+      r.rail.on && r.rail.foot ? ['Footrest rail', run((r.rail.segs.reduce(function(a, sg){ return a + (sg[1] - sg[0]); }, 0) + (r.rail.leg ? r.rail.leg[1] - r.rail.leg[0] : 0)) / 100 * 1.1), (r.rail.style === 'round' ? '1¼″ dowel or round rail' : '1×4 top board at a slant') + ' plus short posts every 1.2 m (4 ft), screwed to the bench frame' + (r.rail.hand ? '; handrail: the same run again in 2×2 with posts to ' + f.len(r.rail.postH) : r.rail.posts.length ? '; ' + r.rail.posts.length + ' grab post' + (r.rail.posts.length > 1 ? 's' : '') + ' in 2×2, ' + f.len(r.rail.handH) + ' above the bench' : '')] : null,
       ['Bench tops' + (choiceOf(CHOICES[1]) ? ', ' + choiceOf(CHOICES[1])[1].toLowerCase() : ''), area(benchA), 'about ' + run(benchA / 0.107 * 1.1) + ' of 2×4 slats at a 1 to 5 gap, plus framing'],
       s.guard ? ['Heater guard rail', 'about ' + run((2 * (Math.max(20, s.proj) + 12) + 55 + 24 + 3 * Math.max(s.stone + 6, 60)) / 100) + ' of 2×2 or 1×4', 'two posts, top rail and a lower rail'] : null,
       ['Foil tape', 'every PIR seam', 'high-temperature aluminium tape'],
       ['Stones', f.mass(r.stoneHi), 'buy toward the higher figure'],
-      ['Ventilation', '6″ duct, 2 vents' + (r.vent === 'mech' ? ', fan' : ''), r.vent === 'mech' ? 'inline fan, speed control, exterior hoods' : 'adjustable vents and exterior hoods']],
+      ['Ventilation', (imp ? '6″' : '150 mm') + ' duct, 2 vents' + (r.vent === 'mech' ? ', fan' : ''), r.vent === 'mech' ? 'inline fan, speed control, exterior hoods' : 'adjustable vents and exterior hoods']],
       ['A starting point for a lumber quote, not a cut list. It ignores the door, trim, blocking, bench framing, fasteners and anything your layout adds.']));
 
     var free2 = s.situ === 'free', woodFloor = s.floorType === 'wood', elec = s.heater === 'electric', mech = r.vent === 'mech';
@@ -3045,10 +3048,10 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       ['Frame walls and ceiling', 'Frame to the interior size in section A, walls standing beside the floor frame, not on it. Frame the door opening for an outward swing' + (s.winCount > 0 ? ' and the window opening' : '') + '. Kiln-dried ' + (s.studSize === '2x6' ? '2×6' : '2×4') + ' at 16″ OC, with pressure-treated bottom plates ' + (free2 ? 'on the concrete and a treated floor frame near grade' : 'on the slab') + ', a sill gasket under them, and nothing treated inside the hot room.' + (isCRx ? ' Changing room: ' + (s.crPT === 'all' ? 'you chose all-treated framing (see the note against it)' : s.crPT === 'none' ? 'no treated lumber chosen, so its plates must sit on a raised, dry frame' : 'treated sill plates and floor frame, kiln-dried above') + '.' : '') + ' Add blocking now for the benches at ' + f.len(r.foot) + ' and ' + f.len(r.sit) + ', the heater, any backrest and any lights.' + (free2 ? ' Sheathe, roof and wrap the building so it is dry before the inside work.' : '')],
       ['Rough in electrical', (elec ? 'Heater circuit (' + r.kw + ' kW, about ' + Math.round(r.amps) + ' A at 240 V), control and sensor cable, ' : '') + 'lights' + (mech ? ', and the exhaust fan with a speed control' : '') + '. Use high-temperature cable where the heater manual requires it. Get it inspected.'],
       ['Run the ducts', mech ? 'Fresh air supply on the heater wall, centred ' + f.len(r.supplyLo) + ' to ' + f.len(r.supplyH) + ' up or in the ceiling over the heater. Exhaust below the foot bench on the far side, ducted to the fan.' + (r.ul ? ' Add the small low cooling supply behind the heater.' : '') : 'Adjustable supply over the stove, combustion air low under the benches, and a closable clearing exhaust near the ceiling in the far corner.' + (elec ? '' : ' Fit the chimney thimble and check its clearances.')],
-      ['Insulate', 'Fill every stud and joist cavity with ' + RV.ins.n.toLowerCase() + '. Wall about R-' + RV.wall + ', ceiling about R-' + RV.ceil + '.' + (isCRx ? ' Changing room: ' + (s.crInsul === 'none' ? 'no insulation chosen.' : ({wool:'mineral wool batts', glass:'fiberglass batts', dense:'dense-pack cellulose', ocsf:'open-cell spray foam', ccsf:'closed-cell spray foam', rigid:'rigid foam board over the studs', hybrid:'flash-and-batt'}[s.crInsul] || 'insulation') + (s.crInsul === 'ccsf' ? ', which is its own vapor barrier.' : ' with a normal vapor retarder on the warm side, not the foil PIR.')) : '')],
+      ['Insulate', 'Fill every stud and joist cavity with ' + RV.ins.n.toLowerCase() + '. Wall about ' + rv(RV.wall) + ', ceiling about ' + rv(RV.ceil) + '.' + (isCRx ? ' Changing room: ' + (s.crInsul === 'none' ? 'no insulation chosen.' : ({wool:'mineral wool batts', glass:'fiberglass batts', dense:'dense-pack cellulose', ocsf:'open-cell spray foam', ccsf:'closed-cell spray foam', rigid:'rigid foam board over the studs', hybrid:'flash-and-batt'}[s.crInsul] || 'insulation') + (s.crInsul === 'ccsf' ? ', which is its own vapor barrier.' : ' with a normal vapor retarder on the warm side, not the foil PIR.')) : '')],
       ['Foil-faced PIR, the air and vapor barrier', 'Walls and ceiling, foil facing the room, continuous round the corners. Tape every seam, fastener and penetration with aluminium tape, then smoke-test or blower-door test the layer: it should be airtight, with the only openings the supply and exhaust. Then work through the \u201cBefore you close the walls\u201d checklist below before going further.'],
       ['Furring', 'Vertical strips on the walls for a ' + f.thin(s.gap) + ' air gap that is open top and bottom. Strips across the joists on the ceiling.'],
-      ['Cladding', 'Ceiling first, then walls' + (choiceOf(CHOICES[0]) ? ' in ' + choiceOf(CHOICES[0])[1].toLowerCase() : '') + '. Stop the wall boards 1″ above the finished floor.'],
+      ['Cladding', 'Ceiling first, then walls' + (choiceOf(CHOICES[0]) ? ' in ' + choiceOf(CHOICES[0])[1].toLowerCase() : '') + '. Stop the wall boards 25 mm (1″) above the finished floor.'],
       woodFloor ? ['Floor boards', 'Fix the tongue and groove boards to the frame and fit the drain cover.'] : null,
       ['Door' + (s.winCount > 0 ? ' and window' : ''), 'Hang the door to swing out with no latch, only a roller or magnetic catch.' + (s.winCount > 0 ? ' Glaze the window with tempered glass in a wood frame.' : '')],
       ['Heater', 'Install to the manual\u2019s clearances with the top of the stones at ' + f.len(s.stone) + '. Load ' + f.mass(r.stoneLo) + ' to ' + f.mass(r.stoneHi) + ' of stones loosely so air can pass. Mount the sensor where the manual says' + (elec ? '' : ', and connect the flue') + '.'],
@@ -3059,7 +3062,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     var stepList = el('div');
     steps.forEach(function(st, i){ var cid = 'st_' + i, cb = el('input', {type:'checkbox', id:cid}); cb.checked = !!tk0[cid];
       cb.addEventListener('change', function(){ try { var cur = JSON.parse(localStorage.getItem('ttest-ticks') || '{}') || {}; cur[cid] = cb.checked; localStorage.setItem('ttest-ticks', JSON.stringify(cur)); } catch(e){} });
-      stepList.appendChild(el('div', {class:'tick'}, [cb, el('label', {for:cid}, [el('strong', {text:(i + 1) + '. ' + st[0] + '. '}), document.createTextNode(st[1])])])); });
+      stepList.appendChild(el('div', {class:'tick'}, [cb, el('label', {for:cid}, [el('strong', {text:(i + 1) + '. ' + st[0] + '. '}), document.createTextNode(unitText(st[1], imp))])])); });
     B.appendChild(el('div', {class:'bsec'}, [el('h2', {text:L('Build sequence, step by step')}), stepList, el('p', {class:'note', text:'The order is general building practice arranged around this design\u2019s numbers. It is not from the Trumpkin notes, and it is not a substitute for the heater manual, your electrician or local code.'})]));
     var ticks = {}; try { ticks = JSON.parse(localStorage.getItem('ttest-ticks') || '{}') || {}; } catch(e){}
     var tickList = el('div');
@@ -3087,7 +3090,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       var amps = s.heater === 'electric' ? r.kw * 1000 / 240 * 1.25 : 0, whW = PL.shower ? (s.plHot === 'tankless' ? 27000 : s.plHot === 'small' ? 4500 : 0) : 0, panelA = amps + (300 + (r.vent === 'mech' ? 100 : 0) + (isCRx ? 1500 : 0) + whW) / 240;
       var feedBrk = [20,30,40,50,60,70,80,90,100,110,125,150].filter(function(b){ return b >= panelA; })[0] || 150, wirePerFt = feedBrk <= 30 ? 3 : feedBrk <= 50 ? 5.5 : feedBrk <= 70 ? 8 : feedBrk <= 100 ? 12 : 18;
       return {feedFt: hasPower ? feedFt : 0, feedBrk: feedBrk, wirePerFt: route === 'inside' ? wirePerFt * .6 : wirePerFt, overhead: overhead,
-        trenchFt: shared ? Math.max(eTr, pTr) : (eTr || pTr), trench2Ft: !shared && eTr > 0 && pTr > 0 ? pTr : 0, shared: shared, deep: shared || (eTr === 0 && pTr > 0), trenchWhat: eTr > 0 ? 'for the power feeder, 18 to 24″ deep' : 'for the plumbing, below frost', inside: route === 'inside',
+        trenchFt: shared ? Math.max(eTr, pTr) : (eTr || pTr), trench2Ft: !shared && eTr > 0 && pTr > 0 ? pTr : 0, shared: shared, deep: shared || (eTr === 0 && pTr > 0), trenchWhat: eTr > 0 ? 'for the power feeder, 45 to 60 cm (18 to 24″) deep' : 'for the plumbing, below frost', inside: route === 'inside',
         waterFt: plBuried && (s.plWater === 'house' || s.plWater === 'well') ? plFt : 0, sewerFt: plBuried && (s.plWaste === 'sewer' || s.plWaste === 'septic') ? plFt : 0}; })();
     var heaterUS = s.heater === 'wood' ? 2500 : (r.kw >= 12 ? 2600 : r.kw >= 8 ? 1800 : 1100);
     var ITEMS = [
@@ -3131,6 +3134,10 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       {k:'labH', g:'lab', label:'Carpenter or contractor hours', qty: null, unit:'hours', us: free3 ? (140 + Math.round(annexA * 1.5)) : 80, isHours: true},
       {k:'labR', g:'lab', label:'Rate per hour', qty: null, unit:'$/h', us: 75, isRate: true}
     ].filter(Boolean);
+    var CONV = {'sq ft': ['m²', 10.7639], 'ft': ['m', 3.28084], 'lb': ['kg', 2.20462]};   // prices stay per imperial unit in storage, shown per metric unit here
+    if (!imp) ITEMS.forEach(function(it){ var cv = CONV[it.unit]; if (!cv) return; it.k0 = cv[1]; it.qty = it.qty == null ? null : Math.round(it.qty / cv[1] * (cv[0] === 'm²' ? 10 : 1)) / (cv[0] === 'm²' ? 10 : 1); it.us = Math.round(it.us * cv[1] * 100) / 100; it.unit = cv[0]; });
+    if (s.costUnits && s.costUnits !== s.units && s.cost){ ITEMS.forEach(function(it){ var cv = CONV[it.unit] || (function(){ for (var u in CONV) if (CONV[u][0] === it.unit) return CONV[u]; })(); if (!cv || s.cost[it.k] == null) return; s.cost[it.k] = Math.round(s.cost[it.k] * (imp ? 1 / cv[1] : cv[1]) * 100) / 100; }); }
+    s.costUnits = s.units;
     var C = s.cost || {}, money = function(v){ return (Math.round(v) || 0).toLocaleString(undefined, {maximumFractionDigits: 0}); };
     var tbl = el('table', {class:'costtbl'}); tbl.appendChild(el('tr', null, ['Item', 'Quantity', 'Your price', 'Line'].map(function(t){ return el('th', {text:t, scope:'col'}); })));
     var totals = {mat:0, svc:0, lab:0}, hours = C.labH != null ? C.labH : 0, rate = C.labR != null ? C.labR : 0;
@@ -3138,9 +3145,9 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     ITEMS.forEach(function(it){
       var val = C[it.k] != null ? C[it.k] : '', line = it.isHours || it.isRate ? 0 : (val === '' ? 0 : val * it.qty);
       if (!it.isHours && !it.isRate) totals[it.g] += line;
-      var inp = numInput('cost_' + it.k, val, it.g === 'lab' ? 1 : 0.5); inp.placeholder = it.us; inp.setAttribute('aria-label', it.label + ' price');
+      var inp = numInput('cost_' + it.k, val, it.g === 'lab' ? 1 : 0.5); inp.placeholder = it.us; inp.setAttribute('aria-label', unitText(it.label, imp) + ' price');
       inp.addEventListener('change', function(){ s.cost = s.cost || {}; var vv = inp.value === '' ? null : Math.max(0, num(inp.value)); if (vv == null) delete s.cost[it.k]; else s.cost[it.k] = vv; save(); refreshCost(); });
-      var tr = el('tr', null, [el('td', null, [document.createTextNode(it.label), el('span', {class:'why', text: it.isHours ? '0 if you are building it yourself' : it.isRate ? 'blank ends the labor line' : (val === '' ? 'US average ' + it.us + ' per ' + it.unit : '')})]),
+      var tr = el('tr', null, [el('td', null, [document.createTextNode(unitText(it.label, imp)), el('span', {class:'why', text: it.isHours ? '0 if you are building it yourself' : it.isRate ? 'blank ends the labor line' : (val === '' ? 'US average ' + it.us + ' per ' + it.unit : '')})]),
         el('td', {class:'n', 'data-l':'Quantity', text: it.qty == null ? '' : it.qty + ' ' + it.unit}), el('td', {'data-l':'Your price'}, [inp]), el('td', {class:'n costline', 'data-l':'Line', text: it.isHours || it.isRate ? '' : (val === '' ? '' : money(line))})]);
       rows.push({it:it, tr:tr, inp:inp}); tbl.appendChild(tr);
     });
@@ -3220,7 +3227,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       var prev = null; cur = addDays(startISO, 14);
       phases.forEach(function(ph){ var days = Math.max(1, Math.round(ph[1] * unitDays)), t = {id:id++, section:'Build', name:ph[0], desc:(ph[2] || '') , start:cur, end:addDays(cur, days - 1), days:days, deps: prev ? [prev] : [], priority:'Medium'}; tasks.push(t); prev = t.id; cur = addDays(cur, days); });
       // 4. the step-by-step detail as subtasks of the build, and the pre-closing checklist
-      steps.forEach(function(st, i){ tasks.push({id:id++, section:'Build sequence detail', name:(i + 1) + '. ' + st[0], desc:st[1], start:null, end:null, days:0, priority:'Low'}); });
+      steps.forEach(function(st, i){ tasks.push({id:id++, section:'Build sequence detail', name:(i + 1) + '. ' + st[0], desc:unitText(st[1], s.units === 'imperial'), start:null, end:null, days:0, priority:'Low'}); });
       Array.prototype.forEach.call(B.querySelectorAll('.bsec'), function(sec){ var h2 = sec.querySelector('h2'); if (h2 && /Before you close the walls/.test(h2.textContent)) Array.prototype.forEach.call(sec.querySelectorAll('.tick label'), function(lb){ tasks.push({id:id++, section:'Before closing the walls', name:lb.textContent.trim(), desc:'', start:null, end:null, days:0, priority:'High'}); }); });
       var finish = tasks.filter(function(t){ return t.end; }).map(function(t){ return t.end; }).sort().pop();
       var csvQ = function(v){ return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; }, csv = function(rows){ return rows.map(function(r2){ return r2.map(csvQ).join(','); }).join('\r\n') + '\r\n'; };
@@ -3459,11 +3466,11 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       ['Drying path', 'outward', 'sheathing and siding vapour-open with a ventilated rain screen' + (free3 ? '' : '; inside a building, the host wall must not be foil-faced or poly-lined on the sauna side')],
       ['Air barrier test', 'smoke test or blower door before cladding', 'leak-free except the supply and exhaust']]));
     engReview.flags = [
-      s.floorType === 'wood' && !joistOK ? {k:'floorBeam', name:'Floor joists over-span (' + joist + ' at ' + n1(joistSpanFt, 1) + ' ft)', opts:[['', 'Not decided'], ['beam', 'Add a mid-span beam on piers, halving the span'], ['bigger', 'Go to ' + (Object.keys(SPAN.floor).filter(function(k){ return SPAN.floor[k] >= joistSpanFt; })[0] || '2×12') + ' joists']]} : null,
+      s.floorType === 'wood' && !joistOK ? {k:'floorBeam', name:'Floor joists over-span (' + joist + ' at ' + (f.imp ? n1(joistSpanFt, 1) + ' ft' : n1(joistSpanFt * 0.3048, 1) + ' m') + ')', opts:[['', 'Not decided'], ['beam', 'Add a mid-span beam on piers, halving the span'], ['bigger', 'Go to ' + (Object.keys(SPAN.floor).filter(function(k){ return SPAN.floor[k] >= joistSpanFt; })[0] || '2×12') + ' joists']]} : null,
       s.floorType === 'wood' && !heaterFloorOK ? {k:'heaterFloor', name:'Floor under the heater overloaded (' + lbs(perJoist) + ' per joist)', opts:[['', 'Not decided'], ['double', 'Sister a second joist under each one beneath the heater'], ['pier', 'Put a pier directly under the heater'], ['pad', 'Frame a concrete pad into the floor under the heater']]} : null,
-      !cjOK ? {k:'ceilBigger', name:'Ceiling joists over-span (' + cj + ' at ' + n1(cjSpanFt, 1) + ' ft)', opts:[['', 'Not decided'], ['bigger', 'Go to ' + (Object.keys(SPAN.ceil).filter(function(k){ return SPAN.ceil[k] >= cjSpanFt; })[0] || '2×12') + ' ceiling joists']]} : null,
-      free3 && !rafterOK ? {k:'rafter', name:'Rafters over-span (' + rafter + ' at ' + n1(rafterSpanFt, 1) + ' ft)', opts:[['', 'Not decided'], ['bigger', 'Go to ' + rafterNeed + ' rafters'], ['ridge', 'Add a structural ridge beam, halving the rafter span']]} : null,
-      free3 && s.xFound !== 'slab' && pierSide > 24 && !pierAccept ? {k:'piers', name:'Pier footings large (' + Math.round(pierSide) + '″ square)', opts:[['', 'Not decided'], ['more', 'More piers, one per 9 sq ft'], ['bigger', 'Keep the pier count and form the larger footings']]} : null,
+      !cjOK ? {k:'ceilBigger', name:'Ceiling joists over-span (' + cj + ' at ' + (f.imp ? n1(cjSpanFt, 1) + ' ft' : n1(cjSpanFt * 0.3048, 1) + ' m') + ')', opts:[['', 'Not decided'], ['bigger', 'Go to ' + (Object.keys(SPAN.ceil).filter(function(k){ return SPAN.ceil[k] >= cjSpanFt; })[0] || '2×12') + ' ceiling joists']]} : null,
+      free3 && !rafterOK ? {k:'rafter', name:'Rafters over-span (' + rafter + ' at ' + (f.imp ? n1(rafterSpanFt, 1) + ' ft' : n1(rafterSpanFt * 0.3048, 1) + ' m') + ')', opts:[['', 'Not decided'], ['bigger', 'Go to ' + rafterNeed + ' rafters'], ['ridge', 'Add a structural ridge beam, halving the rafter span']]} : null,
+      free3 && s.xFound !== 'slab' && pierSide > 24 && !pierAccept ? {k:'piers', name:'Pier footings large (' + (f.imp ? Math.round(pierSide) + '″' : Math.round(pierSide * 2.54) + ' cm') + ' square)', opts:[['', 'Not decided'], ['more', 'More piers, one per ' + (f.imp ? '9 sq ft' : '0.8 m²')], ['bigger', 'Keep the pier count and form the larger footings']]} : null,
       free3 && vdPct > 3 ? {k:'feedUp', name:'Feeder voltage drop ' + n1(vdPct, 1) + '%', opts:[['', 'Not decided'], ['up', 'Go up one wire size to ' + (awgUp[feedAwg] || feedAwg) + ' AWG']]} : null,
       velHi > 700 ? {k:'duct', name:'Duct velocity ' + Math.round(velHi) + ' ft/min, noisy', opts:[['', 'Not decided'], ['7', '7″ duct'], ['8', '8″ duct']]} : null
     ].filter(Boolean);
