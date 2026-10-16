@@ -511,7 +511,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 18. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 19. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -798,6 +798,12 @@ function compute(s){
   return r;
 }
 
+var UNIT_MET = /(\d[\d.,]*(?:\s*(?:to|\u00d7|x)\s*\d[\d.,]*)*\s*(?:cm|mm|m\u00b3|m|kg))\s+\(([^()]*?(?:\u2033|\u2032|ft|lb)[^()]*)\)/g;
+var UNIT_IMP = /([\d\u00bc\u00bd\u00be\u215b\u215c\u215d\u215e][\d.,\u00bc\u00bd\u00be\u215b\u215c\u215d\u215e]*(?:\s*(?:to|\u00d7|x)\s*[\d\u00bc\u00bd\u00be][\d.,\u00bc\u00bd\u00be]*)*\s*(?:\u2033|\u2032|ft))\s+\(([^()]*?\d\s*(?:cm|mm|m\u00b3|m)(?![a-z])[^()]*)\)/g;
+function unitText(str, imp){                                                     // show only the units the page is set to
+  if (typeof str !== 'string' || str.indexOf('(') < 0) return str;
+  return str.replace(UNIT_MET, function(m0, met, im){ return imp ? im : met; }).replace(UNIT_IMP, function(m0, im, met){ return imp ? im : met; });
+}
 function runChecks(s, r, f){
   var c = [];
   var model = heaterById(s.model);
@@ -989,7 +995,7 @@ function runChecks(s, r, f){
     'Ventilation approach': r.vent === 'mech' || s.heater === 'wood',
     'Stone mass in this heater': !!model && perM3 >= 6
   };
-  c.forEach(function(x){ x.ideal = x.st === 'ok' && !!idealBy[x.name]; });
+  c.forEach(function(x){ x.ideal = x.st === 'ok' && !!idealBy[x.name]; ['val', 'why', 'more'].forEach(function(k){ x[k] = unitText(x[k], f.imp); }); });
   return c;
 }
 
@@ -1300,7 +1306,7 @@ if (typeof document !== 'undefined') (function(){
     buildForm(); update();
   }
   function num(v){ var x = parseFloat(v); return isFinite(x) ? x : 0; }
-  function el(tag, attrs, kids){ var e = document.createElement(tag); if (attrs) for (var a in attrs){ if (a==='text') e.textContent = attrs[a]; else e.setAttribute(a, attrs[a]); } (kids||[]).forEach(function(c){ e.appendChild(c); }); return e; }
+  function el(tag, attrs, kids){ var e = document.createElement(tag); if (attrs) for (var a in attrs){ if (a==='text') e.textContent = unitText(attrs[a], s.units === 'imperial'); else e.setAttribute(a, attrs[a]); } (kids||[]).forEach(function(c){ e.appendChild(c); }); return e; }
   function numInput(id, val, step, min){ return el('input', {type:'number', id:id, value:String(val), step:String(step), min:String(min||0), inputmode:'decimal'}); }
 
   var narrow = window.matchMedia && window.matchMedia('(max-width: 56rem)').matches;
@@ -1308,7 +1314,7 @@ if (typeof document !== 'undefined') (function(){
   var openGroups = narrow ? {'Room interior':true, 'Heater':true} : {'Room interior':true, 'Heater':true, 'Benches':true};
   var SIMPLE = {designs:1, preset:1, reset:1, hasWin:1, heaterDims:1, W:1, D:1, ceil:1, H:1, Hheat:1, n:1, bDoor:1, glassRead:1, heater:1, model:1, stone:1, proj:1, airsolo:1, mode:1, footH:1, sitH:1, sitDepth:1, footDepth:1};
   var SIMPLE_CHECKS = {'Ventilation approach':1, 'Seating':1, 'Head to toe temperature':1};
-  function setCap(id, short, more){ var c = document.getElementById(id); if (!c) return; c.innerHTML = ''; c.appendChild(document.createTextNode(short)); if (more) c.appendChild(infoBtn(more)); }
+  function setCap(id, short, more){ var c = document.getElementById(id); if (!c) return; c.innerHTML = ''; c.appendChild(document.createTextNode(unitText(short, s.units === 'imperial'))); if (more) c.appendChild(infoBtn(more)); }
   function infoBtn(text, id){ var tipA = {class:'tip', role:'tooltip', text:text}; if (id) tipA.id = id; var wrap = el('span', {class:'info'}, [el('button', {type:'button', 'aria-label':'More about this', text:'i'}), el('span', tipA)]);
     wrap.querySelector('button').addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); wrap.classList.toggle('open'); }); return wrap; }
   function buildForm(){
@@ -2046,7 +2052,7 @@ if (typeof document !== 'undefined') (function(){
     var body = first ? 'Start with: ' + first.name.toLowerCase() + '. ' + first.val + '.' : 'Feet above the stones, out of the cold zone, with enough air and distance from the heater.';
     if (s.mode === 'auto' && r.auto.notes.length) body += ' To get your feet up, the calculator has ' + r.auto.notes.join(' and ') + '.';
     if (pending) body += ' ' + pending + ' more checks run once you pick a heater model.';
-    v.innerHTML = '<p class="big"></p><p></p>'; v.children[0].textContent = head; v.children[1].textContent = body;
+    v.innerHTML = '<p class="big"></p><p></p>'; v.children[0].textContent = head; v.children[1].textContent = unitText(body, f.imp);
     var keys = el('ul', {class:'vkeys'}); [[f.len(Math.abs(r.foot - s.stone)) + (r.foot >= s.stone ? ' above' : ' below'), 'stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'seat'], [f.big(r.Hmax), 'ceiling'], [(r.layout === 'L' ? 'L, ' : '') + r.seats, 'seats']].forEach(function(kv){ keys.appendChild(el('li', null, [el('b', {text:kv[0]}), document.createTextNode(kv[1])])); });
     if (bad.length || warn.length){ var jump = el('button', {type:'button', class:'linkbtn', text:'See the ' + (bad.length + warn.length) + (bad.length + warn.length > 1 ? ' checks' : ' check')}); jump.style.margin = '0'; jump.addEventListener('click', function(){ showTab('checks'); document.getElementById('tabs').scrollIntoView({behavior:'smooth', block:'start'}); }); keys.appendChild(el('li', null, [jump])); }
     var share2 = el('div', {class:'vshare'}); [['Copy summary', 'btnSum'], ['Copy link', 'btnLink'], ['Save image', 'btnImg']].forEach(function(bt){ var lb = el('button', {type:'button', class:'linkbtn', text:bt[0]}); lb.style.margin = '0'; lb.addEventListener('click', function(){ var real = document.getElementById(bt[1]); if (real) real.click(); }); share2.appendChild(lb); });
@@ -3531,7 +3537,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     panel.scrollIntoView({behavior:'smooth', block:'nearest'});
   }
   document.getElementById('printBuild').addEventListener('click', openPrintPanel);
-  document.getElementById('btnSum').addEventListener('click', function(){ copyOut(summaryText(), 'Summary copied. Paste it into a post or message.'); });
+  document.getElementById('btnSum').addEventListener('click', function(){ copyOut(unitText(summaryText(), s.units === 'imperial'), 'Summary copied. Paste it into a post or message.'); });
   function showTab(name){ document.querySelectorAll('.tabpanel').forEach(function(pn){ pn.hidden = pn.id !== 'tab-' + name; }); document.querySelectorAll('.tabs [role=tab]').forEach(function(bt){ bt.setAttribute('aria-selected', String(bt.getAttribute('data-tab') === name)); }); s.tab = name; try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){} if (name === 'draw') update(); }
   (function(){ var qi = document.getElementById('fitQ'), bs = document.getElementById('fitBrand'), fc = document.getElementById('fitClear'); if (!qi) return;
     qi.addEventListener('input', function(){ fitQ = qi.value; update(); });
@@ -3629,7 +3635,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       font(400, 24); g.fillStyle = C.moss;
       g.fillText(f.big(s.W) + ' \u00d7 ' + f.big(s.D) + ' \u00d7 ' + (r.sloped ? f.big(r.Hh) + ' to ' + f.big(r.Hb) : f.big(s.H)) + ' hot room for ' + s.n + (s.n === 1 ? ' bather' : ' bathers') + (r.layout === 'L' ? ', L-shaped benches' : '') + '  \u00b7  ' + (m ? m.name : (s.heater === 'wood' ? 'wood stove' : 'electric heater') + ', model not chosen'), 56, 132);
       font(700, 24); var pw = g.measureText(vt).width + 40; g.fillStyle = vc[1]; g.beginPath(); if (g.roundRect) g.roundRect(W - 56 - pw, 62, pw, 46, 23); else g.rect(W - 56 - pw, 62, pw, 46); g.fill(); g.fillStyle = vc[0]; g.fillText(vt, W - 56 - pw + 20, 93);
-      var mg = r.foot - s.stone, tiles = [[(mg >= 0 ? f.len(mg) + ' above' : f.len(-mg) + ' below'), 'the top of the stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'sitting bench'], [f.len(r.gap), 'headroom'], [f.big(r.Hmax), 'ceiling'], [r.seats + '', 'seats at 24\u2033']];
+      var mg = r.foot - s.stone, tiles = [[(mg >= 0 ? f.len(mg) + ' above' : f.len(-mg) + ' below'), 'the top of the stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'sitting bench'], [f.len(r.gap), 'headroom'], [f.big(r.Hmax), 'ceiling'], [r.seats + '', 'seats at ' + (f.imp ? '24\u2033' : '60 cm')]];
       var tx = 56, tw = (W - 112 - 5 * 16) / 6;
       tiles.forEach(function(t, i){ var x = tx + i * (tw + 16); g.fillStyle = i === 0 ? (mg >= 9.95 ? C.okbg : mg >= 0 ? C.warnbg : C.badbg) : C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, 164, tw, 92, 10); else g.rect(x, 164, tw, 92); g.fill(); g.strokeStyle = C.line; g.lineWidth = 1; g.stroke();
         g.fillStyle = i === 0 ? (mg >= 9.95 ? C.ok : mg >= 0 ? C.warn : C.bad) : C.ink; font(700, 32); g.fillText(t[0], x + 18, 210); g.fillStyle = C.moss; font(400, 19); g.fillText(t[1], x + 18, 240); });
