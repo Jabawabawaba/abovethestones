@@ -162,6 +162,7 @@ body.dragging{overflow:hidden;touch-action:none;overscroll-behavior:none}body.dr
 select{width:100%;font:inherit;color:inherit;background:var(--lake);border:1px solid var(--line);border-radius:.35rem;padding:.45rem .5rem}
 select:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .modelnote.readout{margin:.3rem 0 .6rem}
+.natag{display:inline-block;margin:0 0 0 .45rem;padding:.05rem .45rem;border-radius:.3rem;background:var(--warn-bg);color:var(--warn);font-size:.76rem;font-weight:600;line-height:1.35;vertical-align:.08em;white-space:nowrap}#fit .natag{display:table;margin:.2rem 0 .1rem}
 .modelnote{margin:.45rem 0 0;font-size:.86rem;line-height:1.4;color:var(--moss);border-left:3px solid var(--line);padding-left:.6rem}
 .scroll{overflow-x:auto;margin-bottom:.6rem;border-top:1px solid var(--line)}
 .cmp td,.cmp th{padding:.45rem .6rem;text-align:left;border-bottom:1px solid var(--line)} .cmp td:first-child{color:var(--moss)}
@@ -511,7 +512,7 @@ footer p{margin:0 0 .5rem}
       <footer>
         <p>If the Trumpkin notes help you build a better sauna, their author asks that you make a donation to <a href="https://worldbicyclerelief.org" target="_blank" rel="noopener">World Bicycle Relief</a> or <a href="https://wearenotforsale.org/about-us/" target="_blank" rel="noopener">Not For Sale</a>, with “Trumpkin Sauna” in the notes. For design help beyond this tool, the notes recommend <a href="https://finnishsaunadesign.fi" target="_blank" rel="noopener">Lassi Liikkanen</a>, author of <em>The Secrets of Finnish Sauna Design</em>, whose <a href="https://saunologia.fi/in-english/" target="_blank" rel="noopener">Saunologia</a> articles are the safer path wherever the two disagree.</p>
         <p>Something wrong, or an idea? <a href="https://github.com/Jabawabawaba/abovethestones/issues" target="_blank" rel="noopener">Tell us on GitHub</a>. The source is at <a href="https://github.com/Jabawabawaba/abovethestones" target="_blank" rel="noopener">github.com/Jabawabawaba/abovethestones</a>. Nothing you enter leaves your browser.</p>
-        <p>Version 23 October 2026, revision 24. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
+        <p>Version 23 October 2026, revision 25. Above the Stones is an unofficial, fan-made tool. It is not written, reviewed or endorsed by the author of the Trumpkin notes. It is built from <a href="https://localmile.org/trumpkins-notes-on-building-a-sauna/" target="_blank" rel="noopener">Trumpkin's Notes on Building a Sauna</a>, the <a href="https://localmile.org/heaters/" target="_blank" rel="noopener">heater notes</a> and the <a href="https://localmile.org/proper-ventilation-for-electrically-heated-sauna-part-i/" target="_blank" rel="noopener">ventilation notes</a>. Read them; the reasoning matters more than the numbers.</p>
         <p>It handles flat and single-slope ceilings, not vaults or coves, and benches in a straight run or an L. Wall, floor and ceiling build-ups are nominal layer sums for space planning, with no allowance for shims, trim, door framing or a roof. Most heater figures come from a transcription of the heater comparison sheet from the Trumpkin notes, which is marked as approximate, for comparison only, and not an endorsement of any model. A few (Saunum, HUUM, Harvia Legend, the older IKI Original) come from makers' spec sheets. Confirm against the current manual before you frame anything. It does not check heater clearances to combustibles, electrical sizing or building code. Those come from the heater manual, your electrician and your local inspector.</p>
       </footer>
     </main>
@@ -1083,7 +1084,144 @@ function runChecks(s, r, f){
 }
 
 var REPO = 'https://github.com/Jabawabawaba/abovethestones', ISSUES = REPO + '/issues/new';
-var NA_BRANDS = {Harvia:1, Finlandia:1, Helo:1, Saunum:1, HUUM:1, IKI:1, Narvi:1, Aitokiuas:0, Kastor:0, "Tylö":1, Finnleo:1, Kuuma:1, Homecraft:1};   // brand-level, by whether the maker sells through North American dealers; unverified per model
+var NA_BRANDS = {Harvia:1, Finlandia:1, Helo:1, Saunum:1, HUUM:1, IKI:1, Narvi:1, Aitokiuas:0, Kastor:0, "Tylö":1, Finnleo:1, Kuuma:1, Homecraft:1};   // brand-level default; NA_MODELS overrides it per model
+var NA_MODELS = {"aitokiuas-ancient-78-single-fire":[false, "Not found at US dealers; only the Real 47 and Real 57 are sold in the US"],
+ "aitokiuas-authentic-110-single-fire":[false, "Not found at US dealers; only the Real 47 and Real 57 are sold in the US"],
+ "aitokiuas-authentic-95-single-fire":[false, "Not found at US dealers; only the Real 47 and Real 57 are sold in the US"],
+ "aitokiuas-real-47-single-fire":[true, ""],
+ "aitokiuas-real-57-single-fire":[true, ""],
+ "aitokiuas-real-57k-single-fire":[false, "Not found at US dealers; only the Real 47 and Real 57 are sold in the US"],
+ "aitokiuas-real-68-single-fire":[false, "Not found at US dealers; only the Real 47 and Real 57 are sold in the US"],
+ "harvia-cilindro-110":[false, "European 400 V version, not sold in North America"],
+ "harvia-cilindro-110-us":[true, ""],
+ "harvia-cilindro-70":[false, "European 400/230 V version, not sold in North America"],
+ "harvia-cilindro-70-us":[false, "No 6.8 kW North American version; US sizes are 6, 8, 9 and 10.5 kW"],
+ "harvia-cilindro-9-kw":[false, "European 400 V version, not sold in North America"],
+ "harvia-cilindro-90-us":[true, ""],
+ "harvia-kip45w":[true, ""],
+ "harvia-kip60w":[true, ""],
+ "harvia-kip80w":[true, ""],
+ "harvia-kip90":[false, "European 400/230 V version, not sold in North America"],
+ "harvia-leg150":[true, ""],
+ "harvia-legend-240":[true, ""],
+ "harvia-legend-300":[true, ""],
+ "harvia-m3":[true, ""],
+ "harvia-po11":[false, "European 400 V version, not sold in North America"],
+ "harvia-po110":[false, "European 400/230 V version, not sold in North America"],
+ "harvia-po70":[false, "European 400/230 V version, not sold in North America"],
+ "harvia-pro-20":[true, ""],
+ "harvia-pro-20-es":[true, ""],
+ "harvia-pro-20-rs-ls":[true, ""],
+ "harvia-pro-26":[true, ""],
+ "harvia-spirit-60":[false, "European 400/230 V version, not sold in North America"],
+ "harvia-spirit-60-us":[true, ""],
+ "harvia-spirit-80-us":[true, ""],
+ "harvia-spirit-90":[false, "European 400/230 V version, not sold in North America"],
+ "harvia-spirit-90-us":[true, ""],
+ "harvia-vega-bc45":[false, "European 400/230 V version, no North American listed version"],
+ "harvia-vega-bc60":[false, "European 400/230 V version, no North American listed version"],
+ "harvia-vega-bc80":[false, "European 400/230 V version, no North American listed version"],
+ "harvia-vega-bc90":[false, "European 400/230 V version, no North American listed version"],
+ "harvia-virta-11-us":[true, ""],
+ "harvia-virta-70":[false, "European 400/230 V version; no 6.8 kW North American Virta"],
+ "harvia-virta-90":[false, "European 400/230 V version, not sold in North America"],
+ "harvia-virta-90-us":[true, ""],
+ "harvia-virta-combi-11":[true, ""],
+ "harvia-virta-combi-9-kw":[true, ""],
+ "harvia-virta-pro-16-us":[true, ""],
+ "helo-cup-45":[false, "European 230/400 V version; the North American equivalent is the Finnleo Designer"],
+ "helo-cup-60":[false, "European 230/400 V version; the North American equivalent is the Finnleo Designer"],
+ "helo-cup-80":[false, "European 230/400 V version; the North American equivalent is the Finnleo Designer"],
+ "helo-cup-90":[false, "European 230/400 V version; the North American equivalent is the Finnleo Designer"],
+ "helo-hanko-60":[false, "Not in the Helo or Finnleo North American lineup"],
+ "helo-hanko-90":[false, "Not in the Helo or Finnleo North American lineup"],
+ "helo-himalaya-105":[false, "No 10.5 kW North American version (6.8 and 9 kW only)"],
+ "helo-himalaya-70":[true, "Sold in North America as the Finnleo Himalaya"],
+ "helo-laava-090":[false, "No 9 kW North American version (10.5, 12 and 14.4 kW only)"],
+ "helo-laava-105":[true, "Sold in North America as the Finnleo Laava (Helo Pro on Helo's US site)"],
+ "helo-laava-120":[true, "Sold in North America as the Finnleo Laava (Helo Pro on Helo's US site)"],
+ "helo-laava-150":[false, "No 15 kW North American version (largest is 14.4 kW)"],
+ "helo-magma-18":[false, "No 18 kW North American version (21, 24 and 29 kW only)"],
+ "helo-magma-21":[true, "Sold in North America as the Helo or Finnleo Magma"],
+ "helo-magma-26":[false, "No 26 kW North American version (21, 24 and 29 kW only)"],
+ "helo-rocher-105":[false, "Not in the Helo or Finnleo North American lineup"],
+ "helo-rocher-70":[false, "Not in the Helo or Finnleo North American lineup"],
+ "helo-roxx-60":[false, "Not in the Helo or Finnleo North American lineup"],
+ "helo-roxx-90":[false, "Not in the Helo or Finnleo North American lineup"],
+ "helo-saunatonttu-6-heat-storing":[false, "Not in the current Helo or Finnleo North American lineup"],
+ "helo-saunatonttu-8-heat-storing":[false, "Not in the current Helo or Finnleo North American lineup"],
+ "huum-cliff-11":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-cliff-6":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-cliff-9":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-cliff-mini-4":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-core-11":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-core-6":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-core-9":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-drop-4":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-drop-6":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-drop-7":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-drop-9":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-hive-12":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-hive-15":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-hive-18":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-hive-mini-11":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-hive-mini-6":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-hive-mini-9":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-hive-wood-13":[true, ""],
+ "huum-hive-wood-17":[true, ""],
+ "huum-hive-wood-17-ls":[true, ""],
+ "huum-steel-11":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-steel-6":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-steel-9":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "huum-steel-mini-4":[true, "Sold in the US, but certified by SGS to UL 60335-1, not listed under UL 875"],
+ "iki-l-yly-iki":[true, ""],
+ "iki-l-yly-iki-jr":[true, ""],
+ "iki-mini-iki":[true, ""],
+ "iki-orig-old":[false, "Replaced in 2025 by the version with a base; no longer sold new"],
+ "iki-original":[true, ""],
+ "iki-pillar-10-5-kw":[false, "No UL listed North American version; IKI sells only the 6.6 and 9 kW Pillar in the US"],
+ "iki-pillar-12-kw":[false, "No UL listed North American version; IKI sells only the 6.6 and 9 kW Pillar in the US"],
+ "iki-pillar-13-8-kw":[false, "No UL or ETL listed version, not sold in the US"],
+ "iki-pillar-18-kw":[false, "No UL or ETL listed version, not sold in the US"],
+ "iki-pillar-20-7-kw":[false, "No UL or ETL listed version, not sold in the US"],
+ "iki-pillar-27-kw":[false, "No UL or ETL listed version, not sold in the US"],
+ "iki-pillar-36-kw":[false, "No UL or ETL listed version, not sold in the US"],
+ "iki-pillar-4-5-kw":[false, "No UL listed North American version; IKI sells only the 6.6 and 9 kW Pillar in the US"],
+ "iki-pillar-6-kw":[true, "US version is rated 6.6 kW (model M10066NA)"],
+ "iki-pillar-7-5-kw":[false, "No UL listed North American version; IKI sells only the 6.6 and 9 kW Pillar in the US"],
+ "iki-pillar-9-kw":[true, ""],
+ "narvi-black-16":[false, "Not found at US or Canadian dealers"],
+ "narvi-black-20":[true, "Sold in the US as the Black 20 VS, with a water tank"],
+ "narvi-black-24":[false, "Not found at US or Canadian dealers"],
+ "narvi-inari":[true, ""],
+ "narvi-inari-plus":[true, ""],
+ "narvi-kaamos-16":[false, "Not sold by US dealers; only the Kaamos 20 is"],
+ "narvi-kaamos-20":[true, ""],
+ "narvi-kaamos-24":[false, "Not sold by US dealers; only the Kaamos 20 is"],
+ "narvi-nc-16":[true, ""],
+ "narvi-nc-20":[true, ""],
+ "narvi-nc-24":[true, ""],
+ "narvi-nc-electric-6-kw":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-nc-electric-9-kw":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-peak-10-5":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-peak-12":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-peak-15":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-peak-big-18":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-peak-big-24":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-peak-big-30":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-saana-9":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-stony-20":[true, ""],
+ "narvi-ultra-10-5":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-ultra-12":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-ultra-15":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-ultra-big-18":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-ultra-big-24":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-ultra-big-30":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-ultra-small-6":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-ultra-small-9":[false, "No UL, ETL or CSA listed version, not sold in the US or Canada"],
+ "narvi-velvet":[true, ""]};   // id: [sold new in the US, short note]
+function soldNA(h){ var o = NA_MODELS[h.id]; return o ? !!o[0] : !!NA_BRANDS[h.brand]; }
+function naNote(h){ var o = NA_MODELS[h.id]; return o && o[1] ? o[1] : (soldNA(h) ? '' : 'Not sold in North America'); }
 function rankHeaters(s, f){
   return HEATERS.filter(function(hh){ return hh.type === s.heater; }).map(function(hh){
     var t = {}; for (var k in s) t[k] = s[k];
@@ -1267,7 +1405,7 @@ if (typeof document !== 'undefined') (function(){
     if (id === 'kit4'){ base.W = 121.92; base.D = 121.92; base.H = 198.12; base.n = 2; base.stone = 66.04; base.proj = 30.48; base.bDoor = 'glass'; base.winCount = 0; base.mode = 'own'; base.sitH = 91.44; base.footH = 45.72; base.sitDepth = 48.26; base.footDepth = 35.56; base.floorType = 'slab'; }
     s = base; buildForm(); update();
   }
-  var fitUndo = null, fitKey = null;                                             // fitKey: the room fitToHeater just set, so the note still shows after it changes the bather count
+  var fitUndo = null, fitSized = null;                                           // fitSized: the room fitToHeater just set, so the note still shows after it changes the bather count
   function roomHolds(){ var r0 = compute(s); return Math.max(1, Math.min(r0.seats, Math.floor(r0.V / 4 + 1e-6))); }   // seats on the bench, and 4 m³ of air each
   function fitSize(m){
     var q = s.units === 'imperial' ? 2.54 : 5, up = function(v){ return Math.ceil(v / q - 1e-6) * q; }, rd = function(v){ return Math.round(v / q) * q; };
@@ -1282,14 +1420,14 @@ if (typeof document !== 'undefined') (function(){
     var D = Math.min(450, Math.max(side, Dmin)), W = Math.min(450, Math.max(areaM2 * 1e4 / D, widen, nFit * 60 + 2, 150));
     return {W: rd(W), D: rd(D), H: H, tooSmall: tooSmall, seatsOK: seatsOK};
   }
-  function roomFitsHeater(){ var m = heaterById(s.model); if (!m) return false; if (s.ceil === 'flat' && fitKey === [s.model, s.W, s.D, s.H, s.stone].join('|')) return true; var t = fitSize(m), near = function(a, b){ return Math.abs(a - b) < 2.6; };
+  function roomFitsHeater(){ var m = heaterById(s.model); if (!m) return false; if (s.ceil === 'flat' && fitSized === [s.model, s.W, s.D, s.H, s.stone].join('|')) return true; var t = fitSize(m), near = function(a, b){ return Math.abs(a - b) < 2.6; };
     return near(t.W, s.W) && near(t.D, s.D) && near(t.H, s.H) && s.ceil === 'flat' && (m.stone == null || near(s.stone, m.stone)); }
   function fitToHeater(){
     var m = heaterById(s.model); if (!m) return;
     var f = makeFmt(s.units), prev = {W:s.W, D:s.D, H:s.H, Hheat:s.Hheat, ceil:s.ceil, mode:s.mode, stone:s.stone, n:s.n, proj:s.proj};
     var t = fitSize(m), tooSmall = t.tooSmall, seatsOK = t.seatsOK;
     s.W = t.W; s.D = t.D; s.H = t.H; if (m.proj) s.proj = m.proj; s.Hheat = t.H; s.ceil = 'flat'; s.mode = 'auto'; if (m.stone != null) s.stone = m.stone;
-    fitKey = [s.model, s.W, s.D, s.H, s.stone].join('|');
+    fitSized = [s.model, s.W, s.D, s.H, s.stone].join('|');
     var holds = roomHolds(), nWas = s.n; s.n = holds;
     fitUndo = prev; buildForm(); update();
     var r1 = compute(s), msg = document.getElementById('fitHeaterMsg');
@@ -1308,12 +1446,12 @@ if (typeof document !== 'undefined') (function(){
   }
   function chooseHeater(){                                                              // best rated, no-compromise heater for the room as it stands; sets state without rebuilding
     var f = makeFmt(s.units), r0 = compute(s), order = {ok:0, warn:1, bad:2};
-    var all = rankHeaters(s, f).filter(function(x){ return x.h.group === 'rec' && x.fit === 'fit' && (!s.naOnly || NA_BRANDS[x.h.brand]); });
+    var all = rankHeaters(s, f).filter(function(x){ return x.h.group === 'rec' && x.fit === 'fit' && (!s.naOnly || soldNA(x.h)); });
     var pool = all.filter(function(x){ return !x.h.exempt; }); if (!pool.length) pool = all;
     if (!pool.length){ s.startHeater = ''; return null; }
     // clean results first; then the smallest heater that has the room in the upper middle of its rating, with good stone; North American brands first for imperial users
     var score = function(x){ var span = Math.max(0.1, x.h.vmax - x.h.vmin), pos = (r0.effV - x.h.vmin) / span;
-      return order[x.st] * 100 + x.issues.length * 10 + Math.abs(pos - 0.6) * 20 + (x.h.kw || 0) * 0.25 + (x.perM3 >= 6 ? -2 : x.perM3 < 4 ? 4 : 0) + (s.units === 'imperial' && !NA_BRANDS[x.h.brand] ? 3 : 0); };
+      return order[x.st] * 100 + x.issues.length * 10 + Math.abs(pos - 0.6) * 20 + (x.h.kw || 0) * 0.25 + (x.perM3 >= 6 ? -2 : x.perM3 < 4 ? 4 : 0) + (s.units === 'imperial' && !soldNA(x.h) ? 3 : 0); };
     pool.sort(function(a, b){ return (score(a) - score(b)) || (b.perM3 - a.perM3); });
     var hh = pool[0].h;
     s.model = hh.id; s.heater = hh.type; s.proj = hh.proj; s.bottom = hh.bottom || 0; if (hh.stone != null) s.stone = hh.stone; s.mode = 'auto';
@@ -1361,7 +1499,7 @@ if (typeof document !== 'undefined') (function(){
       if (k === 'seats'){ var nIn = numInput('st_n', s.n, 1, 1); nIn.setAttribute('max', '12'); fm.appendChild(el('div', {class:'field'}, [el('label', {for:'st_n', text:'Bathers at once'}), el('div', {class:'row'}, [nIn])])); heatChoice(fm); var g1 = go('Size the room'); g1.addEventListener('click', function(){ applyStart(function(){ s.start = 'seats'; fitToSeats(num(nIn.value)); if (s.model && heaterById(s.model) && heaterById(s.model).type !== s.heater) s.model = ''; s.startHeater = ''; if (s.autoHeat !== false) seatsHeater(); buildForm(); update(); }); }); fm.appendChild(g1); }
       if (k === 'space'){ var r0 = compute(s), dw = dimRow('Width available', 'W', s.availW || 0), dd = dimRow('Depth available', 'D', s.availD || 0), dh = dimRow('Clear height available', 'H', s.availH || 0); fm.appendChild(el('p', {class:'hint', text:'Outside the finished walls, floor to whatever is overhead. Leave a dimension at 0 to keep the current value. Walls are ' + f.thin(r0.wallT) + ' thick in this design.'})); fm.appendChild(dw); fm.appendChild(dd); fm.appendChild(dh); heatChoice(fm); var g2 = go('Fit the room inside'); g2.addEventListener('click', function(){ s.availW = dw.read(); s.availD = dd.read(); s.availH = dh.read(); if (!(s.availW > 0 || s.availD > 0 || s.availH > 0)){ var w = fm.querySelector('.warn'); if (!w) fm.appendChild(el('p', {class:'hint warn', text:'Enter at least one dimension.'})); return; } applyStart(function(){ s.start = 'space'; if (s.model && heaterById(s.model) && heaterById(s.model).type !== s.heater) s.model = ''; s.startHeater = ''; fitToSpace(); }); }); fm.appendChild(g2); }
       if (k === 'room'){ fm.appendChild(el('p', {class:'hint', text:'The inputs open with the room size at the top. The current design is ' + f.big(s.W) + ' × ' + f.big(s.D) + ' × ' + f.big(s.H) + '.'})); var g3 = go('Enter the room'); g3.addEventListener('click', function(){ applyStart(function(){ s.start = 'room'; openGroups['Room interior'] = true; buildForm(); update(); }); var w0 = document.getElementById('f_W'); if (w0) w0.focus(); }); fm.appendChild(g3); }
-      if (k === 'heater'){ var sel = el('select', {id:'st_model'}); sel.appendChild(el('option', {value:'', text:'Choose a heater'})); [['electric', 'Electric'], ['wood', 'Wood-burning']].forEach(function(t){ var og = el('optgroup', {label:t[1]}); HEATERS.filter(function(x){ return x.type === t[0] && (!s.naOnly || NA_BRANDS[x.brand]); }).sort(function(a, b){ return a.name.localeCompare(b.name); }).forEach(function(x){ og.appendChild(el('option', {value:x.id, text:x.name})); }); sel.appendChild(og); }); if (s.model) sel.value = s.model; fm.appendChild(el('div', {class:'field'}, [el('label', {for:'st_model', text:'Heater model'}), el('div', {class:'row'}, [sel])])); var g4 = go('Size the room to it'); g4.addEventListener('click', function(){ if (!sel.value){ var w2 = fm.querySelector('.warn'); if (!w2) fm.appendChild(el('p', {class:'hint warn', text:'Choose a heater first.'})); return; } applyStart(function(){ s.start = 'heater'; pickHeater(sel.value); fitToHeater(); }); }); fm.appendChild(g4); }
+      if (k === 'heater'){ var sel = el('select', {id:'st_model'}); sel.appendChild(el('option', {value:'', text:'Choose a heater'})); [['electric', 'Electric'], ['wood', 'Wood-burning']].forEach(function(t){ var og = el('optgroup', {label:t[1]}); HEATERS.filter(function(x){ return x.type === t[0] && (!s.naOnly || soldNA(x)); }).sort(function(a, b){ return a.name.localeCompare(b.name); }).forEach(function(x){ og.appendChild(el('option', {value:x.id, text:x.name + (soldNA(x) ? '' : ' (not in N. America)')})); }); sel.appendChild(og); }); if (s.model) sel.value = s.model; fm.appendChild(el('div', {class:'field'}, [el('label', {for:'st_model', text:'Heater model'}), el('div', {class:'row'}, [sel])])); var g4 = go('Size the room to it'); g4.addEventListener('click', function(){ if (!sel.value){ var w2 = fm.querySelector('.warn'); if (!w2) fm.appendChild(el('p', {class:'hint warn', text:'Choose a heater first.'})); return; } applyStart(function(){ s.start = 'heater'; pickHeater(sel.value); fitToHeater(); }); }); fm.appendChild(g4); }
       var gb = fm.querySelector('.bigbtn'), bk = el('button', {type:'button', class:'linkbtn', text:'Back'}); bk.style.margin = '0';
       bk.addEventListener('click', function(){ picked = null; for (var kb in btns) btns[kb].setAttribute('aria-pressed', 'false'); pane.innerHTML = ''; btns[k].focus(); });
       if (gb){ var gr = el('div', {class:'startgo'}); gb.parentNode.insertBefore(gr, gb); gr.appendChild(gb); gr.appendChild(bk); } else fm.appendChild(bk);
@@ -1513,8 +1651,8 @@ if (typeof document !== 'undefined') (function(){
           var mh = heaterById(s.model);
           if (mh){
             var ff = makeFmt(s.units);
-            var detail = (mh.cmin ? 'The comparison sheet wants a ceiling of at least ' + ff.big(mh.cmin) + ', ideally ' + ff.big(mh.copt) + '. ' : '') + (mh.akg && mh.akg < mh.kg ? ff.mass(mh.akg) + ' of the stone is the active load. ' : '') + (mh.note || '') + (mh.src === 'sheet' ? ' Figures from the Trumpkin notes comparison sheet.' : ' Figures from the maker\u2019s spec sheet.');
-            var line = el('p', {class:'readout modelnote'}, [el('span', {text:(mh.stone != null ? 'Stones ' + ff.len(mh.stone) + ' \u00b7 ' : '') + ff.mass(mh.kg) + ' of stone \u00b7 ' + ff.vol(mh.vmin) + ' to ' + ff.vol(mh.vmax)}), infoBtn(detail.trim())]);
+            var nnote = naNote(mh), detail = (nnote ? nnote + '. ' : '') + (mh.cmin ? 'The comparison sheet wants a ceiling of at least ' + ff.big(mh.cmin) + ', ideally ' + ff.big(mh.copt) + '. ' : '') + (mh.akg && mh.akg < mh.kg ? ff.mass(mh.akg) + ' of the stone is the active load. ' : '') + (mh.note || '') + (mh.src === 'sheet' ? ' Figures from the Trumpkin notes comparison sheet.' : ' Figures from the maker\u2019s spec sheet.');
+            var line = el('p', {class:'readout modelnote'}, [el('span', {text:(mh.stone != null ? 'Stones ' + ff.len(mh.stone) + ' \u00b7 ' : '') + ff.mass(mh.kg) + ' of stone \u00b7 ' + ff.vol(mh.vmin) + ' to ' + ff.vol(mh.vmax)}), infoBtn(detail.trim())].concat(soldNA(mh) ? [] : [el('span', {class:'natag', text:'Not sold in North America'})]));
             wrap.appendChild(line);
           }
           (subTarget && fd.sub === subTarget.key ? subTarget.el : fs).appendChild(wrap); return;
@@ -2144,9 +2282,10 @@ if (typeof document !== 'undefined') (function(){
              : 'This design passes all ' + scored + ' checks';
     var body = first ? 'Start with: ' + first.name.toLowerCase() + '. ' + first.val + '.' : 'Feet above the stones, out of the cold zone, with enough air and distance from the heater.';
     if (s.mode === 'auto' && r.auto.notes.length) body += ' To get your feet up, the calculator has ' + r.auto.notes.join(' and ') + '.';
-    if (pending) body += ' ' + pending + ' more checks run once you pick a heater model.';
+    var stonePend = checks.some(function(c){ return c.st === 'na' && c.name === 'Stone mass in this heater'; });
+    if (pending) body += stonePend ? ' Pick a heater model to also check its stone mass' + (pending === 2 ? ' and whether its rating suits this room' : pending > 2 ? ' and ' + (pending - 1) + ' more things' : '') + '.' : ' ' + pending + ' more checks run once you pick a heater model.';
     v.innerHTML = '<p class="big"></p><p></p>'; v.children[0].textContent = head; v.children[1].textContent = unitText(body, f.imp);
-    var keys = el('ul', {class:'vkeys'}); [[f.len(Math.abs(r.foot - s.stone)) + (r.foot >= s.stone ? ' above' : ' below'), 'stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'seat'], [f.big(r.Hmax), 'ceiling'], [(r.layout === 'L' ? 'L, ' : '') + r.seats, 'seats']].forEach(function(kv){ keys.appendChild(el('li', null, [el('b', {text:kv[0]}), document.createTextNode(kv[1])])); });
+    var keys = el('ul', {class:'vkeys'}); [[f.len(Math.abs(r.foot - s.stone)) + (r.foot >= s.stone ? ' above' : ' below'), 'stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'seat'], [f.big(r.Hmax), 'ceiling'], [(r.layout === 'L' ? 'L, ' : '') + r.seats, 'seats']].concat(stoneKey(r, f)).forEach(function(kv){ keys.appendChild(el('li', null, [el('b', {text:kv[0]}), document.createTextNode(kv[1])])); });
     if (bad.length || warn.length){ var jump = el('button', {type:'button', class:'linkbtn', text:'See the ' + (bad.length + warn.length) + (bad.length + warn.length > 1 ? ' checks' : ' check')}); jump.style.margin = '0'; jump.addEventListener('click', function(){ showTab('checks'); document.getElementById('tabs').scrollIntoView({behavior:'smooth', block:'start'}); }); keys.appendChild(el('li', null, [jump])); }
     var share2 = el('div', {class:'vshare'}); [['Copy summary', 'btnSum'], ['Copy link', 'btnLink'], ['Save image', 'btnImg']].forEach(function(bt){ var lb = el('button', {type:'button', class:'linkbtn', text:bt[0]}); lb.style.margin = '0'; lb.addEventListener('click', function(){ var real = document.getElementById(bt[1]); if (real) real.click(); }); share2.appendChild(lb); });
     share2.appendChild(el('span', {class:'hint', id:'vshareMsg', role:'status'}));
@@ -2177,7 +2316,7 @@ if (typeof document !== 'undefined') (function(){
           t.appendChild(el('tr', null, [el('td', {text:nm}), el('td', null, [a ? el('span', {class:'pill ' + a.st, text:LABEL[a.st]}) : document.createTextNode('')]), el('td', null, [b3 ? el('span', {class:'pill ' + b3.st, text:LABEL[b3.st]}) : document.createTextNode('')])])); });
         cmpBox.appendChild(el('h2', {text:'Compared with \u201c' + s.compareWith + '\u201d'})); cmpBox.appendChild(el('div', {class:'scroll'}, [t])); } }
     var ranked = rankHeaters(s, f), order = {ok:0, warn:1, bad:2};
-    if (s.naOnly) ranked = ranked.filter(function(x){ return NA_BRANDS[x.h.brand]; });
+    if (s.naOnly) ranked = ranked.filter(function(x){ return soldNA(x.h); });
     ranked.sort(function(a, b){ return (order[a.st] - order[b.st]) || (a.issues.length - b.issues.length) || (b.perM3 - a.perM3); });
     var fitting = ranked.filter(function(x){ return x.fit === 'fit' && x.h.group === 'rec'; });
     var outside = ranked.filter(function(x){ return x.fit !== 'fit' && x.h.group === 'rec'; });
@@ -2190,7 +2329,7 @@ if (typeof document !== 'undefined') (function(){
       [['Rated for this room, best fit first', fitting, ''], ['Room is outside the rated range', outside, 'size'], ['The Trumpkin notes advise against', caution, '']].forEach(function(g){
         if (!g[1].length) return;
         var og = el('optgroup', {label:g[0] + ' (' + g[1].length + ')'});
-        g[1].forEach(function(x){ og.appendChild(el('option', {value:x.h.id, text:x.h.name + (g[2] ? (x.fit === 'over' ? ', room too big' : ', room too small') : x.st === 'ok' ? ', no compromises' : '')})); });
+        g[1].forEach(function(x){ og.appendChild(el('option', {value:x.h.id, text:x.h.name + (soldNA(x.h) ? '' : ' (not in N. America)') + (g[2] ? (x.fit === 'over' ? ', room too big' : ', room too small') : x.st === 'ok' ? ', no compromises' : '')})); });
         sel.appendChild(og);
       });
       sel.value = s.model;
@@ -2219,7 +2358,7 @@ if (typeof document !== 'undefined') (function(){
     rowsToShow.forEach(function(x){
       var tags = (x.h.group === 'caution' ? ['Trumpkin notes advise against'] : []).concat(x.issues.filter(function(i){ return i !== 'heater choice'; }));
       var rpt = el('a', {class:'why rpt', href: ISSUES + '?title=' + encodeURIComponent('Wrong spec: ' + x.h.name) + '&body=' + encodeURIComponent('Heater: ' + x.h.name + '\nWhat is wrong:\nCorrect figure and source (link to the maker\u2019s spec sheet or manual):\n'), target:'_blank', rel:'noopener', text:'Report a wrong spec'});
-      var nm = el('td', null, [document.createTextNode(x.h.name), el('span', {class:'why', text: tags.length ? 'Watch: ' + tags.join(', ') : 'No compromises in this room'}), rpt]);
+      var nm = el('td', null, [document.createTextNode(x.h.name)].concat(soldNA(x.h) ? [] : [el('span', {class:'natag', title: naNote(x.h), text:'Not sold in North America'})], [el('span', {class:'why', text: tags.length ? 'Watch: ' + tags.join(', ') : 'No compromises in this room'}), rpt]));
       var btn = el('button', {type:'button', class:'usebtn', text: s.model === x.h.id ? 'Loaded' : 'Load'});
       if (s.model === x.h.id) btn.setAttribute('disabled', ''); else btn.addEventListener('click', function(){ pickHeater(x.h.id); document.getElementById('section').scrollIntoView({behavior:'smooth', block:'center'}); });
       tb.appendChild(el('tr', s.model === x.h.id ? {class:'sel'} : null, [nm,
@@ -3703,6 +3842,8 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
     clone.setAttribute('font-family', 'Familjen Grotesk, Arial, Helvetica, sans-serif');
     return new Promise(function(res, rej){ var im = new Image(); im.onload = function(){ res({img: im, w: w, h: hh}); }; im.onerror = rej; im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone)); });
   }
+  function stoneKey(r, f){ var mm = heaterById(s.model); if (!mm || !mm.kg) return [];            // the loaded heater's stone, total and per volume
+    var kg = mm.akg || mm.kg, d = kg / r.V; return [[f.mass(kg), 'stone, ' + (f.imp ? (Math.round(d * 0.062428 * 100) / 100) + ' lb/cu ft' : (Math.round(d * 10) / 10) + ' kg/m\u00b3'), d]]; }
   function shareImage(msgId){
     var msg = document.getElementById(msgId) || document.getElementById('shareMsg'); if (msg) msg.textContent = 'Making the image\u2026';
     var root = document.documentElement, prevTheme = root.getAttribute('data-theme'), pd = document.getElementById('tab-draw'), wasHidden = pd.hidden, prevCss = pd.style.cssText;
@@ -3733,10 +3874,10 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
       font(400, 24); g.fillStyle = C.moss;
       g.fillText(f.big(s.W) + ' \u00d7 ' + f.big(s.D) + ' \u00d7 ' + (r.sloped ? f.big(r.Hh) + ' to ' + f.big(r.Hb) : f.big(s.H)) + ' hot room for ' + s.n + (s.n === 1 ? ' bather' : ' bathers') + (r.layout === 'L' ? ', L-shaped benches' : '') + '  \u00b7  ' + (m ? m.name : (s.heater === 'wood' ? 'wood stove' : 'electric heater') + ', model not chosen'), 56, 132);
       font(700, 24); var pw = g.measureText(vt).width + 40; g.fillStyle = vc[1]; g.beginPath(); if (g.roundRect) g.roundRect(W - 56 - pw, 62, pw, 46, 23); else g.rect(W - 56 - pw, 62, pw, 46); g.fill(); g.fillStyle = vc[0]; g.fillText(vt, W - 56 - pw + 20, 93);
-      var mg = r.foot - s.stone, tiles = [[(mg >= 0 ? f.len(mg) + ' above' : f.len(-mg) + ' below'), 'the top of the stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'sitting bench'], [f.len(r.gap), 'headroom'], [f.big(r.Hmax), 'ceiling'], [r.seats + '', 'seats at ' + (f.imp ? '24\u2033' : '60 cm')]];
-      var tx = 56, tw = (W - 112 - 5 * 16) / 6;
-      tiles.forEach(function(t, i){ var x = tx + i * (tw + 16); g.fillStyle = i === 0 ? (mg >= 9.95 ? C.okbg : mg >= 0 ? C.warnbg : C.badbg) : C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, 164, tw, 92, 10); else g.rect(x, 164, tw, 92); g.fill(); g.strokeStyle = C.line; g.lineWidth = 1; g.stroke();
-        g.fillStyle = i === 0 ? (mg >= 9.95 ? C.ok : mg >= 0 ? C.warn : C.bad) : C.ink; font(700, 32); g.fillText(t[0], x + 18, 210); g.fillStyle = C.moss; font(400, 19); g.fillText(t[1], x + 18, 240); });
+      var mg = r.foot - s.stone, tiles = [[(mg >= 0 ? f.len(mg) + ' above' : f.len(-mg) + ' below'), 'the top of the stones'], [f.len(r.foot), 'foot bench'], [f.len(r.sit), 'sitting bench'], [f.len(r.gap), 'headroom'], [f.big(r.Hmax), 'ceiling'], [r.seats + '', 'seats at ' + (f.imp ? '24\u2033' : '60 cm')]].concat(stoneKey(r, f));
+      var tx = 56, tw = (W - 112 - (tiles.length - 1) * 16) / tiles.length;
+      tiles.forEach(function(t, i){ var x = tx + i * (tw + 16), sd = t[2]; g.fillStyle = i === 0 ? (mg >= 9.95 ? C.okbg : mg >= 0 ? C.warnbg : C.badbg) : sd != null ? (sd >= 4 ? C.okbg : C.warnbg) : C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, 164, tw, 92, 10); else g.rect(x, 164, tw, 92); g.fill(); g.strokeStyle = C.line; g.lineWidth = 1; g.stroke();
+        g.fillStyle = i === 0 ? (mg >= 9.95 ? C.ok : mg >= 0 ? C.warn : C.bad) : sd != null ? (sd >= 4 ? C.ok : C.warn) : C.ink; var fv = 32; font(700, fv); while (fv > 20 && g.measureText(t[0]).width > tw - 30){ fv--; font(700, fv); } g.fillText(t[0], x + 18, 210); g.fillStyle = C.moss; var fl = 19; font(400, fl); while (fl > 13 && g.measureText(t[1]).width > tw - 30){ fl--; font(400, fl); } g.fillText(t[1], x + 18, 240); });
       var card = function(x, y, w2, h2){ g.fillStyle = C.ice; g.beginPath(); if (g.roundRect) g.roundRect(x, y, w2, h2, 12); else g.rect(x, y, w2, h2); g.fill(); g.strokeStyle = C.line; g.stroke(); };
       var sec = res[0], st2 = res[1];
       card(56, top, 790, cardH); card(862, top, 682, cardH);
@@ -3752,7 +3893,7 @@ o.unshift('<defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWi
           font(700, 16); var pw2 = g.measureText(pc[2]).width + 22; g.fillStyle = pc[1]; g.beginPath(); if (g.roundRect) g.roundRect(x, y, pw2, 28, 14); else g.rect(x, y, pw2, 28); g.fill(); g.fillStyle = pc[0]; g.fillText(pc[2], x + 11, y + 19);
           var tx2 = x + 140; font(700, 22); g.fillStyle = C.ink; g.fillText(it.c.name, tx2, y + 21);
           var yy = y + 21; font(400, 20); g.fillStyle = C.ink; it.val.forEach(function(l){ yy += 26; g.fillText(l, tx2, yy); }); g.fillStyle = C.moss; it.why.forEach(function(l){ yy += 26; g.fillText(l, tx2, yy); }); }); }
-      if (pend){ font(400, 18); g.fillStyle = C.moss; g.fillText(pend + ' more check' + (pend > 1 ? 's run' : ' runs') + ' once a heater model is picked.', 84, pY + panelH - 22); }
+      if (pend){ font(400, 18); g.fillStyle = C.moss; g.fillText((pend > 1 ? pend + ' more checks, including stone mass, run' : '1 more check runs') + ' once a heater model is picked.', 84, pY + panelH - 22); }
       font(600, 20); g.fillStyle = C.ink; g.fillText('Checked with Above the Stones', 56, H - 30); var lw = g.measureText('Checked with Above the Stones').width;
       font(400, 20); g.fillStyle = C.moss; g.fillText('  \u00b7  jabawabawaba.github.io/abovethestones', 56 + lw, H - 30);
       g.textAlign = 'right'; g.fillText('Side view drawn to scale', W - 56, H - 30); g.textAlign = 'left';
